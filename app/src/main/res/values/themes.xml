@@ -3,4 +3,8 @@
 
     <style name="Theme.Training_project" parent="Theme.MaterialComponents.DayNight.NoActionBar">
     </style>
+
+    <style name="Theme.Training_project.Splash" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/background_dark</item>
+    </style>
 </resources>

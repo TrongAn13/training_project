@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#242A32">
+    android:background="@color/background_dark">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,50 +16,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="24dp">
+            android:paddingBottom="@dimen/padding_large">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginTop="40dp"
-                android:text="What do you want to watch?"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
+                android:text="@string/home_welcome"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_xlarge"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginHorizontal="@dimen/margin_large"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/button_blue_rounded"
-                android:backgroundTint="#3A3F47"
+                android:backgroundTint="@color/search_background"
                 android:gravity="center_vertical"
-                android:paddingHorizontal="16dp">
+                android:paddingHorizontal="@dimen/padding_medium">
 
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="Search"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#92929D"
-                    android:textSize="14sp" />
+                    android:hint="@string/search_hint"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/text_secondary_gray"
+                    android:textSize="@dimen/text_size_medium" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_search"
-                    app:tint="#92929D" /> </LinearLayout>
+                    android:layout_width="@dimen/icon_size_small"
+                    android:layout_height="@dimen/icon_size_small"
+                    android:src="@drawable/ic_search2"
+                    app:tint="@color/text_secondary_gray" />
+            </LinearLayout>
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/margin_large"
                 android:clipToPadding="false"
-                android:paddingHorizontal="24dp"
+                android:paddingHorizontal="@dimen/padding_large"
                 android:scrollbars="none">
 
                 <LinearLayout
@@ -78,7 +79,7 @@
                             android:layout_height="200dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginBottom="20dp"
-                            app:cardCornerRadius="16dp"
+                            app:cardCornerRadius="@dimen/corner_radius_default"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -95,10 +96,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1"
-                            android:textColor="#242A32"
+                            android:textColor="@color/background_dark"
                             android:textSize="90sp"
                             android:textStyle="bold"
-                            android:shadowColor="#0296E5"
+                            android:shadowColor="@color/primary_blue"
                             android:shadowDx="0"
                             android:shadowDy="0"
                             android:shadowRadius="8"
@@ -118,7 +119,7 @@
                             android:layout_height="200dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginBottom="20dp"
-                            app:cardCornerRadius="16dp"
+                            app:cardCornerRadius="@dimen/corner_radius_default"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -135,10 +136,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2"
-                            android:textColor="#242A32"
+                            android:textColor="@color/background_dark"
                             android:textSize="90sp"
                             android:textStyle="bold"
-                            android:shadowColor="#0296E5"
+                            android:shadowColor="@color/primary_blue"
                             android:shadowDx="0"
                             android:shadowDy="0"
                             android:shadowRadius="8"
@@ -152,9 +153,9 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:clipToPadding="false"
-                android:paddingHorizontal="24dp"
+                android:paddingHorizontal="@dimen/padding_large"
                 android:scrollbars="none">
 
                 <LinearLayout
@@ -166,43 +167,43 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginEnd="24dp">
+                        android:layout_marginEnd="@dimen/margin_large">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Now playing"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14sp"
+                            android:text="@string/now_playing"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_medium"
                             android:textStyle="bold" />
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="4dp"
-                            android:layout_marginTop="8dp"
-                            android:background="#3A3F47" />
+                            android:layout_marginTop="@dimen/margin_small"
+                            android:background="@color/search_background" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="24dp"
-                        android:text="Upcoming"
-                        android:textColor="#92929D"
-                        android:textSize="14sp" />
+                        android:layout_marginEnd="@dimen/margin_large"
+                        android:text="@string/upcoming"
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="@dimen/text_size_medium" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="24dp"
-                        android:text="Top rated"
-                        android:textColor="#92929D"
-                        android:textSize="14sp" />
+                        android:layout_marginEnd="@dimen/margin_large"
+                        android:text="@string/top_rated"
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="@dimen/text_size_medium" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Popular"
-                        android:textColor="#92929D"
-                        android:textSize="14sp" />
+                        android:text="@string/popular"
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -211,15 +212,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:columnCount="3"
-                android:paddingHorizontal="24dp"
+                android:paddingHorizontal="@dimen/padding_large"
                 android:useDefaultMargins="true">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_columnWeight="1"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     app:cardCornerRadius="12dp">
                     <ImageView
                         android:layout_width="match_parent"
@@ -232,8 +233,8 @@
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_columnWeight="1"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     app:cardCornerRadius="12dp">
                     <ImageView
                         android:layout_width="match_parent"
@@ -246,7 +247,7 @@
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_columnWeight="1"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     app:cardCornerRadius="12dp">
                     <ImageView
                         android:layout_width="match_parent"
@@ -258,8 +259,8 @@
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_columnWeight="1"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     app:cardCornerRadius="12dp">
                     <ImageView
                         android:layout_width="match_parent"
@@ -271,8 +272,8 @@
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_columnWeight="1"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     app:cardCornerRadius="12dp">
                     <ImageView
                         android:layout_width="match_parent"
@@ -284,7 +285,7 @@
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_columnWeight="1"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     app:cardCornerRadius="12dp">
                     <ImageView
                         android:layout_width="match_parent"
@@ -300,7 +301,7 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="#242A32"
+        android:background="@color/background_dark"
         android:orientation="horizontal"
         android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -312,17 +313,17 @@
             android:gravity="center"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/icon_size_medium"
+                android:layout_height="@dimen/icon_size_medium"
                 android:src="@drawable/ic_home"
-                app:tint="#0296E5" />
+                app:tint="@color/primary_blue" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Home"
-                android:textColor="#0296E5"
-                android:textSize="12sp" />
+                android:text="@string/home_tab"
+                android:textColor="@color/primary_blue"
+                android:textSize="@dimen/text_size_small" />
         </LinearLayout>
 
         <LinearLayout
@@ -332,17 +333,17 @@
             android:gravity="center"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_search"
-                app:tint="#92929D" />
+                android:layout_width="@dimen/icon_size_medium"
+                android:layout_height="@dimen/icon_size_medium"
+                android:src="@drawable/ic_search2"
+                app:tint="@color/text_secondary_gray" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Search"
-                android:textColor="#92929D"
-                android:textSize="12sp" />
+                android:text="@string/search_tab"
+                android:textColor="@color/text_secondary_gray"
+                android:textSize="@dimen/text_size_small" />
         </LinearLayout>
 
         <LinearLayout
@@ -352,24 +353,24 @@
             android:gravity="center"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_bookmark"
-                app:tint="#92929D" />
+                android:layout_width="@dimen/icon_size_medium"
+                android:layout_height="@dimen/icon_size_medium"
+                android:src="@drawable/ic_save"
+                app:tint="@color/text_secondary_gray" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Watch list"
-                android:textColor="#92929D"
-                android:textSize="12sp" />
+                android:text="@string/watchlist_tab"
+                android:textColor="@color/text_secondary_gray"
+                android:textSize="@dimen/text_size_small" />
         </LinearLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#0296E5"
+        android:background="@color/primary_blue"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

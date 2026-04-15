@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">training_project</string>
+    <string name="login_title">Login</string>
+    <string name="welcome_hello">Hello Welcome Back</string>
+    <string name="welcome_description">Welcome back please\nsign in again</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="or_text">or</string>
+    <string name="gmail_login">Gmail</string>
+    <string name="facebook_login">Facebook</string>
+    <string name="already_have_account">Already have an account? </string>
+    <string name="sign_in">Sign In</string>
+    <string name="home_welcome">What do you want to watch?</string>
+    <string name="search_hint">Search</string>
+    <string name="now_playing">Now playing</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="top_rated">Top rated</string>
+    <string name="popular">Popular</string>
+    <string name="home_tab">Home</string>
+    <string name="search_tab">Search</string>
+    <string name="watchlist_tab">Watch list</string>
+    <string name="detail_title">Detail</string>
+    <string name="about_movie">About Movie</string>
+    <string name="reviews">Reviews</string>
+    <string name="cast">Cast</string>
 </resources>
