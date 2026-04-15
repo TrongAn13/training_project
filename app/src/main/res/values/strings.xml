@@ -23,4 +23,21 @@
     <string name="about_movie">About Movie</string>
     <string name="reviews">Reviews</string>
     <string name="cast">Cast</string>
+    <string name="home_top_rank_1">1</string>
+    <string name="home_top_rank_2">2</string>
+    <string name="detail_rating_badge">9.5</string>
+    <string name="detail_movie_name">Spiderman No Way Home</string>
+    <string name="detail_year">2021</string>
+    <string name="detail_duration">148 Minutes</string>
+    <string name="detail_genre">Action</string>
+    <string name="detail_about_description">From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government, undertaking high-risk black ops missions in exchange for commuted prison sentences.</string>
+    <string name="detail_review_rating">6.3</string>
+    <string name="detail_reviewer_name">Iqbal Shafiq Rozaan</string>
+    <string name="detail_review_description">From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government.</string>
+    <string name="cast_tom_holland">Tom Holland</string>
+    <string name="cast_zendaya">Zendaya</string>
+    <string name="cast_benedict_cumberbatch">Benedict\nCumberbatch</string>
+    <string name="cast_brad_pitt">Brad Pitt</string>
+    <string name="platform_android">Android</string>
+    <string name="greeting_format">Hello %1$s!</string>
 </resources>

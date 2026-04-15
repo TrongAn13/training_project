@@ -15,7 +15,7 @@
             android:id="@+id/imgBanner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/banner_height"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="@dimen/dp_72"
             android:scaleType="centerCrop"
             android:src="@drawable/spiderman_banner"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +27,7 @@
             android:layout_width="@dimen/icon_size_small"
             android:layout_height="@dimen/icon_size_small"
             android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="@dimen/dp_28"
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +48,7 @@
             android:id="@+id/btnBookmark"
             android:layout_width="@dimen/icon_size_small"
             android:layout_height="@dimen/icon_size_small"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="@dimen/dp_28"
             android:layout_marginEnd="@dimen/margin_large"
             android:src="@drawable/ic_save2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -79,8 +79,8 @@
             android:background="@drawable/button_blue_rounded"
             android:backgroundTint="@color/background_dark"
             android:paddingHorizontal="@dimen/padding_small"
-            android:paddingVertical="4dp"
-            android:text="9.5"
+            android:paddingVertical="@dimen/dp_4"
+            android:text="@string/detail_rating_badge"
             android:textColor="@color/rating_orange"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="@id/imgBanner"
@@ -91,9 +91,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/dp_12"
             android:layout_marginEnd="@dimen/margin_large"
-            android:text="Spiderman No Way Home"
+            android:text="@string/detail_movie_name"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_xlarge"
             android:textStyle="bold"
@@ -106,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
-            android:text="2021"
+            android:text="@string/detail_year"
             android:textColor="@color/text_secondary_gray"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintEnd_toStartOf="@id/dividerYearDuration"
@@ -116,10 +116,10 @@
 
         <View
             android:id="@+id/dividerYearDuration"
-            android:layout_width="1dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_14"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
             android:background="@color/text_secondary_gray"
             app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
             app:layout_constraintEnd_toStartOf="@id/tvInfoDuration"
@@ -130,7 +130,7 @@
             android:id="@+id/tvInfoDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="148 Minutes"
+            android:text="@string/detail_duration"
             android:textColor="@color/text_secondary_gray"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
@@ -140,10 +140,10 @@
 
         <View
             android:id="@+id/dividerDurationGenre"
-            android:layout_width="1dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_14"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
             android:background="@color/text_secondary_gray"
             app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
             app:layout_constraintEnd_toStartOf="@id/tvInfoGenre"
@@ -154,7 +154,7 @@
             android:id="@+id/tvInfoGenre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Action"
+            android:text="@string/detail_genre"
             android:textColor="@color/text_secondary_gray"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
@@ -207,8 +207,8 @@
 
         <View
             android:id="@+id/indicatorAbout"
-            android:layout_width="60dp"
-            android:layout_height="4dp"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_4"
             android:layout_marginTop="@dimen/margin_small"
             android:background="@color/search_background"
             app:layout_constraintEnd_toEndOf="@id/tvTabAbout"
@@ -217,8 +217,8 @@
 
         <View
             android:id="@+id/indicatorReviews"
-            android:layout_width="60dp"
-            android:layout_height="4dp"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_4"
             android:layout_marginTop="@dimen/margin_small"
             android:background="@color/search_background"
             android:visibility="invisible"
@@ -228,8 +228,8 @@
 
         <View
             android:id="@+id/indicatorCast"
-            android:layout_width="60dp"
-            android:layout_height="4dp"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_4"
             android:layout_marginTop="@dimen/margin_small"
             android:background="@color/search_background"
             android:visibility="invisible"
@@ -251,11 +251,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_large"
-            android:lineSpacingExtra="6dp"
+            android:lineSpacingExtra="@dimen/dp_6"
             android:paddingHorizontal="@dimen/padding_large"
-            android:text="From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government, undertaking high-risk black ops missions in exchange for commuted prison sentences."
+            android:text="@string/detail_about_description"
             android:textColor="@color/white"
-            android:textSize="13sp"
+            android:textSize="@dimen/sp_13"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -265,11 +265,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/avatar1"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_large"
-            app:cardCornerRadius="22dp"
+            app:cardCornerRadius="@dimen/dp_22"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tabsBottom">
 
@@ -285,7 +285,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
-            android:text="6.3"
+            android:text="@string/detail_review_rating"
             android:textColor="@color/primary_blue"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintEnd_toEndOf="@id/avatar1"
@@ -297,7 +297,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:text="Iqbal Shafiq Rozaan"
+            android:text="@string/detail_reviewer_name"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintStart_toEndOf="@id/avatar1"
@@ -307,10 +307,10 @@
             android:id="@+id/tvReview1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/dp_4"
             android:layout_marginEnd="@dimen/margin_large"
-            android:lineSpacingExtra="4dp"
-            android:text="From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government."
+            android:lineSpacingExtra="@dimen/dp_4"
+            android:text="@string/detail_review_description"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintEnd_toEndOf="parent"
@@ -319,10 +319,10 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/avatar2"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
             android:layout_marginTop="@dimen/margin_large"
-            app:cardCornerRadius="22dp"
+            app:cardCornerRadius="@dimen/dp_22"
             app:layout_constraintStart_toStartOf="@id/avatar1"
             app:layout_constraintTop_toBottomOf="@id/tvReview1">
 
@@ -338,7 +338,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
-            android:text="6.3"
+            android:text="@string/detail_review_rating"
             android:textColor="@color/primary_blue"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintEnd_toEndOf="@id/avatar2"
@@ -350,7 +350,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:text="Iqbal Shafiq Rozaan"
+            android:text="@string/detail_reviewer_name"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintStart_toEndOf="@id/avatar2"
@@ -360,11 +360,11 @@
             android:id="@+id/tvReview2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/dp_4"
             android:layout_marginEnd="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_large"
-            android:lineSpacingExtra="4dp"
-            android:text="From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government."
+            android:lineSpacingExtra="@dimen/dp_4"
+            android:text="@string/detail_review_description"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -380,9 +380,9 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:cardCornerRadius="50dp">
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_100"
+                app:cardCornerRadius="@dimen/dp_50">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -394,8 +394,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Tom Holland"
+                android:layout_marginTop="@dimen/dp_12"
+                android:text="@string/cast_tom_holland"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_medium" />
         </LinearLayout>
@@ -408,9 +408,9 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:cardCornerRadius="50dp">
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_100"
+                app:cardCornerRadius="@dimen/dp_50">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -422,8 +422,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Zendaya"
+                android:layout_marginTop="@dimen/dp_12"
+                android:text="@string/cast_zendaya"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_medium" />
         </LinearLayout>
@@ -436,9 +436,9 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:cardCornerRadius="50dp">
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_100"
+                app:cardCornerRadius="@dimen/dp_50">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -450,9 +450,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/dp_12"
                 android:gravity="center"
-                android:text="Benedict&#10;Cumberbatch"
+                android:text="@string/cast_benedict_cumberbatch"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_medium" />
         </LinearLayout>
@@ -465,9 +465,9 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:cardCornerRadius="50dp">
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_100"
+                app:cardCornerRadius="@dimen/dp_50">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -479,8 +479,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Brad Pitt"
+                android:layout_marginTop="@dimen/dp_12"
+                android:text="@string/cast_brad_pitt"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_medium" />
         </LinearLayout>

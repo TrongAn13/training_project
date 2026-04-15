@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.training_project.ui.theme.Training_projectTheme
 
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
             Training_projectTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        name = getString(R.string.platform_android),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
+        text = stringResource(R.string.greeting_format, name),
         modifier = modifier
     )
 }
@@ -42,6 +43,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     Training_projectTheme {
-        Greeting("Android")
+        Greeting(stringResource(R.string.platform_android))
     }
 }
