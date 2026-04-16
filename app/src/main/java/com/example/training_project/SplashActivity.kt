@@ -10,9 +10,16 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        val pref = PreferenceManager(this)
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            if(pref.isLoggedIn()){
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+            }
+            else {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
             finish()
         }, 2000)
     }

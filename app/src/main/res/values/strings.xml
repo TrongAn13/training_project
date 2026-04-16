@@ -40,4 +40,6 @@
     <string name="cast_brad_pitt">Brad Pitt</string>
     <string name="platform_android">Android</string>
     <string name="greeting_format">Hello %1$s!</string>
+    <string name="validate">Email hoặc mật khẩu không đúng!</string>
+    <string name="save_movie">Đã lưu phim vào danh sách!</string>
 </resources>

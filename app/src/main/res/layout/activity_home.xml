@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_dark">
@@ -207,93 +208,17 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <GridLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMovies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_20"
-                android:columnCount="3"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
                 android:paddingHorizontal="@dimen/padding_large"
-                android:useDefaultMargins="true">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_140"
-                    android:layout_columnWeight="1"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    app:cardCornerRadius="@dimen/dp_12">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/mv2" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_140"
-                    android:layout_columnWeight="1"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    app:cardCornerRadius="@dimen/dp_12">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/mv3" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_140"
-                    android:layout_columnWeight="1"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    app:cardCornerRadius="@dimen/dp_12">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/mv4" />
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_140"
-                    android:layout_columnWeight="1"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    app:cardCornerRadius="@dimen/dp_12">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/mv5" /> </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_140"
-                    android:layout_columnWeight="1"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    app:cardCornerRadius="@dimen/dp_12">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/mv6" /> </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_140"
-                    android:layout_columnWeight="1"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    app:cardCornerRadius="@dimen/dp_12">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/mv7" /> </androidx.cardview.widget.CardView>
-
-            </GridLayout>
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/item_home_movie"
+                tools:spanCount="3" />
         </LinearLayout>
     </ScrollView>
 

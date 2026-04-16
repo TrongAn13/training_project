@@ -18,15 +18,17 @@ class LoginActivity : AppCompatActivity() {
         val adminPassword = "123"
 
         binding.btnLogin.setOnClickListener {
+            val pref = PreferenceManager(this)
             val inputEmail = binding.edtEmail.text.toString().trim()
             val inputPassword = binding.edtPassword.text.toString().trim()
 
             if (inputEmail == adminEmail && inputPassword == adminPassword) {
+                pref.setLoggedIn(true)
                 val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
-                Toast.makeText(this, "Email hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.validate, Toast.LENGTH_SHORT).show()
             }
         }
     }

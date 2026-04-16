@@ -7,6 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.training_project.databinding.ActivityDetailBinding
+import androidx.core.content.ContextCompat
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -21,7 +22,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.btnBookmark.setOnClickListener {
-            Toast.makeText(this, "Đã lưu phim vào danh sách!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.save_movie, Toast.LENGTH_SHORT).show()
         }
 
         fun selectTab(
@@ -33,9 +34,10 @@ class DetailActivity : AppCompatActivity() {
             binding.contentReviews.visibility = View.GONE
             binding.contentCast.visibility = View.GONE
 
-            binding.tvTabAbout.setTextColor(Color.parseColor("#92929D"))
-            binding.tvTabReviews.setTextColor(Color.parseColor("#92929D"))
-            binding.tvTabCast.setTextColor(Color.parseColor("#92929D"))
+            val inactiveColor = ContextCompat.getColor(this, R.color.text_secondary_gray)
+            binding.tvTabAbout.setTextColor(inactiveColor)
+            binding.tvTabReviews.setTextColor(inactiveColor)
+            binding.tvTabCast.setTextColor(inactiveColor)
 
             binding.indicatorAbout.visibility = View.INVISIBLE
             binding.indicatorReviews.visibility = View.INVISIBLE
