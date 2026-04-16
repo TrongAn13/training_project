@@ -1,6 +1,4 @@
 package com.example.training_project
-
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -44,7 +42,7 @@ class DetailActivity : AppCompatActivity() {
             binding.indicatorCast.visibility = View.INVISIBLE
 
             selectedContent.visibility = View.VISIBLE
-            selectedText.setTextColor(Color.parseColor("#FFFFFF"))
+            selectedText.setTextColor(R.color.white)
             selectedIndicator.visibility = View.VISIBLE
         }
 

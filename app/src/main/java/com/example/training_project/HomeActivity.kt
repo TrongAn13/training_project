@@ -15,22 +15,32 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val mockMovies = listOf(
-            HomeMovie(posterResId = R.drawable.spiderman_poster),
-            HomeMovie(posterResId = R.drawable.mv1),
-            HomeMovie(posterResId = R.drawable.mv2),
-            HomeMovie(posterResId = R.drawable.mv3),
-            HomeMovie(posterResId = R.drawable.mv4),
-            HomeMovie(posterResId = R.drawable.mv5),
-            HomeMovie(posterResId = R.drawable.mv6),
-            HomeMovie(posterResId = R.drawable.mv7)
+            HomeMovie(1, posterResId = R.drawable.spiderman_poster),
+            HomeMovie(2, posterResId = R.drawable.mv1),
+            HomeMovie(3, posterResId = R.drawable.mv2),
+            HomeMovie(4, posterResId = R.drawable.mv3),
+            HomeMovie(5, posterResId = R.drawable.mv4),
+            HomeMovie(6, posterResId = R.drawable.mv5),
+            HomeMovie(7, posterResId = R.drawable.mv6),
+            HomeMovie(8, posterResId = R.drawable.mv7)
         )
 
         binding.rvMovies.layoutManager = GridLayoutManager(this, 3)
         binding.rvMovies.setHasFixedSize(true)
-        binding.rvMovies.adapter = HomeMovieAdapter(mockMovies) {
+
+
+        val movieAdapter = HomeMovieAdapter { clickedMovie ->
             val intent = Intent(this, DetailActivity::class.java)
+            //gửi dữ liệu nhưng chưa hứng ở detail
+            intent.putExtra("MOVIE_ID", clickedMovie.id)
+            intent.putExtra("MOVIE_POSTER", clickedMovie.posterResId)
+
             startActivity(intent)
         }
+
+        binding.rvMovies.adapter = movieAdapter
+
+        movieAdapter.submitList(mockMovies)
 
         binding.btnMovieSpiderman.setOnClickListener {
             val intent = Intent(this, DetailActivity::class.java)

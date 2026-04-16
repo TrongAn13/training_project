@@ -3,18 +3,22 @@ package com.example.training_project
 import android.content.Context
 
 class PreferenceManager(context: Context) {
-    private val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+    private val sharedPreferences = context.applicationContext.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
     companion object {
-        private const val KEY_IS_LOGGED_IN = "isLoggedIn"
+        @Volatile
+        private var instance: PreferenceManager? = null
+
+        fun getInstance(context: Context): PreferenceManager {
+            return instance ?: synchronized(this) {
+                instance ?: PreferenceManager(context.applicationContext).also { instance = it }
+            }
+        }
     }
     fun setLoggedIn(isLoggedIn: Boolean) {
-        sharedPreferences.edit().putBoolean(KEY_IS_LOGGED_IN, isLoggedIn).apply()
+        sharedPreferences.edit().putBoolean("KEY_IS_LOGGED_IN", isLoggedIn).apply()
     }
     fun isLoggedIn(): Boolean {
-        return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false)
-    }
-    fun clearPreferences() {
-        sharedPreferences.edit().clear().apply()
+        return sharedPreferences.getBoolean("KEY_IS_LOGGED_IN", false)
     }
 }
