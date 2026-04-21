@@ -7,6 +7,10 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailActivity : AppCompatActivity() {
+    companion object {
+        const val EXTRA_MOVIE_ID = "MOVIE_ID"
+    }
+
     private lateinit var binding: ActivityDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +25,12 @@ class DetailActivity : AppCompatActivity() {
         binding.btnBookmark.setOnClickListener {
             Toast.makeText(this, R.string.save_movie, Toast.LENGTH_SHORT).show()
         }
+
+        val movieId = intent.getIntExtra(EXTRA_MOVIE_ID, -1)
+        if (movieId != -1) {
+            binding.tvMovieTitle.text = "${getString(R.string.detail_movie_name)} #$movieId"
+        }
+
         val pagerAdapter = DetailPagerAdapter(this)
         binding.viewPager.adapter = pagerAdapter
 

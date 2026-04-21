@@ -24,6 +24,12 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private fun openDetail(movieId: Int) {
+        val intent = Intent(requireContext(), DetailActivity::class.java)
+        intent.putExtra(DetailActivity.EXTRA_MOVIE_ID, movieId)
+        startActivity(intent)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,21 +55,21 @@ class HomeFragment : Fragment() {
 
 
         val movieAdapter = HomeMovieAdapter { clickedMovie ->
-            val intent = Intent(requireContext(), DetailActivity::class.java)
-            //gửi dữ liệu nhưng chưa hứng ở detail
-            intent.putExtra("MOVIE_ID", clickedMovie.id)
-            intent.putExtra("MOVIE_POSTER", clickedMovie.posterResId)
-            startActivity(intent)
+            openDetail(clickedMovie.id)
         }
 
         binding.rvMovies.adapter = movieAdapter
 
         movieAdapter.submitList(mockMovies)
 
-        binding.btnMovieSpiderman.setOnClickListener {
-            val intent = Intent(requireContext(), DetailActivity::class.java)
-            startActivity(intent)
+        binding.swipeRefreshHome.setColorSchemeResources(R.color.primary_blue)
+        binding.swipeRefreshHome.setOnRefreshListener {
+            movieAdapter.submitList(mockMovies.shuffled())
+            binding.swipeRefreshHome.isRefreshing = false
         }
+
+        binding.cardMovie1.setOnClickListener { openDetail(2) }
+        binding.btnMovieSpiderman.setOnClickListener { openDetail(1) }
     }
     override fun onDestroyView() {
         super.onDestroyView()
