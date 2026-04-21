@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/padding_xlarge"
     android:background="@color/background_dark"
-    android:fillViewport="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/padding_xlarge">
 
         <ImageView
             android:id="@+id/imgBanner"
@@ -109,6 +105,7 @@
             android:text="@string/detail_year"
             android:textColor="@color/text_secondary_gray"
             android:textSize="@dimen/text_size_small"
+            android:drawableStart="@drawable/calendarblank"
             app:layout_constraintEnd_toStartOf="@id/dividerYearDuration"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
@@ -133,6 +130,7 @@
             android:text="@string/detail_duration"
             android:textColor="@color/text_secondary_gray"
             android:textSize="@dimen/text_size_small"
+            android:drawableStart="@drawable/clock"
             app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
             app:layout_constraintEnd_toStartOf="@id/dividerDurationGenre"
             app:layout_constraintStart_toEndOf="@id/dividerYearDuration"
@@ -157,373 +155,32 @@
             android:text="@string/detail_genre"
             android:textColor="@color/text_secondary_gray"
             android:textSize="@dimen/text_size_small"
+            android:drawableStart="@drawable/ticket"
             app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/dividerDurationGenre"
             app:layout_constraintTop_toTopOf="@id/tvInfoYear" />
 
-        <TextView
-            android:id="@+id/tvTabAbout"
-            android:layout_width="0dp"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xlarge"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/padding_small"
-            android:text="@string/about_movie"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintEnd_toStartOf="@id/tvTabReviews"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvInfoYear" />
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@id/tvInfoYear"
+            app:tabIndicatorColor="@color/search_background"
+            app:tabIndicatorHeight="@dimen/dp_4"
+            app:tabIndicatorFullWidth="false"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/text_secondary_gray"
+            app:tabRippleColor="@android:color/transparent"/>
 
-        <TextView
-            android:id="@+id/tvTabReviews"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/padding_small"
-            android:text="@string/reviews"
-            android:textColor="@color/text_secondary_gray"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintBottom_toBottomOf="@id/tvTabAbout"
-            app:layout_constraintEnd_toStartOf="@id/tvTabCast"
-            app:layout_constraintStart_toEndOf="@id/tvTabAbout"
-            app:layout_constraintTop_toTopOf="@id/tvTabAbout" />
-
-        <TextView
-            android:id="@+id/tvTabCast"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/padding_small"
-            android:text="@string/cast"
-            android:textColor="@color/text_secondary_gray"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintBottom_toBottomOf="@id/tvTabAbout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvTabReviews"
-            app:layout_constraintTop_toTopOf="@id/tvTabAbout" />
-
-        <View
-            android:id="@+id/indicatorAbout"
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_4"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@color/search_background"
-            app:layout_constraintEnd_toEndOf="@id/tvTabAbout"
-            app:layout_constraintStart_toStartOf="@id/tvTabAbout"
-            app:layout_constraintTop_toBottomOf="@id/tvTabAbout" />
-
-        <View
-            android:id="@+id/indicatorReviews"
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_4"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@color/search_background"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@id/tvTabReviews"
-            app:layout_constraintStart_toStartOf="@id/tvTabReviews"
-            app:layout_constraintTop_toBottomOf="@id/tvTabReviews" />
-
-        <View
-            android:id="@+id/indicatorCast"
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_4"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@color/search_background"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@id/tvTabCast"
-            app:layout_constraintStart_toStartOf="@id/tvTabCast"
-            app:layout_constraintTop_toBottomOf="@id/tvTabCast" />
-
-        <Space
-            android:id="@+id/tabsBottom"
-            android:layout_width="0dp"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/indicatorAbout" />
-
-        <TextView
-            android:id="@+id/tvAboutDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginBottom="@dimen/margin_large"
-            android:lineSpacingExtra="@dimen/dp_6"
-            android:paddingHorizontal="@dimen/padding_large"
-            android:text="@string/detail_about_description"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_13"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tabsBottom"
-            app:layout_constraintVertical_bias="0.213" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/avatar1"
-            android:layout_width="@dimen/dp_44"
-            android:layout_height="@dimen/dp_44"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_large"
-            app:cardCornerRadius="@dimen/dp_22"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tabsBottom">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/rv" />
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/rating1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
-            android:text="@string/detail_review_rating"
-            android:textColor="@color/primary_blue"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintEnd_toEndOf="@id/avatar1"
-            app:layout_constraintStart_toStartOf="@id/avatar1"
-            app:layout_constraintTop_toBottomOf="@id/avatar1" />
-
-        <TextView
-            android:id="@+id/name1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:text="@string/detail_reviewer_name"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintStart_toEndOf="@id/avatar1"
-            app:layout_constraintTop_toTopOf="@id/avatar1" />
-
-        <TextView
-            android:id="@+id/tvReview1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_4"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:lineSpacingExtra="@dimen/dp_4"
-            android:text="@string/detail_review_description"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/name1"
-            app:layout_constraintTop_toBottomOf="@id/name1" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/avatar2"
-            android:layout_width="@dimen/dp_44"
-            android:layout_height="@dimen/dp_44"
-            android:layout_marginTop="@dimen/margin_large"
-            app:cardCornerRadius="@dimen/dp_22"
-            app:layout_constraintStart_toStartOf="@id/avatar1"
-            app:layout_constraintTop_toBottomOf="@id/tvReview1">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/rv" />
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/rating2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:text="@string/detail_review_rating"
-            android:textColor="@color/primary_blue"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintEnd_toEndOf="@id/avatar2"
-            app:layout_constraintStart_toStartOf="@id/avatar2"
-            app:layout_constraintTop_toBottomOf="@id/avatar2" />
-
-        <TextView
-            android:id="@+id/name2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:text="@string/detail_reviewer_name"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintStart_toEndOf="@id/avatar2"
-            app:layout_constraintTop_toTopOf="@id/avatar2" />
-
-        <TextView
-            android:id="@+id/tvReview2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_4"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:layout_marginBottom="@dimen/margin_large"
-            android:lineSpacingExtra="@dimen/dp_4"
-            android:text="@string/detail_review_description"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/name2"
-            app:layout_constraintTop_toBottomOf="@id/name2" />
-
-        <LinearLayout
-            android:id="@+id/castItem1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="@dimen/dp_100"
-                android:layout_height="@dimen/dp_100"
-                app:cardCornerRadius="@dimen/dp_50">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/cast1" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_12"
-                android:text="@string/cast_tom_holland"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/castItem2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="@dimen/dp_100"
-                android:layout_height="@dimen/dp_100"
-                app:cardCornerRadius="@dimen/dp_50">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/cast2" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_12"
-                android:text="@string/cast_zendaya"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/castItem3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="@dimen/dp_100"
-                android:layout_height="@dimen/dp_100"
-                app:cardCornerRadius="@dimen/dp_50">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/cast3" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_12"
-                android:gravity="center"
-                android:text="@string/cast_benedict_cumberbatch"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/castItem4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="@dimen/dp_100"
-                android:layout_height="@dimen/dp_100"
-                app:cardCornerRadius="@dimen/dp_50">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/cast4" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_12"
-                android:text="@string/cast_brad_pitt"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
-
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/castFlow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_large"
-            app:constraint_referenced_ids="castItem1,castItem2,castItem3,castItem4"
-            app:flow_horizontalGap="@dimen/margin_large"
-            app:flow_horizontalStyle="packed"
-            app:flow_maxElementsWrap="2"
-            app:flow_verticalGap="@dimen/margin_large"
-            app:flow_verticalStyle="packed"
-            app:flow_wrapMode="aligned"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tabsBottom" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/contentAbout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tvAboutDescription" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/contentReviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="avatar1,rating1,name1,tvReview1,avatar2,rating2,name2,tvReview2" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/contentCast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="castItem1,castItem2,castItem3,castItem4,castFlow" />
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
