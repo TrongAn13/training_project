@@ -22,7 +22,8 @@
         </activity>
 
         <activity android:name=".LoginActivity" android:theme="@style/Theme.Training_project" />
-        <activity android:name=".HomeActivity" android:theme="@style/Theme.Training_project" />
-        <activity android:name=".DetailActivity" android:theme="@style/Theme.Training_project" />
+        <activity android:name=".HomeActivity" android:theme="@style/Theme.Training_project" android:launchMode="singleTask"/>
+
+        <activity android:name=".DetailActivity" android:theme="@style/Theme.Training_project" android:launchMode="singleTop"/>
     </application>
 </manifest>
