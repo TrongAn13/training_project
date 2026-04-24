@@ -16,9 +16,8 @@ class LoginActivity : AppCompatActivity() {
 
         val adminEmail = "admin"
         val adminPassword = "123"
-
+        val pref = PreferenceManager.getInstance(this)
         binding.btnLogin.setOnClickListener {
-            val pref = PreferenceManager.getInstance(this)
 
             val inputEmail = binding.edtEmail.text.toString().trim()
             val inputPassword = binding.edtPassword.text.toString().trim()

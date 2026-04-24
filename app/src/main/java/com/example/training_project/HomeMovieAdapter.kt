@@ -11,20 +11,28 @@ class HomeMovieAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeMovieViewHolder {
         val binding = ItemHomeMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HomeMovieViewHolder(binding)
+        return HomeMovieViewHolder(binding) { position ->
+            onItemClick(getItem(position))
+        }
     }
 
     override fun onBindViewHolder(holder: HomeMovieViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-    inner class HomeMovieViewHolder(
-        private val binding: ItemHomeMovieBinding
+    class HomeMovieViewHolder(
+        private val binding: ItemHomeMovieBinding,
+        private val onClick: (Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+
         init {
             binding.root.setOnClickListener {
-                onItemClick(getItem(bindingAdapterPosition))
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onClick(position)
+                }
             }
         }
+
         fun bind(movie: HomeMovie) {
             binding.imgPoster.setImageResource(movie.posterResId)
         }

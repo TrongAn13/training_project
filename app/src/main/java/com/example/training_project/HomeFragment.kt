@@ -13,11 +13,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private fun openDetail(movieId: Int) {
-        val intent = Intent(requireContext(), DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_MOVIE_ID, movieId)
-        startActivity(intent)
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,8 +36,6 @@ class HomeFragment : Fragment() {
         )
 
         binding.rvMovies.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.rvMovies.setHasFixedSize(true)
-
 
         val movieAdapter = HomeMovieAdapter { clickedMovie ->
             openDetail(clickedMovie.id)
@@ -65,4 +59,11 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    private fun openDetail(movieId: Int) {
+        val intent = Intent(requireContext(), DetailActivity::class.java)
+        intent.putExtra(DetailActivity.EXTRA_MOVIE_ID, movieId)
+        startActivity(intent)
+    }
+
+
 }
