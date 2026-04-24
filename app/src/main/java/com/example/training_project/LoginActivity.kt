@@ -17,15 +17,15 @@ class LoginActivity : AppCompatActivity() {
         val adminEmail = "admin"
         val adminPassword = "123"
 
-        binding.btnLogin.setOnClickListener {
-            val pref = PreferenceManager.getInstance(this)
+        val pref = PreferenceManager.getInstance(this)
 
+        binding.btnLogin.setOnClickListener {
             val inputEmail = binding.edtEmail.text.toString().trim()
             val inputPassword = binding.edtPassword.text.toString().trim()
 
             if (inputEmail == adminEmail && inputPassword == adminPassword) {
                 pref.setLoggedIn(true)
-                val intent = Intent(this, HomeActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
