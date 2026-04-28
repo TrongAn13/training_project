@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/padding_xlarge"
+    android:background="@color/background_dark"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+        <ImageView
+            android:id="@+id/imgBanner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/banner_height"
+            android:layout_marginTop="@dimen/dp_72"
+            android:scaleType="centerCrop"
+            android:src="@drawable/spiderman_banner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/dp_28"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/btnBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+        <ImageView
+            android:id="@+id/btnBookmark"
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:layout_marginTop="@dimen/dp_28"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:src="@drawable/ic_save2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardPoster"
+            android:layout_width="@dimen/poster_width"
+            android:layout_height="@dimen/poster_height"
+            android:layout_marginStart="@dimen/margin_large"
+            app:cardCornerRadius="@dimen/corner_radius_default"
+            app:layout_constraintBottom_toBottomOf="@id/imgBanner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgBanner">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/spiderman_poster" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:background="@drawable/button_blue_rounded"
+            android:backgroundTint="@color/background_dark"
+            android:paddingHorizontal="@dimen/padding_small"
+            android:paddingVertical="@dimen/dp_4"
+            android:text="@string/detail_rating_badge"
+            android:textColor="@color/rating_orange"
+            android:textSize="@dimen/text_size_small"
+            app:layout_constraintBottom_toBottomOf="@id/imgBanner"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMovieTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:text="@string/detail_movie_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cardPoster"
+            app:layout_constraintTop_toBottomOf="@id/imgBanner" />
+
+        <TextView
+            android:id="@+id/tvInfoYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/detail_year"
+            android:textColor="@color/text_secondary_gray"
+            android:textSize="@dimen/text_size_small"
+            android:drawableStart="@drawable/calendarblank"
+            app:layout_constraintEnd_toStartOf="@id/dividerYearDuration"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardPoster" />
+
+        <View
+            android:id="@+id/dividerYearDuration"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_14"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="@color/text_secondary_gray"
+            app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
+            app:layout_constraintEnd_toStartOf="@id/tvInfoDuration"
+            app:layout_constraintStart_toEndOf="@id/tvInfoYear"
+            app:layout_constraintTop_toTopOf="@id/tvInfoYear" />
+
+        <TextView
+            android:id="@+id/tvInfoDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_duration"
+            android:textColor="@color/text_secondary_gray"
+            android:textSize="@dimen/text_size_small"
+            android:drawableStart="@drawable/clock"
+            app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
+            app:layout_constraintEnd_toStartOf="@id/dividerDurationGenre"
+            app:layout_constraintStart_toEndOf="@id/dividerYearDuration"
+            app:layout_constraintTop_toTopOf="@id/tvInfoYear" />
+
+        <View
+            android:id="@+id/dividerDurationGenre"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_14"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="@color/text_secondary_gray"
+            app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
+            app:layout_constraintEnd_toStartOf="@id/tvInfoGenre"
+            app:layout_constraintStart_toEndOf="@id/tvInfoDuration"
+            app:layout_constraintTop_toTopOf="@id/tvInfoYear" />
+
+        <TextView
+            android:id="@+id/tvInfoGenre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_genre"
+            android:textColor="@color/text_secondary_gray"
+            android:textSize="@dimen/text_size_small"
+            android:drawableStart="@drawable/ticket"
+            app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dividerDurationGenre"
+            app:layout_constraintTop_toTopOf="@id/tvInfoYear" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xlarge"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@id/tvInfoYear"
+            app:tabIndicatorColor="@color/search_background"
+            app:tabIndicatorHeight="@dimen/dp_4"
+            app:tabIndicatorFullWidth="false"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/text_secondary_gray"
+            app:tabRippleColor="@android:color/transparent"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
