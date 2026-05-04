@@ -24,6 +24,7 @@ class ReviewAdapter : ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(Review
         fun bind(review: Review) {
             binding.tvName.text = review.author
             binding.tvReview.text = review.content
+            binding.tvRatingValue.text = review.authorDetails?.rating?.toString() ?: ""
             
             val avatarUrl = review.getAvatarUrl()
             

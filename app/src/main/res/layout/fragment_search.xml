@@ -8,15 +8,14 @@
 
     <ImageView
         android:id="@+id/ivBack"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="352dp"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:layout_marginStart="@dimen/margin_large"
         android:src="@drawable/arrow_left"
-        app:layout_constraintBottom_toBottomOf="@id/tvHeader"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvHeader"
-        app:layout_constraintVertical_bias="1.0"
-        app:tint="@color/white" />
+        app:layout_constraintBottom_toBottomOf="@id/tvHeader" />
 
     <TextView
         android:id="@+id/tvHeader"
@@ -33,9 +32,9 @@
 
     <ImageView
         android:id="@+id/ivActionIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="36dp"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:layout_marginEnd="@dimen/margin_xxlarge"
         android:src="@drawable/info_circle"
         app:layout_constraintBottom_toBottomOf="@id/tvHeader"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +44,7 @@
 
     <EditText
         android:id="@+id/etSearch"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/none"
         android:layout_height="@dimen/dp_48"
         android:layout_marginHorizontal="@dimen/margin_large"
         android:layout_marginTop="@dimen/dp_20"
@@ -61,10 +60,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvHeader" />
 
+    <ImageView
+        android:id="@+id/ivSearchIcon"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:layout_marginEnd="@dimen/dp_16" android:src="@drawable/ic_search1"
+        app:tint="@color/text_secondary_gray" app:layout_constraintBottom_toBottomOf="@id/etSearch"
+        app:layout_constraintEnd_toEndOf="@id/etSearch"
+        app:layout_constraintTop_toTopOf="@id/etSearch" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchMovies"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/none"
+        android:layout_height="@dimen/none"
         android:layout_marginTop="@dimen/margin_large"
         android:clipToPadding="false"
         android:paddingHorizontal="@dimen/padding_large"
@@ -75,8 +83,8 @@
         app:layout_constraintEnd_toEndOf="parent" />
     <LinearLayout
         android:id="@+id/layoutEmpty"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/none"
+        android:layout_height="@dimen/none"
         android:orientation="vertical"
         android:gravity="center"
         android:visibility="gone"

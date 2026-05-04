@@ -39,7 +39,7 @@
         android:textColor="@color/background_dark"
         android:textSize="@dimen/sp_90"
         android:textStyle="bold"
-        android:translationY="40dp"
+        android:translationY="@dimen/item_trending_text_translation_y"
         app:layout_constraintBottom_toBottomOf="@id/cardTrending"
         app:layout_constraintStart_toStartOf="@id/cardTrending" />
 

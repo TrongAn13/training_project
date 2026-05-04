@@ -1,10 +1,13 @@
 package com.example.training_project
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -49,12 +52,34 @@ class SearchFragment : Fragment() {
 
         binding.etSearch.addTextChangedListener { editable ->
             val query = editable?.toString()?.trim() ?: ""
-            if (query.isNotEmpty()) {
+            if (query.length >=3) {
                 fetchSearchMovies(query)
-            } else {
+            } else if(query.isEmpty()) {
                 searchAdapter.submitList(emptyList())
             }
         }
+        binding.etSearch.setOnEditorActionListener { textView, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyboard()
+                true
+            } else {
+                false
+            }
+        }
+        binding.root.setOnTouchListener { _, _ ->
+            hideKeyboard()
+            false
+        }
+
+        binding.rvSearchMovies.setOnTouchListener { _, _ ->
+            hideKeyboard()
+            false
+        }
+    }
+    private fun hideKeyboard() {
+        binding.etSearch.clearFocus()
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.etSearch.windowToken, 0)
     }
 
     private fun fetchSearchMovies(query: String) {
@@ -67,7 +92,7 @@ class SearchFragment : Fragment() {
                     RetrofitClients.instance.searchMovies(query = query)
                 }
 
-                if (response.results.isEmpty()) {
+                if (response.results?.isEmpty()?:true) {
                     binding.rvSearchMovies.visibility = View.GONE
                     binding.layoutEmpty.visibility = View.VISIBLE
                     searchAdapter.submitList(emptyList())

@@ -5,36 +5,36 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TmdbApi {
-    @GET("3/movie/popular")
+    @GET(ApiEndpoints.POPULAR_MOVIES)
     suspend fun getPopularMovies(
         @Query("page") page: Int = 1,
         @Query("language") language: String = "en-US"
     ): MovieResponse
 
-    @GET("3/movie/now_playing")
+    @GET(ApiEndpoints.NOW_PLAYING_MOVIES)
     suspend fun getNowPlayingMovies(
         @Query("page") page: Int = 1,
         @Query("language") language: String = "en-US"
     ): MovieResponse
 
-    @GET("3/movie/upcoming")
+    @GET(ApiEndpoints.UPCOMING_MOVIES)
     suspend fun getUpcomingMovies(
         @Query("page") page: Int = 1,
         @Query("language") language: String = "en-US"
     ): MovieResponse
 
-    @GET("3/movie/top_rated")
+    @GET(ApiEndpoints.TOP_RATED_MOVIES)
     suspend fun getTopRatedMovies(
         @Query("page") page: Int = 1,
         @Query("language") language: String = "en-US"
     ): MovieResponse
 
-    @GET("3/trending/movie/day")
+    @GET(ApiEndpoints.TRENDING_MOVIES)
     suspend fun getTrendingMovies(
         @Query("language") language: String = "en-US"
     ): MovieResponse
 
-    @GET("3/search/movie")
+    @GET(ApiEndpoints.SEARCH_MOVIES)
     suspend fun searchMovies(
         @Query("query") query: String,
         @Query("include_adult") includeAdult: Boolean = false,
@@ -42,7 +42,7 @@ interface TmdbApi {
         @Query("page") page: Int = 1
     ): MovieResponse
 
-    @GET("3/movie/{movie_id}?append_to_response=credits,reviews")
+    @GET(ApiEndpoints.MOVIE_DETAILS)
     suspend fun getMovieDetails(
         @Path("movie_id") movieId: Long,
         @Query("language") language: String = "en-US",

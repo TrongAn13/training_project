@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.example.training_project.databinding.ActivityDetailBinding
 import com.example.training_project.network.Movie
 import com.example.training_project.network.RetrofitClients
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +28,10 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        movieLiveData.observe(this) { movieData ->
+            this.movie = movieData
+            updateUI(movieData)
+        }
         binding.btnBack.setOnClickListener {
             finish()
         }
@@ -61,9 +64,8 @@ class DetailActivity : AppCompatActivity() {
                 val response = withContext(Dispatchers.IO) {
                     RetrofitClients.instance.getMovieDetails(movieId = movieId)
                 }
-                movie = response
                 movieLiveData.postValue(response)
-                updateUI(response)
+
             } catch (e: Exception) {
                 Log.e("DetailActivity", "Error fetching movie details: ${e.message}")
             }

@@ -80,6 +80,8 @@
             android:paddingHorizontal="@dimen/padding_small"
             android:paddingVertical="@dimen/dp_4"
             android:text="@string/detail_rating_badge"
+            android:drawableStart="@drawable/ic_star"
+            android:drawablePadding="@dimen/padding_ssmall"
             android:textColor="@color/rating_orange"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="@id/imgBanner"
@@ -175,6 +177,7 @@
             app:tabIndicatorHeight="@dimen/dp_4"
             app:tabIndicatorFullWidth="false"
             app:tabSelectedTextColor="@color/white"
+            android:layout_marginLeft="@dimen/text_size_small"
             app:tabTextColor="@color/text_secondary_gray"
             app:tabRippleColor="@android:color/transparent"/>
 

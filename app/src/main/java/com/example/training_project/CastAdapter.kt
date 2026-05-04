@@ -24,16 +24,10 @@ class CastAdapter : ListAdapter<Cast, CastAdapter.CastViewHolder>(CastDiffCallba
         fun bind(cast: Cast) {
             binding.tvCastName.text = cast.name
 
-            val profileUrl = if (!cast.profilePath.isNullOrEmpty()) {
-                "https://image.tmdb.org/t/p/w185${cast.profilePath}"
-            } else {
-                ""
-            }
-
             Glide.with(binding.imgCast)
-                .load(profileUrl.ifEmpty { R.drawable.cast1 }) 
+                .load(cast.getProfileUrl().ifEmpty { R.drawable.rv })
                 .centerCrop()
-                .placeholder(R.drawable.cast1)
+                .placeholder(R.drawable.rv)
                 .into(binding.imgCast)
         }
     }

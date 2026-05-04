@@ -45,7 +45,7 @@ class SearchMovieAdapter(
 //            binding.tvDuration.text = movie.
             Glide.with(binding.root.context)
                 .load(movie.getPosterUrl())
-                .transform(CenterCrop(), RoundedCorners(16))
+                .transform(CenterCrop(), RoundedCorners(40))
                 .into(binding.ivPoster)
         }
     }

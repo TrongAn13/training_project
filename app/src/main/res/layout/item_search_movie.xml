@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/ivPoster"
-        android:layout_width="100dp"
-        android:layout_height="140dp"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_140"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,10 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="1"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_xlarge"
-        android:textStyle="bold"
+        android:textSize="@dimen/text_size_slarge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivPoster"
         app:layout_constraintTop_toTopOf="@id/ivPoster" />
@@ -33,13 +32,12 @@
         android:id="@+id/tvRating"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:drawablePadding="8dp"
+        android:layout_marginTop="@dimen/margin_ssmall"
+        android:drawablePadding="@dimen/padding_small"
         android:gravity="center_vertical"
-        android:textColor="@color/text_secondary_gray"
+        android:textColor="@color/rating_orange"
         android:textSize="@dimen/text_size_medium"
         app:drawableStartCompat="@drawable/ic_star"
-        app:drawableTint="#FFC107"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/tvTitle"
@@ -48,13 +46,15 @@
 
     <TextView
         android:id="@+id/tvGenre"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/none"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         android:drawablePadding="@dimen/padding_small"
         android:gravity="center_vertical"
         android:textColor="@color/text_secondary_gray"
         android:textSize="@dimen/text_size_medium"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:drawableStartCompat="@drawable/ticket"
         app:drawableTint="@color/text_secondary_gray"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,7 @@
 
     <TextView
         android:id="@+id/tvYear"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/none"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         android:drawablePadding="@dimen/padding_small"
@@ -80,7 +80,7 @@
 
     <TextView
         android:id="@+id/tvDuration"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/none"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         android:drawablePadding="@dimen/padding_small"
@@ -92,6 +92,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/tvTitle"
         app:layout_constraintTop_toBottomOf="@id/tvYear"
+        android:text="169 minutes"
         tools:text="148 Min" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,8 @@ class HomeFragment : Fragment() {
     private var currentPage = 1
     private var isLoading = false
 
+    val threshold = 6
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,11 +69,11 @@ class HomeFragment : Fragment() {
                     val totalItemCount = layoutManager.itemCount
                     val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
 
-                    if (!isLoading) {
-                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                            currentPage++
-                            fetchMovies()
-                        }
+                    if (!isLoading &&
+                        (visibleItemCount + pastVisibleItems) >= totalItemCount - threshold
+                    ) {
+                        currentPage++
+                        fetchMovies()
                     }
                 }
             }
@@ -135,7 +137,7 @@ class HomeFragment : Fragment() {
                     movieAdapter.submitList(response.results)
                 } else {
                     val currentList = movieAdapter.currentList.toMutableList()
-                    currentList.addAll(response.results)
+                    currentList.addAll(response.results?:emptyList())
                     movieAdapter.submitList(currentList)
                 }
 
