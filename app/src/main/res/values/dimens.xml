@@ -10,11 +10,13 @@
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_xlarge">32dp</dimen>
+    <dimen name="imageview_fragment_search">80dp</dimen>
 
     <!-- Text Sizes -->
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_medium">14sp</dimen>
     <dimen name="text_size_large">16sp</dimen>
+    <dimen name="text_size_slarge">18sp</dimen>
     <dimen name="text_size_xlarge">20sp</dimen>
     <dimen name="text_size_xxlarge">26sp</dimen>
     <dimen name="sp_13">13sp</dimen>

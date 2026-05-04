@@ -1,9 +1,13 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
 }
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "com.example.training_project"
@@ -41,6 +45,17 @@ android {
         compose = true
         viewBinding = true
         dataBinding = true
+        buildConfig = true
+    }
+    defaultConfig {
+        applicationId = "com.example.training_project"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+
+        val tmdbToken = properties.getProperty("TMDB_TOKEN") ?: ""
+        buildConfigField("String", "TMDB_TOKEN", "\"$tmdbToken\"")
     }
 }
 

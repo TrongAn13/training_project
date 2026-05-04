@@ -8,13 +8,9 @@
     android:background="@color/background_dark"
     app:layoutDescription="@xml/home_scene">
 
-    <LinearLayout
+    <include
         android:id="@+id/layoutTopHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <include layout="@layout/fragment_home_header" />
-    </LinearLayout>
+        layout="@layout/fragment_home_header" />
 
     <HorizontalScrollView
         android:id="@+id/layoutFilterTabs"

@@ -5,25 +5,37 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.training_project.databinding.FragmentReviewsBinding
 
 class ReviewsFragment : Fragment() {
 
     private var _binding: FragmentReviewsBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var reviewAdapter: ReviewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         _binding = FragmentReviewsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        reviewAdapter = ReviewAdapter()
+        binding.rvReviews.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = reviewAdapter
+        }
+
+        val activity = activity as? DetailActivity
+        activity?.movieLiveData?.observe(viewLifecycleOwner) { movie ->
+            val reviews = movie.reviews?.results ?: emptyList()
+            reviewAdapter.submitList(reviews)
+        }
     }
 
     override fun onDestroyView() {
