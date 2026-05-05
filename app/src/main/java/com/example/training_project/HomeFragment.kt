@@ -11,9 +11,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.training_project.databinding.FragmentHomeBinding
 import com.example.training_project.network.RetrofitClients
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
+
 class HomeFragment : Fragment() {
 
     enum class MovieTab {
@@ -89,6 +92,10 @@ class HomeFragment : Fragment() {
             fetchMovies()
             fetchTrendingMovies()
         }
+        binding.layoutTopHeader.searchBar.setReadOnlyMode {
+            val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+            bottomNav.selectedItemId = R.id.searchFragment
+        }
 
         updateTabColors()
         fetchMovies()
@@ -142,6 +149,9 @@ class HomeFragment : Fragment() {
                 }
 
             } catch (e: Exception) {
+                if (e is CancellationException) {
+                    throw e
+                }
                 Log.e("API", "Lỗi: ${e.message}")
             } finally {
                 binding.swipeRefreshHome.isRefreshing = false

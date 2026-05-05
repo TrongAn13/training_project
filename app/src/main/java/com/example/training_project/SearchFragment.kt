@@ -1,16 +1,15 @@
 package com.example.training_project
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.core.widget.addTextChangedListener
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.training_project.databinding.FragmentSearchBinding
 import com.example.training_project.network.RetrofitClients
@@ -45,26 +44,22 @@ class SearchFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.searchBar.focusAndShowKeyboard()
+
         binding.rvSearchMovies.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = searchAdapter
         }
 
-        binding.etSearch.addTextChangedListener { editable ->
-            val query = editable?.toString()?.trim() ?: ""
-            if (query.length >=3) {
+        binding.searchBar.onTextChanged { query ->
+            if (query.length >= 3) {
                 fetchSearchMovies(query)
-            } else if(query.isEmpty()) {
+            } else if (query.isEmpty()) {
                 searchAdapter.submitList(emptyList())
             }
         }
-        binding.etSearch.setOnEditorActionListener { textView, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                hideKeyboard()
-                true
-            } else {
-                false
-            }
+        binding.searchBar.onKeyboardSearchClick {
+            hideKeyboard()
         }
         binding.root.setOnTouchListener { _, _ ->
             hideKeyboard()
@@ -75,11 +70,14 @@ class SearchFragment : Fragment() {
             hideKeyboard()
             false
         }
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
     private fun hideKeyboard() {
-        binding.etSearch.clearFocus()
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(binding.etSearch.windowToken, 0)
+        val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
+        imm?.hideSoftInputFromWindow(binding.searchBar.getSearchWindowToken(), 0)
+        binding.searchBar.clearSearchFocus()
     }
 
     private fun fetchSearchMovies(query: String) {

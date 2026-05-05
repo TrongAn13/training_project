@@ -54,7 +54,3 @@ class HomeMovieAdapter(
     }
 }
 
-fun Movie.getPosterUrl(size: String = "w500"): String {
-    if (posterPath.isNullOrEmpty()) return ""
-    return "https://image.tmdb.org/t/p/$size$posterPath"
-}
