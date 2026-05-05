@@ -1,4 +1,4 @@
-package com.example.training_project
+package com.example.training_project.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.training_project.R
+import com.example.training_project.data.model.Movie
 import com.example.training_project.databinding.ItemHomeMovieBinding
-import com.example.training_project.network.Movie
 
 class HomeMovieAdapter(
     private val onItemClick: (Movie) -> Unit
@@ -53,4 +54,3 @@ class HomeMovieAdapter(
         override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean = oldItem == newItem
     }
 }
-

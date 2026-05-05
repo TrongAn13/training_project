@@ -1,4 +1,4 @@
-package com.example.training_project
+package com.example.training_project.ui.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.training_project.R
+import com.example.training_project.data.model.Review
 import com.example.training_project.databinding.ItemReviewBinding
-import com.example.training_project.network.Review
 
 class ReviewAdapter : ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(ReviewDiffCallback()) {
 
@@ -25,9 +26,9 @@ class ReviewAdapter : ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(Review
             binding.tvName.text = review.author
             binding.tvReview.text = review.content
             binding.tvRatingValue.text = review.authorDetails?.rating?.toString() ?: ""
-            
+
             val avatarUrl = review.getAvatarUrl()
-            
+
             Glide.with(binding.imgAvatar)
                 .load(avatarUrl.ifEmpty { R.drawable.rv })
                 .centerCrop()

@@ -1,4 +1,4 @@
-package com.example.training_project
+package com.example.training_project.ui.auth
 
 import android.content.Context
 

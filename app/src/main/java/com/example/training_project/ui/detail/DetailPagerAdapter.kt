@@ -1,8 +1,9 @@
-package com.example.training_project
+package com.example.training_project.ui.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.training_project.ui.detail.ReviewsFragment
 
 class DetailPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     override fun getItemCount(): Int = 3

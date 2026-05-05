@@ -1,4 +1,4 @@
-package com.example.training_project.network
+package com.example.training_project.data.network
 
 object ApiEndpoints {
     const val POPULAR_MOVIES = "3/movie/popular"

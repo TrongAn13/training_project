@@ -1,5 +1,7 @@
-package com.example.training_project.network
+package com.example.training_project.data.network
 
+import com.example.training_project.data.model.Movie
+import com.example.training_project.data.model.MovieResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

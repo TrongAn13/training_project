@@ -1,9 +1,12 @@
-package com.example.training_project
+package com.example.training_project.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.training_project.MainActivity
+import com.example.training_project.ui.auth.PreferenceManager
+import com.example.training_project.R
 import com.example.training_project.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -17,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
         val adminEmail = "admin"
         val adminPassword = "123"
 
-        val pref = PreferenceManager.getInstance(this)
+        val pref = PreferenceManager.Companion.getInstance(this)
 
         binding.btnLogin.setOnClickListener {
             val inputEmail = binding.edtEmail.text.toString().trim()

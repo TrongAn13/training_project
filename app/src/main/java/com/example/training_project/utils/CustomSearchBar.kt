@@ -1,13 +1,14 @@
-package com.example.training_project
+package com.example.training_project.utils
 
 import android.content.Context
+import android.os.IBinder
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import com.example.training_project.databinding.LayoutCustomSearchBinding
-import android.view.inputmethod.InputMethodManager
-
 
 class CustomSearchBar @JvmOverloads constructor(
     context: Context,
@@ -38,7 +39,7 @@ class CustomSearchBar @JvmOverloads constructor(
 
     fun onKeyboardSearchClick(action: () -> Unit) {
         binding.etSearchInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 action()
                 true
             } else {
@@ -51,7 +52,7 @@ class CustomSearchBar @JvmOverloads constructor(
         binding.etSearchInput.clearFocus()
     }
 
-    fun getSearchWindowToken(): android.os.IBinder {
+    fun getSearchWindowToken(): IBinder {
         return binding.etSearchInput.windowToken
     }
     fun focusAndShowKeyboard() {

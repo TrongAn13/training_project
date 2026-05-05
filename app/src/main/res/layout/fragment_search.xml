@@ -42,7 +42,7 @@
         app:layout_constraintVertical_bias="1.0"
         app:tint="@color/white" />
 
-    <com.example.training_project.CustomSearchBar
+    <com.example.training_project.utils.CustomSearchBar
         android:id="@+id/searchBar"
         android:layout_width="@dimen/none" android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_large"

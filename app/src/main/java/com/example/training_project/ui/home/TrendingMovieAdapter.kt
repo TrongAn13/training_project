@@ -1,13 +1,13 @@
-package com.example.training_project
+package com.example.training_project.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-
+import com.example.training_project.R
+import com.example.training_project.data.model.Movie
 import com.example.training_project.databinding.ItemTrendingMovieBinding
-import com.example.training_project.network.Movie
 
 class TrendingMovieAdapter(
     private val onItemClick: (Movie) -> Unit
