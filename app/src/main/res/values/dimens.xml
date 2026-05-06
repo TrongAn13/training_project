@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common Margins and Paddings -->
+
+    <dimen name="none">0dp</dimen>
+    <dimen name="padding_ssmall">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">16dp</dimen>
     <dimen name="padding_large">24dp</dimen>
     <dimen name="padding_xlarge">32dp</dimen>
     <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_ssmall">12dp</dimen>
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_xlarge">32dp</dimen>
+    <dimen name="margin_xxlarge">40dp</dimen>
+    <dimen name="imageview_fragment_search">80dp</dimen>
 
     <!-- Text Sizes -->
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_medium">14sp</dimen>
     <dimen name="text_size_large">16sp</dimen>
+    <dimen name="text_size_slarge">18sp</dimen>
     <dimen name="text_size_xlarge">20sp</dimen>
     <dimen name="text_size_xxlarge">26sp</dimen>
     <dimen name="sp_13">13sp</dimen>
@@ -46,8 +53,10 @@
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_12">12dp</dimen>
     <dimen name="dp_14">14dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
     <dimen name="dp_20">20dp</dimen>
     <dimen name="dp_22">22dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
     <dimen name="dp_28">28dp</dimen>
     <dimen name="dp_30">30dp</dimen>
     <dimen name="dp_40">40dp</dimen>
@@ -66,4 +75,7 @@
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_324">324dp</dimen>
     <dimen name="dp_328">328dp</dimen>
+
+    <dimen name="text_shadow_radius">8dp</dimen>
+    <dimen name="item_trending_text_translation_y">40dp</dimen>
 </resources>

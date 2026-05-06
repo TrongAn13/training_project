@@ -15,12 +15,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="@dimen/dp_6"
-            android:text="@string/detail_about_description"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_13"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

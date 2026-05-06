@@ -22,6 +22,15 @@ class AboutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        val activity = activity as? DetailActivity
+        activity?.movieLiveData?.observe(viewLifecycleOwner) { movie ->
+            if (!movie.overview.isNullOrEmpty()) {
+                binding.tvAboutDescription.text = movie.overview
+            } else {
+                binding.tvAboutDescription.text = getString(R.string.detail_about_description)
+            }
+        }
     }
 
     override fun onDestroyView() {
