@@ -2,14 +2,14 @@ package com.example.training_project.ui.search
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.training_project.ui.base.BaseViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.training_project.data.model.Movie
 import com.example.training_project.data.repository.MovieRepository
 import com.example.training_project.utils.Resource
-import com.example.training_project.utils.executeApi
 import kotlinx.coroutines.Job
 
-class SearchViewModel : ViewModel(){
+class SearchViewModel : BaseViewModel(){
     private val repository = MovieRepository()
     val searchResults = MutableLiveData<Resource<List<Movie>>>()
     val isEmpty = MutableLiveData<Boolean>()

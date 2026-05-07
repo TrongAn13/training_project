@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.training_project.databinding.FragmentReviewsBinding
-import com.example.training_project.utils.handleApiState
 
-class ReviewsFragment : Fragment() {
+class ReviewsFragment : BaseFragment() {
 
     private var _binding: FragmentReviewsBinding? = null
     private val binding get() = _binding!!

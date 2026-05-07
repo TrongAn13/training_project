@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,10 +17,9 @@ import com.example.training_project.ui.home.HomeMovieAdapter
 import com.example.training_project.R
 import com.example.training_project.ui.home.TrendingMovieAdapter
 import com.example.training_project.databinding.FragmentHomeBinding
-import com.example.training_project.utils.handleApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!

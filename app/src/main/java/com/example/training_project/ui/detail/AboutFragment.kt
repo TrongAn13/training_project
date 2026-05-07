@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.activityViewModels
 import com.example.training_project.R
 import com.example.training_project.databinding.FragmentAboutBinding
-import com.example.training_project.utils.handleApiState
 
-class AboutFragment : Fragment() {
+class AboutFragment : BaseFragment() {
     private var _binding: FragmentAboutBinding? = null
     private val sharedViewModel: DetailViewModel by activityViewModels()
     private val binding get() = _binding!!

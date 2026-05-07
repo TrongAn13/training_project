@@ -1,19 +1,17 @@
 package com.example.training_project.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import com.example.training_project.ui.base.BaseActivity
 import com.bumptech.glide.Glide
 import com.example.training_project.R
 import com.example.training_project.data.model.Movie
 import com.example.training_project.databinding.ActivityDetailBinding
-import com.example.training_project.utils.handleApiState
 import com.example.training_project.utils.observeNetwork
 import com.google.android.material.tabs.TabLayoutMediator
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : BaseActivity() {
     companion object {
         const val EXTRA_MOVIE_ID = "MOVIE_ID"
     }

@@ -2,18 +2,18 @@ package com.example.training_project.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.training_project.ui.base.BaseViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.training_project.data.model.Movie
 import com.example.training_project.data.repository.MovieRepository
 import com.example.training_project.utils.Resource
-import com.example.training_project.utils.executeApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
 
 enum class MovieTab {
     NOW_PLAYING, UPCOMING, TOP_RATED, POPULAR
 }
-class HomeViewModel: ViewModel() {
+class HomeViewModel: BaseViewModel() {
     private val repository = MovieRepository()
     var currentTab = MovieTab.NOW_PLAYING
         private set
