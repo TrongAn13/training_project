@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.training_project.data.model.Movie
 import com.example.training_project.data.repository.MovieRepository
+import com.example.training_project.utils.Resource
+import com.example.training_project.utils.executeApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -19,10 +21,10 @@ class HomeViewModel: ViewModel() {
         private set
     var isLoading = false
         private set
-    val trendingMovies = MutableLiveData<List<Movie>>()
-    val tabMovies = MutableLiveData<List<Movie>>()
+    val trendingMovies = MutableLiveData<Resource<List<Movie>>>()
+    val tabMovies = MutableLiveData<Resource<List<Movie>>>()
     val isRefreshing = MutableLiveData<Boolean>()
-    val errorMessage = MutableLiveData<String>()
+
 
     init {
         fetchTrendingMovies()
@@ -48,20 +50,15 @@ class HomeViewModel: ViewModel() {
         fetchMovies()
     }
     private fun fetchTrendingMovies() {
-        viewModelScope.launch {
-            try {
-                val response = repository.getTrendingMoviesFromApi()
-                trendingMovies.value = response.results ?: emptyList()
-
-            } catch (e: Exception) {
-                errorMessage.value = e.message
-            }
+        executeApi(trendingMovies) {
+            val response = repository.getTrendingMoviesFromApi()
+            response.results ?: emptyList()
         }
     }
     private fun fetchMovies(){
         isLoading = true
         if (currentPage == 1 && isRefreshing.value != true) {
-            isRefreshing.value = true
+            tabMovies.value = Resource.Loading
         }
 
         viewModelScope.launch {
@@ -76,15 +73,16 @@ class HomeViewModel: ViewModel() {
                 val newResults = response.results ?: emptyList()
 
                 if (currentPage == 1) {
-                    tabMovies.value = newResults
+                    tabMovies.value = Resource.Success(newResults)
                 } else {
-                    val currentList = tabMovies.value.orEmpty().toMutableList()
+                    val currentResource = tabMovies.value
+                    val currentList = if (currentResource is Resource.Success) currentResource.data.toMutableList() else mutableListOf()
                     currentList.addAll(newResults)
-                    tabMovies.value = currentList
+                    tabMovies.value = Resource.Success(currentList)
                 }
             } catch (e: Exception) {
                 if (e !is CancellationException) {
-                    errorMessage.value = e.message
+                    tabMovies.value = Resource.Error(e.message ?: "Lỗi kết nối mạng")
                 }
             } finally {
                 isLoading = false

@@ -9,6 +9,8 @@ import com.bumptech.glide.Glide
 import com.example.training_project.R
 import com.example.training_project.data.model.Movie
 import com.example.training_project.databinding.ActivityDetailBinding
+import com.example.training_project.utils.handleApiState
+import com.example.training_project.utils.observeNetwork
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailActivity : AppCompatActivity() {
@@ -17,18 +19,25 @@ class DetailActivity : AppCompatActivity() {
     }
     private lateinit var binding: ActivityDetailBinding
     private val viewModel: DetailViewModel by viewModels()
+    private var movieId = -1L
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        movieId = intent.getLongExtra(EXTRA_MOVIE_ID, -1L)
+
         setupListeners()
         setupViewPager()
         observeViewModel()
-        val movieId = intent.getLongExtra(EXTRA_MOVIE_ID, -1L)
-        if (viewModel.movie.value == null) {
+
+        if (movieId != -1L) {
             viewModel.fetchMovieDetails(movieId)
+        }
+        observeNetwork(binding.root) {
+            viewModel.retry()
         }
     }
     private fun setupListeners() {
@@ -54,13 +63,9 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
     }
     private fun observeViewModel() {
-        viewModel.movie.observe(this) { movieData ->
-            updateUI(movieData)
-        }
-        viewModel.errorMessage.observe(this) { error ->
-            if (error != null) {
-                Log.e("DetailActivity", "Lỗi mạng: $error")
-                Toast.makeText(this, "Không thể tải dữ liệu!", Toast.LENGTH_SHORT).show()
+        viewModel.movie.observe(this) { resource ->
+            handleApiState(resource, binding.detailDataGroup, binding.progressBar) { movieData ->
+                updateUI(movieData)
             }
         }
     }

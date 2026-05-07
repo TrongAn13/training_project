@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.training_project.R
 import com.example.training_project.databinding.FragmentAboutBinding
+import com.example.training_project.utils.handleApiState
 
 class AboutFragment : Fragment() {
     private var _binding: FragmentAboutBinding? = null
@@ -26,11 +27,13 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.movie.observe(viewLifecycleOwner) { movie ->
-            if (!movie.overview.isNullOrEmpty()) {
-                binding.tvAboutDescription.text = movie.overview
-            } else {
-                binding.tvAboutDescription.text = getString(R.string.detail_about_description)
+        sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
+            handleApiState(resource) { movie ->
+                if (!movie.overview.isNullOrEmpty()) {
+                    binding.tvAboutDescription.text = movie.overview
+                } else {
+                    binding.tvAboutDescription.text = getString(R.string.detail_about_description)
+                }
             }
         }
     }

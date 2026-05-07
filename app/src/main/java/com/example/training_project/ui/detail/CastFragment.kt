@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.training_project.databinding.FragmentCastBinding
+import com.example.training_project.utils.handleApiState
 
 class CastFragment : Fragment() {
 
@@ -33,9 +34,11 @@ class CastFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = castAdapter
         }
-        sharedViewModel.movie.observe(viewLifecycleOwner) { movie ->
-            val castList = movie.credits?.cast ?: emptyList()
-            castAdapter.submitList(castList)
+        sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
+            handleApiState(resource) { movie ->
+                val castList = movie.credits?.cast ?: emptyList()
+                castAdapter.submitList(castList)
+            }
         }
     }
 

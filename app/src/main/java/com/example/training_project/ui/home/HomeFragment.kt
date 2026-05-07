@@ -16,6 +16,7 @@ import com.example.training_project.ui.home.HomeMovieAdapter
 import com.example.training_project.R
 import com.example.training_project.ui.home.TrendingMovieAdapter
 import com.example.training_project.databinding.FragmentHomeBinding
+import com.example.training_project.utils.handleApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment() {
@@ -111,22 +112,20 @@ class HomeFragment : Fragment() {
 
     private fun observeViewModel() {
 
-        viewModel.trendingMovies.observe(viewLifecycleOwner) { movies ->
-            trendingAdapter.submitList(movies)
+        viewModel.trendingMovies.observe(viewLifecycleOwner) { resource ->
+            handleApiState(resource) { movies ->
+                trendingAdapter.submitList(movies)
+            }
         }
 
-        viewModel.tabMovies.observe(viewLifecycleOwner) { movies ->
-            movieAdapter.submitList(movies)
+        viewModel.tabMovies.observe(viewLifecycleOwner) { resource ->
+            handleApiState(resource) { movies ->
+                movieAdapter.submitList(movies)
+            }
         }
 
         viewModel.isRefreshing.observe(viewLifecycleOwner) { isRefreshing ->
             binding.swipeRefreshHome.isRefreshing = isRefreshing
-        }
-
-        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-            if (error != null) {
-                Log.e("HomeFragment", "Lỗi mạng: $error")
-            }
         }
     }
 

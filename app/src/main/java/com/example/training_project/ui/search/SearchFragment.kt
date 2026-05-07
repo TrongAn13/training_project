@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.training_project.ui.detail.DetailActivity
 import com.example.training_project.ui.search.SearchMovieAdapter
 import com.example.training_project.databinding.FragmentSearchBinding
+import com.example.training_project.utils.handleApiState
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
@@ -51,9 +52,7 @@ class SearchFragment : Fragment() {
     private fun setupListeners(){
         binding.searchBar.focusAndShowKeyboard()
         binding.searchBar.onTextChanged { query ->
-            if (query.length >= 3) {
-                viewModel.searchMovies(query)
-            }
+        viewModel.searchMovies(query)
         }
         binding.searchBar.onKeyboardSearchClick {
             hideKeyboard()
@@ -81,8 +80,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeViewModel(){
-        viewModel.searchResults.observe(viewLifecycleOwner) { movies ->
-            searchAdapter.submitList(movies)
+        viewModel.searchResults.observe(viewLifecycleOwner) { resource ->
+            handleApiState(resource) { movies ->
+                searchAdapter.submitList(movies)
+            }
         }
         viewModel.isEmpty.observe(viewLifecycleOwner){ isEmpty ->
             if (isEmpty) {
