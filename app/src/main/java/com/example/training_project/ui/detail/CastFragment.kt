@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.training_project.ui.base.BaseFragment
 import com.example.training_project.databinding.FragmentCastBinding
 
 class CastFragment : BaseFragment() {
@@ -15,7 +14,6 @@ class CastFragment : BaseFragment() {
     private var _binding: FragmentCastBinding? = null
     private val binding get() = _binding!!
     private lateinit var castAdapter: CastAdapter
-
     private val sharedViewModel: DetailViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -36,8 +34,7 @@ class CastFragment : BaseFragment() {
         }
         sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movie ->
-                val castList = movie.credits?.cast ?: emptyList()
-                castAdapter.submitList(castList)
+                castAdapter.submitList(movie.cast)
             }
         }
     }

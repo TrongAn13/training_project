@@ -1,31 +1,26 @@
 package com.example.training_project.ui.search
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.training_project.domain.model.Movie
+import com.example.training_project.data.repository.MovieRepositoryImpl
+import com.example.training_project.domain.usecase.MovieUseCases
 import com.example.training_project.ui.base.BaseViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.training_project.data.model.Movie
-import com.example.training_project.data.repository.MovieRepository
 import com.example.training_project.utils.Resource
-import kotlinx.coroutines.Job
 
-class SearchViewModel : BaseViewModel(){
-    private val repository = MovieRepository()
+class SearchViewModel(private val useCases: MovieUseCases) : BaseViewModel() {
     val searchResults = MutableLiveData<Resource<List<Movie>>>()
     val isEmpty = MutableLiveData<Boolean>()
 
     fun searchMovies(query: String) {
         if (query.length < 3) {
-            searchResults.value =
-                Resource.Success(emptyList())
+            searchResults.value = Resource.Success(emptyList())
             isEmpty.value = false
             return
         }
 
         executeApi(searchResults) {
-            val response = repository.searchMoviesFromApi(query)
-            val results = response.results ?: emptyList()
-            isEmpty.postValue( results.isEmpty())
+            val results = useCases.searchMovies(query)
+            isEmpty.postValue(results.isEmpty())
             results
         }
     }

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.training_project.R
-import com.example.training_project.data.model.Cast
+import com.example.training_project.domain.model.Cast
 import com.example.training_project.databinding.ItemCastBinding
 
 class CastAdapter : ListAdapter<Cast, CastAdapter.CastViewHolder>(CastDiffCallback()) {
@@ -26,7 +26,7 @@ class CastAdapter : ListAdapter<Cast, CastAdapter.CastViewHolder>(CastDiffCallba
             binding.tvCastName.text = cast.name
 
             Glide.with(binding.imgCast)
-                .load(cast.getProfileUrl().ifEmpty { R.drawable.rv })
+                .load(cast.profileUrl.ifEmpty { R.drawable.rv })
                 .centerCrop()
                 .placeholder(R.drawable.rv)
                 .into(binding.imgCast)

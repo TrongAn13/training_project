@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.training_project.ui.base.BaseFragment
 import com.example.training_project.databinding.FragmentReviewsBinding
 
 class ReviewsFragment : BaseFragment() {
@@ -35,8 +34,7 @@ class ReviewsFragment : BaseFragment() {
         }
         sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movie ->
-                val reviewList = movie.reviews?.results ?: emptyList()
-                reviewAdapter.submitList(reviewList)
+                reviewAdapter.submitList(movie.reviews)
             }
         }
     }

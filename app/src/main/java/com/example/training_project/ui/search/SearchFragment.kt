@@ -7,20 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.training_project.MovieApplication
 import com.example.training_project.ui.detail.DetailActivity
-import com.example.training_project.ui.search.SearchMovieAdapter
 import com.example.training_project.databinding.FragmentSearchBinding
+import com.example.training_project.ui.base.ViewModelFactory
 
 class SearchFragment : BaseFragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var searchAdapter: SearchMovieAdapter
-    private val viewModel: SearchViewModel by viewModels()
+    private val viewModel: SearchViewModel by viewModels {
+        ViewModelFactory((requireActivity().application as MovieApplication).movieUseCases)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

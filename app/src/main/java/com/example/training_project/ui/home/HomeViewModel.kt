@@ -1,11 +1,11 @@
 package com.example.training_project.ui.home
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.training_project.ui.base.BaseViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.training_project.data.model.Movie
-import com.example.training_project.data.repository.MovieRepository
+import com.example.training_project.data.repository.MovieRepositoryImpl
+import com.example.training_project.domain.model.Movie
+import com.example.training_project.domain.usecase.MovieUseCases
+import com.example.training_project.ui.base.BaseViewModel
 import com.example.training_project.utils.Resource
 import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
@@ -13,23 +13,23 @@ import kotlin.coroutines.cancellation.CancellationException
 enum class MovieTab {
     NOW_PLAYING, UPCOMING, TOP_RATED, POPULAR
 }
-class HomeViewModel: BaseViewModel() {
-    private val repository = MovieRepository()
+
+class HomeViewModel(private val useCases: MovieUseCases) : BaseViewModel() {
     var currentTab = MovieTab.NOW_PLAYING
         private set
     var currentPage = 1
         private set
     var isLoading = false
         private set
+    
     val trendingMovies = MutableLiveData<Resource<List<Movie>>>()
     val tabMovies = MutableLiveData<Resource<List<Movie>>>()
     val isRefreshing = MutableLiveData<Boolean>()
 
-
     init {
-        fetchTrendingMovies()
-        fetchMovies()
+        refreshData()
     }
+
     fun switchTab(tab: MovieTab) {
         if (currentTab == tab) return
         currentTab = tab
@@ -49,13 +49,14 @@ class HomeViewModel: BaseViewModel() {
         fetchTrendingMovies()
         fetchMovies()
     }
+
     private fun fetchTrendingMovies() {
         executeApi(trendingMovies) {
-            val response = repository.getTrendingMoviesFromApi()
-            response.results ?: emptyList()
+            useCases.getMovies("trending")
         }
     }
-    private fun fetchMovies(){
+
+    private fun fetchMovies() {
         isLoading = true
         if (currentPage == 1 && isRefreshing.value != true) {
             tabMovies.value = Resource.Loading
@@ -63,21 +64,23 @@ class HomeViewModel: BaseViewModel() {
 
         viewModelScope.launch {
             try {
-                val response = when (currentTab) {
-                    MovieTab.NOW_PLAYING -> repository.getNowPlayingMoviesFromApi(currentPage)
-                    MovieTab.UPCOMING -> repository.getUpcomingMoviesFromApi(currentPage)
-                    MovieTab.TOP_RATED -> repository.getTopRatedMoviesFromApi(currentPage)
-                    MovieTab.POPULAR -> repository.getPopularMoviesFromApi(currentPage)
+                val results = when (currentTab) {
+                    MovieTab.NOW_PLAYING -> useCases.getMovies("nowplaying", currentPage)
+                    MovieTab.UPCOMING -> useCases.getMovies("up_coming",currentPage)
+                    MovieTab.TOP_RATED -> useCases.getMovies("top_rated",currentPage)
+                    MovieTab.POPULAR -> useCases.getMovies("popular",currentPage)
                 }
 
-                val newResults = response.results ?: emptyList()
-
                 if (currentPage == 1) {
-                    tabMovies.value = Resource.Success(newResults)
+                    tabMovies.value = Resource.Success(results)
                 } else {
                     val currentResource = tabMovies.value
-                    val currentList = if (currentResource is Resource.Success) currentResource.data.toMutableList() else mutableListOf()
-                    currentList.addAll(newResults)
+                    val currentList = if (currentResource is Resource.Success) {
+                        currentResource.data.toMutableList()
+                    } else {
+                        mutableListOf()
+                    }
+                    currentList.addAll(results)
                     tabMovies.value = Resource.Success(currentList)
                 }
             } catch (e: Exception) {

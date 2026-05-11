@@ -2,16 +2,14 @@ package com.example.training_project.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.training_project.domain.model.Movie
+import com.example.training_project.data.repository.MovieRepositoryImpl
+import com.example.training_project.domain.usecase.MovieUseCases
 import com.example.training_project.ui.base.BaseViewModel
-import com.example.training_project.data.model.Movie
-import com.example.training_project.data.repository.MovieRepository
 import com.example.training_project.utils.Resource
 
-class DetailViewModel: BaseViewModel(){
-    private val repository = MovieRepository()
+class DetailViewModel(private val useCases: MovieUseCases) : BaseViewModel() {
     private val _movie = MutableLiveData<Resource<Movie>>()
-
     val movie: LiveData<Resource<Movie>> get() = _movie
     private var currentMovieId = -1L
 
@@ -19,9 +17,10 @@ class DetailViewModel: BaseViewModel(){
         currentMovieId = movieId
         if (movieId == -1L) return
         executeApi(_movie) {
-            repository.getMovieDetailsFromApi(movieId)
+            useCases.getMovieDetails(movieId)
         }
     }
+
     fun retry() {
         if (currentMovieId != -1L) {
             fetchMovieDetails(currentMovieId)

@@ -1,7 +1,7 @@
 package com.example.training_project.data.network
 
-import com.example.training_project.data.model.Movie
-import com.example.training_project.data.model.MovieResponse
+import com.example.training_project.data.remote.DTO.MovieDTO
+import com.example.training_project.data.remote.DTO.MovieResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -48,5 +48,6 @@ interface TmdbApi {
     suspend fun getMovieDetails(
         @Path("movie_id") movieId: Long,
         @Query("language") language: String = "en-US",
-    ): Movie
+        @Query("append_to_response") appendToResponse: String = "credits,reviews"
+    ): MovieDTO
 }

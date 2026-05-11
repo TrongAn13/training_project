@@ -12,18 +12,22 @@ import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.training_project.MovieApplication
 import com.example.training_project.ui.detail.DetailActivity
 import com.example.training_project.ui.home.HomeMovieAdapter
 import com.example.training_project.R
 import com.example.training_project.ui.home.TrendingMovieAdapter
 import com.example.training_project.databinding.FragmentHomeBinding
+import com.example.training_project.ui.base.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : BaseFragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels {
+        ViewModelFactory((requireActivity().application as MovieApplication).movieUseCases)
+    }
     private lateinit var movieAdapter: HomeMovieAdapter
     private lateinit var trendingAdapter: TrendingMovieAdapter
     private val threshold = 6

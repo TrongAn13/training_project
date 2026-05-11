@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.training_project.R
-import com.example.training_project.data.model.Movie
+import com.example.training_project.domain.model.Movie
 import com.example.training_project.databinding.ItemHomeMovieBinding
 
 class HomeMovieAdapter(
@@ -39,10 +39,8 @@ class HomeMovieAdapter(
         }
 
         fun bind(movie: Movie) {
-            val posterUrl = movie.getPosterUrl()
-
             Glide.with(binding.imgPoster)
-                .load(posterUrl.ifEmpty { R.drawable.ic_launcher_foreground })
+                .load(movie.posterUrl.ifEmpty { R.drawable.ic_launcher_foreground })
                 .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_foreground)
                 .centerCrop()
