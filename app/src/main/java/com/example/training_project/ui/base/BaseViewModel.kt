@@ -1,9 +1,12 @@
 package com.example.training_project.ui.base
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.training_project.R
 import com.example.training_project.utils.Resource
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -12,26 +15,49 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import kotlin.coroutines.cancellation.CancellationException
 
-open class BaseViewModel : ViewModel() {
-    protected fun <T> executeApi(liveData: MutableLiveData<Resource<T>>, apiCall: suspend () -> T) {
-        liveData.value = Resource.Loading
-        viewModelScope.launch {
-            try {
-                val result = withContext(Dispatchers.IO) {
-                    apiCall()
-                }
-                liveData.value = Resource.Success(result)
-            } catch (e: Exception) {
-                if (e is CancellationException) throw e
-                val errorMessage = when (e) {
-                    is UnknownHostException -> "Không có kết nối mạng"
-                    is SocketTimeoutException -> "Kết nối quá chậm"
-                    is IOException -> "Lỗi kết nối mạng"
-                    else -> e.message ?: "Đã xảy ra lỗi"
-                }
-                liveData.value =
-                    Resource.Error(errorMessage)
+enum class LoadingType {
+    NONE,
+    NORMAL,
+    SHIMMER
+}
+open class BaseViewModel(application: Application) : AndroidViewModel(application) {
+    val globalError = MutableLiveData<String?>()
+    val isLoading = MutableLiveData<Boolean>()
+
+    private fun getErrorMessage(e: Throwable): String {
+        val context = getApplication<Application>()
+        return when (e) {
+            is UnknownHostException -> context.getString(R.string.error_no_network)
+            is SocketTimeoutException -> context.getString(R.string.error_timeout)
+            is IOException -> context.getString(R.string.error_network_connection)
+            else -> e.message ?: context.getString(R.string.error_unknown)
+        }
+    }
+    protected fun <T> executeApi(liveData: MutableLiveData<Resource<T>>, type : LoadingType = LoadingType.NORMAL, apiCall: suspend () -> T) {
+//
+        if(type == LoadingType.NORMAL){
+            liveData.value = Resource.Loading
+            isLoading.value = true
+        }
+
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            if (throwable is CancellationException) throw throwable
+            if(type == LoadingType.NORMAL){
+                isLoading.value = false
             }
+            val message = getErrorMessage(throwable)
+            when (type){
+                LoadingType.NONE -> liveData.value = Resource.Error(message)
+                LoadingType.NORMAL -> globalError.value = message
+                LoadingType.SHIMMER -> liveData.value = Resource.Error(message)
+            }
+        }
+        viewModelScope.launch(exceptionHandler) {
+            val result = withContext(Dispatchers.IO) {
+                apiCall.invoke()
+            }
+            if (type == LoadingType.NORMAL) isLoading.value = false
+            liveData.value = Resource.Success(result)
         }
     }
 }

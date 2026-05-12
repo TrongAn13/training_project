@@ -44,6 +44,10 @@
     <string name="notfound_movie1">We Are Sorry! We Can\nNot Find The Movie :(</string>
     <string name="notfound_movie2">Find your movie by Type title,\ncategories, years, etc</string>
     <string name="save_movie">Đã lưu phim vào danh sách!</string>
+    <string name="error_no_network">Không có kết nối mạng</string>
+    <string name="error_timeout">Kết nối quá chậm</string>
+    <string name="error_network_connection">Lỗi kết nối mạng</string>
+    <string name="error_unknown">Đã xảy ra lỗi</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

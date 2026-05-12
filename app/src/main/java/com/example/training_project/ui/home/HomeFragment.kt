@@ -2,20 +2,17 @@ package com.example.training_project.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.example.training_project.ui.base.BaseFragment
+import com.example.training_project.utils.Resource
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.training_project.ui.detail.DetailActivity
-import com.example.training_project.ui.home.HomeMovieAdapter
 import com.example.training_project.R
-import com.example.training_project.ui.home.TrendingMovieAdapter
 import com.example.training_project.databinding.FragmentHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -26,6 +23,7 @@ class HomeFragment : BaseFragment() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var movieAdapter: HomeMovieAdapter
     private lateinit var trendingAdapter: TrendingMovieAdapter
+    private var isPaginating = false
     private val threshold = 6
 
     override fun onCreateView(
@@ -78,8 +76,8 @@ class HomeFragment : BaseFragment() {
                     val totalItemCount = layoutManager.itemCount
                     val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
 
-
-                    if (!viewModel.isLoading && (visibleItemCount + pastVisibleItems) >= totalItemCount - threshold) {
+                    if (!isPaginating && viewModel.canLoadMore && (visibleItemCount + pastVisibleItems) >= totalItemCount - threshold) {
+                        isPaginating = true
                         viewModel.loadNextPage()
                     }
                 }
@@ -119,6 +117,9 @@ class HomeFragment : BaseFragment() {
         }
 
         viewModel.tabMovies.observe(viewLifecycleOwner) { resource ->
+            if (resource !is Resource.Loading) {
+                isPaginating = false
+            }
             handleApiState(resource) { movies ->
                 movieAdapter.submitList(movies)
             }

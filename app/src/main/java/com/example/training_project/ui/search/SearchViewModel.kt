@@ -1,15 +1,14 @@
 package com.example.training_project.ui.search
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.training_project.ui.base.BaseViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.training_project.data.model.Movie
 import com.example.training_project.data.repository.MovieRepository
 import com.example.training_project.utils.Resource
-import kotlinx.coroutines.Job
+import com.example.training_project.ui.base.LoadingType
 
-class SearchViewModel : BaseViewModel(){
+class SearchViewModel(application: Application) : BaseViewModel(application){
     private val repository = MovieRepository()
     val searchResults = MutableLiveData<Resource<List<Movie>>>()
     val isEmpty = MutableLiveData<Boolean>()
@@ -22,7 +21,8 @@ class SearchViewModel : BaseViewModel(){
             return
         }
 
-        executeApi(searchResults) {
+        searchResults.value = Resource.Loading
+        executeApi(searchResults, LoadingType.SHIMMER) {
             val response = repository.searchMoviesFromApi(query)
             val results = response.results ?: emptyList()
             isEmpty.postValue( results.isEmpty())

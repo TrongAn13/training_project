@@ -3,7 +3,10 @@ package com.example.training_project.data.model
 import com.google.gson.annotations.SerializedName
 
 data class MovieResponse(
-    @SerializedName("results") val results: List<Movie>? = null
+    @SerializedName("results") val results: List<Movie>? = null,
+    @SerializedName("page") val page: Int? = null,
+    @SerializedName("total_pages") val totalPages: Int? = null,
+    @SerializedName("total_results") val totalResults: Int? = null
 )
 
 data class Genre(

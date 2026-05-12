@@ -5,15 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.training_project.ui.detail.DetailActivity
-import com.example.training_project.ui.search.SearchMovieAdapter
 import com.example.training_project.databinding.FragmentSearchBinding
 
 class SearchFragment : BaseFragment() {
@@ -54,31 +50,23 @@ class SearchFragment : BaseFragment() {
         binding.searchBar.onTextChanged { query ->
         viewModel.searchMovies(query)
         }
-        binding.searchBar.onKeyboardSearchClick {
-            hideKeyboard()
-        }
+        binding.searchBar.onKeyboardSearchClick {}
         binding.root.apply {
             isClickable = true
             isFocusable = true
             setOnClickListener {
-                hideKeyboard()
+                binding.searchBar.hideKeyboard()
             }
         }
 
         binding.rvSearchMovies.setOnClickListener {
-            hideKeyboard()
+            binding.searchBar.hideKeyboard()
         }
 
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
         }
     }
-    private fun hideKeyboard() {
-        val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
-        imm?.hideSoftInputFromWindow(binding.searchBar.getSearchWindowToken(), 0)
-        binding.searchBar.clearSearchFocus()
-    }
-
     private fun observeViewModel(){
         viewModel.searchResults.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movies ->

@@ -1,14 +1,15 @@
 package com.example.training_project.ui.detail
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.training_project.ui.base.BaseViewModel
 import com.example.training_project.data.model.Movie
 import com.example.training_project.data.repository.MovieRepository
 import com.example.training_project.utils.Resource
+import com.example.training_project.ui.base.LoadingType
 
-class DetailViewModel: BaseViewModel(){
+class DetailViewModel(application: Application) : BaseViewModel(application){
     private val repository = MovieRepository()
     private val _movie = MutableLiveData<Resource<Movie>>()
 
@@ -18,7 +19,8 @@ class DetailViewModel: BaseViewModel(){
     fun fetchMovieDetails(movieId: Long) {
         currentMovieId = movieId
         if (movieId == -1L) return
-        executeApi(_movie) {
+        _movie.value = Resource.Loading
+        executeApi(_movie, LoadingType.SHIMMER) {
             repository.getMovieDetailsFromApi(movieId)
         }
     }

@@ -27,9 +27,9 @@ class DetailActivity : BaseActivity() {
 
         movieId = intent.getLongExtra(EXTRA_MOVIE_ID, -1L)
 
-        setupListeners()
-        setupViewPager()
-        observeViewModel()
+        initView()
+        initListener()
+        observeLiveData()
 
         if (movieId != -1L) {
             viewModel.fetchMovieDetails(movieId)
@@ -38,7 +38,7 @@ class DetailActivity : BaseActivity() {
             viewModel.retry()
         }
     }
-    private fun setupListeners() {
+    override fun initListener() {
         binding.btnBack.setOnClickListener {
             finish()
         }
@@ -47,7 +47,7 @@ class DetailActivity : BaseActivity() {
         }
     }
 
-    private fun setupViewPager() {
+    override fun initView() {
         val pagerAdapter = DetailPagerAdapter(this)
         binding.viewPager.adapter = pagerAdapter
 
@@ -60,9 +60,9 @@ class DetailActivity : BaseActivity() {
             }
         }.attach()
     }
-    private fun observeViewModel() {
+    override fun observeLiveData() {
         viewModel.movie.observe(this) { resource ->
-            handleApiState(resource, binding.detailDataGroup, binding.progressBar) { movieData ->
+            handleApiState(resource, binding.progressBar,binding.detailDataGroup) { movieData ->
                 updateUI(movieData)
             }
         }

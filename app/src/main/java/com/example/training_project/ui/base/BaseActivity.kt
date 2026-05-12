@@ -4,7 +4,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.training_project.utils.Resource
 
-open class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
+
+    abstract fun initView()
+    open fun initListener() {}
+    open fun observeLiveData() {}
     fun <T> handleApiState(
         resource: Resource<T>,
         loadingView: View? = null,
