@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,24 +25,27 @@ class CastFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
+    override fun initView() {
         castAdapter = CastAdapter()
         binding.rvCast.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = castAdapter
         }
+    }
+
+    override fun initListener() {}
+
+    override fun observeLiveData() {
         sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movie ->
                 val castList = movie.credits?.cast ?: emptyList()
                 castAdapter.submitList(castList)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

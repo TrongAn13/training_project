@@ -34,19 +34,10 @@ class HomeFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupRecyclerViews()
-        setupListeners()
-        observeViewModel()
-        updateTabColors()
-    }
-
-    private fun setupRecyclerViews() {
+    override fun initView() {
         movieAdapter = HomeMovieAdapter { movie ->
             val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-                putExtra(DetailActivity.Companion.EXTRA_MOVIE_ID, movie.id ?: -1L)
+                putExtra(DetailActivity.EXTRA_MOVIE_ID, movie.id ?: -1L)
             }
             startActivity(intent)
         }
@@ -58,15 +49,15 @@ class HomeFragment : BaseFragment() {
 
         trendingAdapter = TrendingMovieAdapter { movie ->
             val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-                putExtra(DetailActivity.Companion.EXTRA_MOVIE_ID, movie.id ?: -1L)
+                putExtra(DetailActivity.EXTRA_MOVIE_ID, movie.id ?: -1L)
             }
             startActivity(intent)
         }
         binding.layoutTopHeader.rvTrendingMovies.adapter = trendingAdapter
+        updateTabColors()
     }
 
-    private fun setupListeners() {
-
+    override fun initListener() {
         binding.rvMovies.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -83,8 +74,6 @@ class HomeFragment : BaseFragment() {
                 }
             }
         })
-
-
         binding.tabNowPlaying.setOnClickListener { switchTabUI(MovieTab.NOW_PLAYING) }
         binding.tabUpcoming.setOnClickListener { switchTabUI(MovieTab.UPCOMING) }
         binding.tabTopRated.setOnClickListener { switchTabUI(MovieTab.TOP_RATED) }
@@ -108,8 +97,7 @@ class HomeFragment : BaseFragment() {
         binding.rvMovies.scrollToPosition(0)
     }
 
-    private fun observeViewModel() {
-
+    override fun observeLiveData() {
         viewModel.trendingMovies.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movies ->
                 trendingAdapter.submitList(movies)

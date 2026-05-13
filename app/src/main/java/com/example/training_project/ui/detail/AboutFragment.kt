@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.activityViewModels
 import com.example.training_project.R
@@ -24,9 +23,10 @@ class AboutFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initView() {}
 
+    override fun initListener() {}
+    override fun observeLiveData() {
         sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movie ->
                 if (!movie.overview.isNullOrEmpty()) {
@@ -37,7 +37,6 @@ class AboutFragment : BaseFragment() {
             }
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

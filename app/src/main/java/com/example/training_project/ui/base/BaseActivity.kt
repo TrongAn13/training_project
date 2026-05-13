@@ -1,5 +1,6 @@
 package com.example.training_project.ui.base
 
+import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.training_project.utils.Resource
@@ -7,8 +8,15 @@ import com.example.training_project.utils.Resource
 abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun initView()
-    open fun initListener() {}
-    open fun observeLiveData() {}
+    abstract fun initListener()
+    abstract fun observeLiveData()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initView()
+        initListener()
+        observeLiveData()
+    }
     fun <T> handleApiState(
         resource: Resource<T>,
         loadingView: View? = null,

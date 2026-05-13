@@ -26,61 +26,48 @@ class SearchFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        setupListeners()
-        observeViewModel()
-    }
-    private fun setupRecyclerView(){
+    override fun initView() {
+        bindLoadingViews(binding.progressBar, binding.rvSearchMovies)
         searchAdapter = SearchMovieAdapter { movie ->
             val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-                putExtra(DetailActivity.Companion.EXTRA_MOVIE_ID, movie.id ?: -1L)
+                putExtra(DetailActivity.EXTRA_MOVIE_ID, movie.id ?: -1L)
             }
             startActivity(intent)
         }
         binding.rvSearchMovies.apply {
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = searchAdapter
         }
     }
-    private fun setupListeners(){
+
+    override fun initListener() {
         binding.searchBar.focusAndShowKeyboard()
         binding.searchBar.onTextChanged { query ->
-        viewModel.searchMovies(query)
+            viewModel.searchMovies(query)
         }
         binding.searchBar.onKeyboardSearchClick {}
         binding.root.apply {
             isClickable = true
             isFocusable = true
-            setOnClickListener {
-                binding.searchBar.hideKeyboard()
-            }
+            setOnClickListener { binding.searchBar.hideKeyboard() }
         }
-
         binding.rvSearchMovies.setOnClickListener {
             binding.searchBar.hideKeyboard()
         }
-
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
         }
     }
-    private fun observeViewModel(){
+
+    override fun observeLiveData() {
         viewModel.searchResults.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movies ->
                 searchAdapter.submitList(movies)
             }
         }
-        viewModel.isEmpty.observe(viewLifecycleOwner){ isEmpty ->
-            if (isEmpty) {
-                binding.rvSearchMovies.visibility = View.GONE
-                binding.layoutEmpty.visibility = View.VISIBLE
-            } else {
-                binding.rvSearchMovies.visibility = View.VISIBLE
-                binding.layoutEmpty.visibility = View.GONE
-            }
+        viewModel.isEmpty.observe(viewLifecycleOwner) { isEmpty ->
+            binding.rvSearchMovies.visibility = if (isEmpty) View.GONE else View.VISIBLE
+            binding.layoutEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
         }
     }
 

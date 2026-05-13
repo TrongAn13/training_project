@@ -21,22 +21,10 @@ class DetailActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         movieId = intent.getLongExtra(EXTRA_MOVIE_ID, -1L)
-
-        initView()
-        initListener()
-        observeLiveData()
-
-        if (movieId != -1L) {
-            viewModel.fetchMovieDetails(movieId)
-        }
-        observeNetwork(binding.root) {
-            viewModel.retry()
-        }
+        super.onCreate(savedInstanceState)
     }
     override fun initListener() {
         binding.btnBack.setOnClickListener {
@@ -44,6 +32,9 @@ class DetailActivity : BaseActivity() {
         }
         binding.btnBookmark.setOnClickListener {
             Toast.makeText(this, R.string.save_movie, Toast.LENGTH_SHORT).show()
+        }
+        observeNetwork(binding.root) {
+            viewModel.retry()
         }
     }
 
@@ -62,9 +53,12 @@ class DetailActivity : BaseActivity() {
     }
     override fun observeLiveData() {
         viewModel.movie.observe(this) { resource ->
-            handleApiState(resource, binding.progressBar,binding.detailDataGroup) { movieData ->
-                updateUI(movieData)
+            handleApiState(resource, binding.progressBar, binding.detailDataGroup) {
+                updateUI(it)
             }
+        }
+        if (movieId != -1L) {
+            viewModel.fetchMovieDetails(movieId)
         }
     }
 

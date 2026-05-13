@@ -14,6 +14,7 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import kotlin.coroutines.cancellation.CancellationException
+import retrofit2.HttpException
 
 enum class LoadingType {
     NONE,
@@ -30,6 +31,14 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
             is UnknownHostException -> context.getString(R.string.error_no_network)
             is SocketTimeoutException -> context.getString(R.string.error_timeout)
             is IOException -> context.getString(R.string.error_network_connection)
+            is HttpException -> {
+                when (e.code()) {
+                    401 -> context.getString(R.string.error_401)
+                    404 -> context.getString(R.string.error_404)
+                    500 -> context.getString(R.string.error_500)
+                    else -> context.getString(R.string.error_http_unknow) + e.code()
+                }
+            }
             else -> e.message ?: context.getString(R.string.error_unknown)
         }
     }

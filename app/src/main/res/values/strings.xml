@@ -48,6 +48,10 @@
     <string name="error_timeout">Kết nối quá chậm</string>
     <string name="error_network_connection">Lỗi kết nối mạng</string>
     <string name="error_unknown">Đã xảy ra lỗi</string>
+    <string name="error_401">Hết phiên đăng nhập, vui lòng thử lại</string>
+    <string name="error_404">Không tìm thấy dữ liệu yêu cầu</string>
+    <string name="error_500">Lỗi hệ thống phía máy chủ</string>
+    <string name="error_http_unknow">Lỗi kết nối:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
