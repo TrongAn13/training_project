@@ -22,7 +22,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application){
         }
 
         searchResults.value = Resource.Loading
-        executeApi(searchResults, LoadingType.SHIMMER) {
+        executeApi(searchResults, LoadingType.NORMAL) {
             val response = repository.searchMoviesFromApi(query)
             val results = response.results ?: emptyList()
             isEmpty.postValue( results.isEmpty())

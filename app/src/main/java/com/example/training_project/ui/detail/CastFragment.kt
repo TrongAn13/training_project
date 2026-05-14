@@ -8,14 +8,12 @@ import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.training_project.databinding.FragmentCastBinding
-
-class CastFragment : BaseFragment() {
-
+class CastFragment: BaseFragment() {
     private var _binding: FragmentCastBinding? = null
     private val binding get() = _binding!!
     private lateinit var castAdapter: CastAdapter
+    override val viewModel: DetailViewModel by activityViewModels()
 
-    private val sharedViewModel: DetailViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +39,7 @@ class CastFragment : BaseFragment() {
     override fun initListener() {}
 
     override fun observeLiveData() {
-        sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
+        viewModel.movie.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movie ->
                 val castList = movie.credits?.cast ?: emptyList()
                 castAdapter.submitList(castList)

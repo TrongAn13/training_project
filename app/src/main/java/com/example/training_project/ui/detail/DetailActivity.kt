@@ -16,7 +16,7 @@ class DetailActivity : BaseActivity() {
         const val EXTRA_MOVIE_ID = "MOVIE_ID"
     }
     private lateinit var binding: ActivityDetailBinding
-    private val viewModel: DetailViewModel by viewModels()
+    override val viewModel: DetailViewModel by viewModels()
     private var movieId = -1L
 
 
@@ -53,7 +53,7 @@ class DetailActivity : BaseActivity() {
     }
     override fun observeLiveData() {
         viewModel.movie.observe(this) { resource ->
-            handleApiState(resource, binding.progressBar, binding.detailDataGroup) {
+            handleApiState(resource) {
                 updateUI(it)
             }
         }

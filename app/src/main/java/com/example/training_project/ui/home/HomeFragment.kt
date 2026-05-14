@@ -20,7 +20,7 @@ class HomeFragment : BaseFragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomeViewModel by viewModels()
+    override val viewModel: HomeViewModel by viewModels()
     private lateinit var movieAdapter: HomeMovieAdapter
     private lateinit var trendingAdapter: TrendingMovieAdapter
     private var isPaginating = false

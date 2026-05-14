@@ -16,7 +16,7 @@ class SearchFragment : BaseFragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var searchAdapter: SearchMovieAdapter
-    private val viewModel: SearchViewModel by viewModels()
+    override val viewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +27,6 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun initView() {
-        bindLoadingViews(binding.progressBar, binding.rvSearchMovies)
         searchAdapter = SearchMovieAdapter { movie ->
             val intent = Intent(requireContext(), DetailActivity::class.java).apply {
                 putExtra(DetailActivity.EXTRA_MOVIE_ID, movie.id ?: -1L)

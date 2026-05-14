@@ -43,10 +43,14 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
     protected fun <T> executeApi(liveData: MutableLiveData<Resource<T>>, type : LoadingType = LoadingType.NORMAL, apiCall: suspend () -> T) {
-//
-        if(type == LoadingType.NORMAL){
-            liveData.value = Resource.Loading
-            isLoading.value = true
+        when (type) {
+            LoadingType.NORMAL -> {
+                isLoading.value = true
+            }
+            LoadingType.SHIMMER -> {
+                liveData.value = Resource.Loading
+            }
+            LoadingType.NONE -> Unit
         }
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->

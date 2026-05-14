@@ -20,7 +20,7 @@ class DetailViewModel(application: Application) : BaseViewModel(application){
         currentMovieId = movieId
         if (movieId == -1L) return
         _movie.value = Resource.Loading
-        executeApi(_movie, LoadingType.SHIMMER) {
+        executeApi(_movie, LoadingType.NORMAL) {
             repository.getMovieDetailsFromApi(movieId)
         }
     }

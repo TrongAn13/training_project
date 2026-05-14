@@ -14,7 +14,7 @@ class ReviewsFragment : BaseFragment() {
     private var _binding: FragmentReviewsBinding? = null
     private val binding get() = _binding!!
     private lateinit var reviewAdapter: ReviewAdapter
-    private val sharedViewModel: DetailViewModel by activityViewModels()
+    override val viewModel: DetailViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +35,7 @@ class ReviewsFragment : BaseFragment() {
     override fun initListener() {}
     override fun observeLiveData() {
 
-        sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
+        viewModel.movie.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movie ->
                 val reviewList = movie.reviews?.results ?: emptyList()
                 reviewAdapter.submitList(reviewList)

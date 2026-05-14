@@ -11,7 +11,7 @@ import com.example.training_project.databinding.FragmentAboutBinding
 
 class AboutFragment : BaseFragment() {
     private var _binding: FragmentAboutBinding? = null
-    private val sharedViewModel: DetailViewModel by activityViewModels()
+    override val viewModel: DetailViewModel by activityViewModels()
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -27,7 +27,7 @@ class AboutFragment : BaseFragment() {
 
     override fun initListener() {}
     override fun observeLiveData() {
-        sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
+        viewModel.movie.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movie ->
                 if (!movie.overview.isNullOrEmpty()) {
                     binding.tvAboutDescription.text = movie.overview
