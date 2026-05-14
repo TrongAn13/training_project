@@ -3,7 +3,6 @@ package com.example.training_project.ui.base
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.training_project.utils.Resource
-import com.example.training_project.R
 
 abstract class BaseActivity : AppCompatActivity() {
     abstract val viewModel: BaseViewModel
@@ -11,6 +10,7 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun initView()
     abstract fun initListener()
     abstract fun observeLiveData()
+    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,8 +19,6 @@ abstract class BaseActivity : AppCompatActivity() {
         observeBaseState()
         observeLiveData()
     }
-    private var loadingDialog: android.app.Dialog? = null
-
     private fun observeBaseState() {
         viewModel.isLoading.observe(this) { isLoading ->
             if (isLoading) showLoading() else hideLoading()
@@ -36,21 +34,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected open fun showLoading() {
         if (loadingDialog == null) {
-            loadingDialog = android.app.Dialog(this).apply {
-                setContentView(R.layout.layout_loading_dialog)
-                window?.setBackgroundDrawableResource(android.R.color.transparent)
-                setCancelable(false)
-            }
+            loadingDialog = LoadingDialog(this)
         }
-        if (loadingDialog?.isShowing == false) {
-            loadingDialog?.show()
-        }
+        loadingDialog?.show()
     }
 
     protected open fun hideLoading() {
-        if (loadingDialog?.isShowing == true) {
-            loadingDialog?.dismiss()
-        }
+        loadingDialog?.dismiss()
     }
 
     protected open fun showError(message: String) {

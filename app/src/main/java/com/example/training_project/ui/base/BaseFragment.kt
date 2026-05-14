@@ -10,7 +10,7 @@ abstract class BaseFragment: Fragment() {
     abstract fun initView()
     abstract fun initListener()
     abstract fun observeLiveData()
-    private var loadingDialog: android.app.Dialog? = null
+    private var loadingDialog: LoadingDialog? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,15 +35,8 @@ abstract class BaseFragment: Fragment() {
 
     protected open fun showLoading() {
         if (loadingDialog == null) {
-            loadingDialog = android.app.Dialog(requireContext()).apply {
-                setContentView(com.example.training_project.R.layout.layout_loading_dialog)
-                window?.setBackgroundDrawableResource(android.R.color.transparent)
-                setCancelable(false)
-            }
-        }
-
-        if (loadingDialog?.isShowing != true) {
-            loadingDialog?.show()
+            loadingDialog = LoadingDialog(requireContext())
+            loadingDialog?.IfNotShowing()
         }
     }
     protected open fun hideLoading() {
