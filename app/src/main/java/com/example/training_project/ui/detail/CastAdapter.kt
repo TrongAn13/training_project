@@ -1,4 +1,4 @@
-package com.example.training_project
+package com.example.training_project.ui.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.training_project.R
+import com.example.training_project.data.model.Cast
 import com.example.training_project.databinding.ItemCastBinding
-import com.example.training_project.network.Cast
 
 class CastAdapter : ListAdapter<Cast, CastAdapter.CastViewHolder>(CastDiffCallback()) {
 

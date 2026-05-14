@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_40"
-        android:text="Search"
+        android:text="@string/search_tab"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_xlarge"
         android:textStyle="bold"
@@ -42,7 +42,7 @@
         app:layout_constraintVertical_bias="1.0"
         app:tint="@color/white" />
 
-    <com.example.training_project.CustomSearchBar
+    <com.example.training_project.utils.CustomSearchBar
         android:id="@+id/searchBar"
         android:layout_width="@dimen/none" android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_large"
@@ -100,5 +100,15 @@
             android:textSize="@dimen/text_size_medium" />
 
     </LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminateDrawable="@drawable/layout_custom_loading"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

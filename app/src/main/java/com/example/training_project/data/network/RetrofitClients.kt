@@ -1,4 +1,4 @@
-package com.example.training_project.network
+package com.example.training_project.data.network
 
 import com.example.training_project.BuildConfig
 import okhttp3.Interceptor

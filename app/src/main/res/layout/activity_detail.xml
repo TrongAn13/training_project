@@ -79,7 +79,7 @@
             android:backgroundTint="@color/background_dark"
             android:paddingHorizontal="@dimen/padding_small"
             android:paddingVertical="@dimen/dp_4"
-            android:text="@string/detail_rating_badge"
+            android:text=""
             android:drawableStart="@drawable/ic_star"
             android:drawablePadding="@dimen/padding_ssmall"
             android:textColor="@color/rating_orange"
@@ -94,85 +94,82 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/dp_12"
             android:layout_marginEnd="@dimen/margin_large"
-            android:text="@string/detail_movie_name"
+            android:text=""
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_xlarge"
+            android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cardPoster"
             app:layout_constraintTop_toBottomOf="@id/imgBanner" />
 
+    <LinearLayout
+        android:id="@+id/layoutMovieInfo"
+        android:layout_width="@dimen/none"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_large"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardPoster">
+
         <TextView
             android:id="@+id/tvInfoYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
-            android:text="@string/detail_year"
-            android:textColor="@color/text_secondary_gray"
-            android:textSize="@dimen/text_size_small"
             android:drawableStart="@drawable/calendarblank"
-            app:layout_constraintEnd_toStartOf="@id/dividerYearDuration"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardPoster" />
+                android:drawablePadding="@dimen/dp_4"
+                android:text=""
+                android:textColor="@color/text_secondary_gray"
+                android:textSize="@dimen/text_size_small" />
 
-        <View
-            android:id="@+id/dividerYearDuration"
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="@dimen/dp_14"
-            android:layout_marginStart="@dimen/dp_12"
-            android:layout_marginEnd="@dimen/dp_12"
-            android:background="@color/text_secondary_gray"
-            app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
-            app:layout_constraintEnd_toStartOf="@id/tvInfoDuration"
-            app:layout_constraintStart_toEndOf="@id/tvInfoYear"
-            app:layout_constraintTop_toTopOf="@id/tvInfoYear" />
+            <View
+                android:id="@+id/dividerYearDuration"
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="@dimen/dp_14"
+                android:layout_marginStart="@dimen/dp_12"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:background="@color/text_secondary_gray" />
 
-        <TextView
-            android:id="@+id/tvInfoDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/detail_duration"
-            android:textColor="@color/text_secondary_gray"
-            android:textSize="@dimen/text_size_small"
-            android:drawableStart="@drawable/clock"
-            app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
-            app:layout_constraintEnd_toStartOf="@id/dividerDurationGenre"
-            app:layout_constraintStart_toEndOf="@id/dividerYearDuration"
-            app:layout_constraintTop_toTopOf="@id/tvInfoYear" />
+            <TextView
+                android:id="@+id/tvInfoDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/clock"
+                android:drawablePadding="@dimen/dp_4"
+                android:text=""
+                android:textColor="@color/text_secondary_gray"
+                android:textSize="@dimen/text_size_small" />
 
-        <View
-            android:id="@+id/dividerDurationGenre"
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="@dimen/dp_14"
-            android:layout_marginStart="@dimen/dp_12"
-            android:layout_marginEnd="@dimen/dp_12"
-            android:background="@color/text_secondary_gray"
-            app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
-            app:layout_constraintEnd_toStartOf="@id/tvInfoGenre"
-            app:layout_constraintStart_toEndOf="@id/tvInfoDuration"
-            app:layout_constraintTop_toTopOf="@id/tvInfoYear" />
+            <View
+                android:id="@+id/dividerDurationGenre"
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="@dimen/dp_14"
+                android:layout_marginStart="@dimen/dp_12"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:background="@color/text_secondary_gray" />
 
-        <TextView
-            android:id="@+id/tvInfoGenre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/detail_genre"
-            android:textColor="@color/text_secondary_gray"
-            android:textSize="@dimen/text_size_small"
-            android:drawableStart="@drawable/ticket"
-            app:layout_constraintBottom_toBottomOf="@id/tvInfoYear"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/dividerDurationGenre"
-            app:layout_constraintTop_toTopOf="@id/tvInfoYear" />
+            <TextView
+                android:id="@+id/tvInfoGenre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ticket"
+                android:drawablePadding="@dimen/dp_4"
+                android:text=""
+                android:textColor="@color/text_secondary_gray"
+                android:textSize="@dimen/text_size_small" />
 
+        </LinearLayout>
+t
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xlarge"
             android:background="@android:color/transparent"
-            app:layout_constraintTop_toBottomOf="@id/tvInfoYear"
+            app:layout_constraintTop_toBottomOf="@id/layoutMovieInfo"
             app:tabIndicatorColor="@color/search_background"
             app:tabIndicatorHeight="@dimen/dp_4"
             app:tabIndicatorFullWidth="false"
@@ -188,5 +185,4 @@
             android:layout_marginTop="@dimen/margin_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tabLayout" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>

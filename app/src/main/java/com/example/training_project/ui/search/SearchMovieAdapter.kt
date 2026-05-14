@@ -1,4 +1,4 @@
-package com.example.training_project
+package com.example.training_project.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.training_project.ui.home.HomeMovieAdapter
+import com.example.training_project.data.model.Movie
 import com.example.training_project.databinding.ItemSearchMovieBinding
-import com.example.training_project.network.Movie
 
 class SearchMovieAdapter(
     private val onItemClick: (Movie) -> Unit

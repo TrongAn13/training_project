@@ -1,18 +1,20 @@
-package com.example.training_project
+package com.example.training_project.ui.detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.training_project.ui.base.BaseFragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.training_project.databinding.FragmentReviewsBinding
 
-class ReviewsFragment : Fragment() {
+class ReviewsFragment : BaseFragment() {
 
     private var _binding: FragmentReviewsBinding? = null
     private val binding get() = _binding!!
     private lateinit var reviewAdapter: ReviewAdapter
+    override val viewModel: DetailViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,19 +24,22 @@ class ReviewsFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        
+    override fun initView() {
         reviewAdapter = ReviewAdapter()
         binding.rvReviews.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = reviewAdapter
         }
+    }
 
-        val activity = activity as? DetailActivity
-        activity?.movieLiveData?.observe(viewLifecycleOwner) { movie ->
-            val reviews = movie.reviews?.results ?: emptyList()
-            reviewAdapter.submitList(reviews)
+    override fun initListener() {}
+    override fun observeLiveData() {
+
+        viewModel.movie.observe(viewLifecycleOwner) { resource ->
+            handleApiState(resource) { movie ->
+                val reviewList = movie.reviews?.results ?: emptyList()
+                reviewAdapter.submitList(reviewList)
+            }
         }
     }
 
@@ -42,4 +47,6 @@ class ReviewsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
