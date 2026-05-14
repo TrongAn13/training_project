@@ -18,40 +18,31 @@ class DetailActivity : BaseActivity() {
         const val EXTRA_MOVIE_ID = "MOVIE_ID"
     }
     private lateinit var binding: ActivityDetailBinding
-    private val viewModel: DetailViewModel by viewModels {
+    override val viewModel: DetailViewModel by viewModels {
         ViewModelFactory((application as MovieApplication).movieUseCases)
     }
     private var movieId = -1L
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         movieId = intent.getLongExtra(EXTRA_MOVIE_ID, -1L)
-
-        setupListeners()
-        setupViewPager()
-        observeViewModel()
-
-        if (movieId != -1L) {
-            viewModel.fetchMovieDetails(movieId)
-        }
-        observeNetwork(binding.root) {
-            viewModel.retry()
-        }
+        super.onCreate(savedInstanceState)
     }
-    private fun setupListeners() {
+    override fun initListener() {
         binding.btnBack.setOnClickListener {
             finish()
         }
         binding.btnBookmark.setOnClickListener {
             Toast.makeText(this, R.string.save_movie, Toast.LENGTH_SHORT).show()
         }
+        observeNetwork(binding.root) {
+            viewModel.retry()
+        }
     }
 
-    private fun setupViewPager() {
+    override fun initView() {
         val pagerAdapter = DetailPagerAdapter(this)
         binding.viewPager.adapter = pagerAdapter
 
@@ -64,11 +55,14 @@ class DetailActivity : BaseActivity() {
             }
         }.attach()
     }
-    private fun observeViewModel() {
+    override fun observeLiveData() {
         viewModel.movie.observe(this) { resource ->
-            handleApiState(resource, binding.progressBar,binding.detailDataGroup) { movieData ->
-                updateUI(movieData)
+            handleApiState(resource) {
+                updateUI(it)
             }
+        }
+        if (movieId != -1L) {
+            viewModel.fetchMovieDetails(movieId)
         }
     }
 

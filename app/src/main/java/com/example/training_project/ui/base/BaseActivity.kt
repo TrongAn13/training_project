@@ -1,33 +1,63 @@
 package com.example.training_project.ui.base
 
-import android.view.View
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.training_project.utils.Resource
 
-open class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
+    abstract val viewModel: BaseViewModel
+
+    abstract fun initView()
+    abstract fun initListener()
+    abstract fun observeLiveData()
+    private var loadingDialog: LoadingDialog? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initView()
+        initListener()
+        observeBaseState()
+        observeLiveData()
+    }
+    private fun observeBaseState() {
+        viewModel.isLoading.observe(this) { isLoading ->
+            if (isLoading) showLoading() else hideLoading()
+        }
+
+        viewModel.globalError.observe(this) { message ->
+            message?.let {
+                showError(it)
+                viewModel.globalError.value = null
+            }
+        }
+    }
+
+    protected open fun showLoading() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog(this)
+        }
+        loadingDialog?.show()
+    }
+
+    protected open fun hideLoading() {
+        loadingDialog?.dismiss()
+    }
+
+    protected open fun showError(message: String) {
+        android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_SHORT).show()
+    }
+
     fun <T> handleApiState(
         resource: Resource<T>,
-        loadingView: View? = null,
-        contentView: View? = null,
-        showError: Boolean = true,
         onSuccess: (T) -> Unit
     ) {
         when (resource) {
-            is Resource.Loading -> {
-                loadingView?.visibility = View.VISIBLE
-                contentView?.visibility = View.INVISIBLE
+            is Resource.Success -> {
+                onSuccess(resource.data)
             }
             is Resource.Error -> {
-                loadingView?.visibility = View.GONE
-                contentView?.visibility = View.INVISIBLE
-                if (showError && resource.message.isNotEmpty()) {
-                    android.widget.Toast.makeText(this, resource.message, android.widget.Toast.LENGTH_SHORT).show()
-                }
             }
-            is Resource.Success -> {
-                loadingView?.visibility = View.GONE
-                contentView?.visibility = View.VISIBLE
-                onSuccess(resource.data)
+            is Resource.Loading -> {
             }
         }
     }

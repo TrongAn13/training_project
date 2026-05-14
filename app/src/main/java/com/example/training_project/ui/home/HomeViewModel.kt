@@ -1,27 +1,30 @@
 package com.example.training_project.ui.home
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.training_project.data.repository.MovieRepositoryImpl
 import com.example.training_project.domain.model.Movie
 import com.example.training_project.domain.usecase.MovieUseCases
 import com.example.training_project.ui.base.BaseViewModel
+import com.example.training_project.ui.base.BaseViewModel
+import com.example.training_project.data.model.Movie
+import com.example.training_project.data.repository.MovieRepository
 import com.example.training_project.utils.Resource
-import kotlinx.coroutines.launch
-import kotlin.coroutines.cancellation.CancellationException
+import com.example.training_project.ui.base.LoadingType
 
 enum class MovieTab {
     NOW_PLAYING, UPCOMING, TOP_RATED, POPULAR
 }
 
-class HomeViewModel(private val useCases: MovieUseCases) : BaseViewModel() {
+class HomeViewModel(application: Application,private val useCases: MovieUseCases) : BaseViewModel(application) {
     var currentTab = MovieTab.NOW_PLAYING
         private set
     var currentPage = 1
         private set
-    var isLoading = false
+    var canLoadMore = true
         private set
-    
+
     val trendingMovies = MutableLiveData<Resource<List<Movie>>>()
     val tabMovies = MutableLiveData<Resource<List<Movie>>>()
     val isRefreshing = MutableLiveData<Boolean>()
@@ -34,17 +37,19 @@ class HomeViewModel(private val useCases: MovieUseCases) : BaseViewModel() {
         if (currentTab == tab) return
         currentTab = tab
         currentPage = 1
+        canLoadMore = true
         fetchMovies()
     }
 
     fun loadNextPage() {
-        if (isLoading) return
+        if (!canLoadMore) return
         currentPage++
         fetchMovies()
     }
 
     fun refreshData() {
         currentPage = 1
+        canLoadMore = true
         isRefreshing.value = true
         fetchTrendingMovies()
         fetchMovies()
@@ -60,9 +65,14 @@ class HomeViewModel(private val useCases: MovieUseCases) : BaseViewModel() {
         isLoading = true
         if (currentPage == 1 && isRefreshing.value != true) {
             tabMovies.value = Resource.Loading
+    private fun fetchMovies() {
+        val loadingType = if (currentPage == 1 && isRefreshing.value != true) {
+            LoadingType.SHIMMER
+        } else {
+            LoadingType.NONE
         }
 
-        viewModelScope.launch {
+        executeApi(tabMovies, loadingType) {
             try {
                 val results = when (currentTab) {
                     MovieTab.NOW_PLAYING -> useCases.getMovies("nowplaying", currentPage)

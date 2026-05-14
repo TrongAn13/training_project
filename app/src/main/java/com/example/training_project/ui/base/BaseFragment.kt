@@ -1,34 +1,62 @@
 package com.example.training_project.ui.base
 
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.training_project.utils.Resource
 
-open class BaseFragment: Fragment() {
-    fun <T> handleApiState(
-        resource: Resource<T>,
-        loadingView: View? = null,
-        contentView: View? = null,
-        showError: Boolean = false,
-        onSuccess: (T) -> Unit
-    ) {
-        when (resource) {
-            is Resource.Loading -> {
-                loadingView?.visibility = View.VISIBLE
-                contentView?.visibility = View.INVISIBLE
-            }
-            is Resource.Error -> {
-                loadingView?.visibility = View.GONE
-                contentView?.visibility = View.INVISIBLE
-                if (showError && resource.message.isNotEmpty()) {
-                    android.widget.Toast.makeText(requireContext(), resource.message, android.widget.Toast.LENGTH_SHORT).show()
-                }
-            }
-            is Resource.Success -> {
-                loadingView?.visibility = View.GONE
-                contentView?.visibility = View.VISIBLE
-                onSuccess(resource.data)
+abstract class BaseFragment: Fragment() {
+    abstract val viewModel: BaseViewModel
+    abstract fun initView()
+    abstract fun initListener()
+    abstract fun observeLiveData()
+    private var loadingDialog: LoadingDialog? = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initListener()
+        observeBaseState()
+        observeLiveData()
+    }
+
+    private fun observeBaseState() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) showLoading() else hideLoading()
+        }
+
+        viewModel.globalError.observe(viewLifecycleOwner) { message ->
+            message?.let {
+                showError(it)
+                viewModel.globalError.value = null
             }
         }
     }
+
+    protected open fun showLoading() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog(requireContext())
+            loadingDialog?.IfNotShowing()
+        }
+    }
+    protected open fun hideLoading() {
+        loadingDialog?.dismiss()
+    }
+    protected open fun showError(message: String) {
+        android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_SHORT).show()
+    }
+
+    fun <T> handleApiState(
+        resource: Resource<T>,
+        onSuccess: (T) -> Unit
+    ) {
+        when (resource) {
+            is Resource.Success -> {
+                onSuccess(resource.data)
+            }
+            is Resource.Error -> {}
+            is Resource.Loading -> {}
+        }
+    }
+
 }

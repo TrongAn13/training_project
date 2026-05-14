@@ -7,16 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.example.training_project.ui.base.BaseFragment
+import com.example.training_project.utils.Resource
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.training_project.MovieApplication
 import com.example.training_project.ui.detail.DetailActivity
-import com.example.training_project.ui.home.HomeMovieAdapter
 import com.example.training_project.R
-import com.example.training_project.ui.home.TrendingMovieAdapter
 import com.example.training_project.databinding.FragmentHomeBinding
 import com.example.training_project.ui.base.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,11 +23,12 @@ class HomeFragment : BaseFragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomeViewModel by viewModels {
+    override val viewModel: HomeViewModel by viewModels {
         ViewModelFactory((requireActivity().application as MovieApplication).movieUseCases)
     }
     private lateinit var movieAdapter: HomeMovieAdapter
     private lateinit var trendingAdapter: TrendingMovieAdapter
+    private var isPaginating = false
     private val threshold = 6
 
     override fun onCreateView(
@@ -40,19 +39,10 @@ class HomeFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupRecyclerViews()
-        setupListeners()
-        observeViewModel()
-        updateTabColors()
-    }
-
-    private fun setupRecyclerViews() {
+    override fun initView() {
         movieAdapter = HomeMovieAdapter { movie ->
             val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-                putExtra(DetailActivity.Companion.EXTRA_MOVIE_ID, movie.id ?: -1L)
+                putExtra(DetailActivity.EXTRA_MOVIE_ID, movie.id ?: -1L)
             }
             startActivity(intent)
         }
@@ -64,15 +54,15 @@ class HomeFragment : BaseFragment() {
 
         trendingAdapter = TrendingMovieAdapter { movie ->
             val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-                putExtra(DetailActivity.Companion.EXTRA_MOVIE_ID, movie.id ?: -1L)
+                putExtra(DetailActivity.EXTRA_MOVIE_ID, movie.id ?: -1L)
             }
             startActivity(intent)
         }
         binding.layoutTopHeader.rvTrendingMovies.adapter = trendingAdapter
+        updateTabColors()
     }
 
-    private fun setupListeners() {
-
+    override fun initListener() {
         binding.rvMovies.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -82,15 +72,13 @@ class HomeFragment : BaseFragment() {
                     val totalItemCount = layoutManager.itemCount
                     val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
 
-
-                    if (!viewModel.isLoading && (visibleItemCount + pastVisibleItems) >= totalItemCount - threshold) {
+                    if (!isPaginating && viewModel.canLoadMore && (visibleItemCount + pastVisibleItems) >= totalItemCount - threshold) {
+                        isPaginating = true
                         viewModel.loadNextPage()
                     }
                 }
             }
         })
-
-
         binding.tabNowPlaying.setOnClickListener { switchTabUI(MovieTab.NOW_PLAYING) }
         binding.tabUpcoming.setOnClickListener { switchTabUI(MovieTab.UPCOMING) }
         binding.tabTopRated.setOnClickListener { switchTabUI(MovieTab.TOP_RATED) }
@@ -114,8 +102,7 @@ class HomeFragment : BaseFragment() {
         binding.rvMovies.scrollToPosition(0)
     }
 
-    private fun observeViewModel() {
-
+    override fun observeLiveData() {
         viewModel.trendingMovies.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movies ->
                 trendingAdapter.submitList(movies)
@@ -123,6 +110,9 @@ class HomeFragment : BaseFragment() {
         }
 
         viewModel.tabMovies.observe(viewLifecycleOwner) { resource ->
+            if (resource !is Resource.Loading) {
+                isPaginating = false
+            }
             handleApiState(resource) { movies ->
                 movieAdapter.submitList(movies)
             }

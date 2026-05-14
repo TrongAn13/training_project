@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.activityViewModels
 import com.example.training_project.R
@@ -12,7 +11,7 @@ import com.example.training_project.databinding.FragmentAboutBinding
 
 class AboutFragment : BaseFragment() {
     private var _binding: FragmentAboutBinding? = null
-    private val sharedViewModel: DetailViewModel by activityViewModels()
+    override val viewModel: DetailViewModel by activityViewModels()
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -24,10 +23,11 @@ class AboutFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initView() {}
 
-        sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
+    override fun initListener() {}
+    override fun observeLiveData() {
+        viewModel.movie.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movie ->
                 if (!movie.overview.isNullOrEmpty()) {
                     binding.tvAboutDescription.text = movie.overview
@@ -37,7 +37,6 @@ class AboutFragment : BaseFragment() {
             }
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

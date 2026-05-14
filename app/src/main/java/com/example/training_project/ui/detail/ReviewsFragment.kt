@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.training_project.ui.base.BaseFragment
@@ -14,7 +15,7 @@ class ReviewsFragment : BaseFragment() {
     private var _binding: FragmentReviewsBinding? = null
     private val binding get() = _binding!!
     private lateinit var reviewAdapter: ReviewAdapter
-    private val sharedViewModel: DetailViewModel by activityViewModels()
+    override val viewModel: DetailViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,15 +25,18 @@ class ReviewsFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initView() {
         reviewAdapter = ReviewAdapter()
         binding.rvReviews.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = reviewAdapter
         }
-        sharedViewModel.movie.observe(viewLifecycleOwner) { resource ->
+    }
+
+    override fun initListener() {}
+    override fun observeLiveData() {
+
+        viewModel.movie.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movie ->
                 reviewAdapter.submitList(movie.reviews)
             }
@@ -43,4 +47,6 @@ class ReviewsFragment : BaseFragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

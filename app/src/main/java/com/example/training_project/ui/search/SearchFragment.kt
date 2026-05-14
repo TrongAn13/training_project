@@ -20,7 +20,7 @@ class SearchFragment : BaseFragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var searchAdapter: SearchMovieAdapter
-    private val viewModel: SearchViewModel by viewModels {
+    override val viewModel: SearchViewModel by viewModels {
         ViewModelFactory((requireActivity().application as MovieApplication).movieUseCases)
     }
 
@@ -32,69 +32,47 @@ class SearchFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        setupListeners()
-        observeViewModel()
-    }
-    private fun setupRecyclerView(){
+    override fun initView() {
         searchAdapter = SearchMovieAdapter { movie ->
             val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-                putExtra(DetailActivity.Companion.EXTRA_MOVIE_ID, movie.id ?: -1L)
+                putExtra(DetailActivity.EXTRA_MOVIE_ID, movie.id ?: -1L)
             }
             startActivity(intent)
         }
         binding.rvSearchMovies.apply {
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = searchAdapter
         }
     }
-    private fun setupListeners(){
+
+    override fun initListener() {
         binding.searchBar.focusAndShowKeyboard()
         binding.searchBar.onTextChanged { query ->
-        viewModel.searchMovies(query)
+            viewModel.searchMovies(query)
         }
-        binding.searchBar.onKeyboardSearchClick {
-            hideKeyboard()
-        }
+        binding.searchBar.onKeyboardSearchClick {}
         binding.root.apply {
             isClickable = true
             isFocusable = true
-            setOnClickListener {
-                hideKeyboard()
-            }
+            setOnClickListener { binding.searchBar.hideKeyboard() }
         }
-
         binding.rvSearchMovies.setOnClickListener {
-            hideKeyboard()
+            binding.searchBar.hideKeyboard()
         }
-
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
         }
     }
-    private fun hideKeyboard() {
-        val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
-        imm?.hideSoftInputFromWindow(binding.searchBar.getSearchWindowToken(), 0)
-        binding.searchBar.clearSearchFocus()
-    }
 
-    private fun observeViewModel(){
+    override fun observeLiveData() {
         viewModel.searchResults.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movies ->
                 searchAdapter.submitList(movies)
             }
         }
-        viewModel.isEmpty.observe(viewLifecycleOwner){ isEmpty ->
-            if (isEmpty) {
-                binding.rvSearchMovies.visibility = View.GONE
-                binding.layoutEmpty.visibility = View.VISIBLE
-            } else {
-                binding.rvSearchMovies.visibility = View.VISIBLE
-                binding.layoutEmpty.visibility = View.GONE
-            }
+        viewModel.isEmpty.observe(viewLifecycleOwner) { isEmpty ->
+            binding.rvSearchMovies.visibility = if (isEmpty) View.GONE else View.VISIBLE
+            binding.layoutEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
         }
     }
 
