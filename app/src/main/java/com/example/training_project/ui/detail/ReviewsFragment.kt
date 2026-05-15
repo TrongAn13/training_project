@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.training_project.ui.base.BaseFragment
 import com.example.training_project.databinding.FragmentReviewsBinding
 
 class ReviewsFragment : BaseFragment() {

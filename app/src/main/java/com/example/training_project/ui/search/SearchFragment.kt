@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat
 import com.example.training_project.ui.base.BaseFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,7 +19,7 @@ class SearchFragment : BaseFragment() {
     private val binding get() = _binding!!
     private lateinit var searchAdapter: SearchMovieAdapter
     override val viewModel: SearchViewModel by viewModels {
-        ViewModelFactory((requireActivity().application as MovieApplication).movieUseCases)
+        ViewModelFactory(application = requireActivity().application, useCases = ((requireActivity().application as MovieApplication).movieUseCases))
     }
 
     override fun onCreateView(

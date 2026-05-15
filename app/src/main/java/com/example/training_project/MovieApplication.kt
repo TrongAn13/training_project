@@ -2,9 +2,11 @@ package com.example.training_project
 
 import android.app.Application
 import com.example.training_project.data.repository.MovieRepositoryImpl
+import com.example.training_project.domain.usecase.GetCachedMoviesUseCase
 import com.example.training_project.domain.usecase.GetMovieDetailsUseCase
 import com.example.training_project.domain.usecase.GetMoviesUseCase
 import com.example.training_project.domain.usecase.MovieUseCases
+import com.example.training_project.domain.usecase.RefreshMoviesUseCase
 import com.example.training_project.domain.usecase.SearchMoviesUseCase
 
 class MovieApplication : Application() {
@@ -22,7 +24,11 @@ class MovieApplication : Application() {
 
             searchMovies = SearchMoviesUseCase(repository),
 
-            getMovieDetails = GetMovieDetailsUseCase(repository)
+            getMovieDetails = GetMovieDetailsUseCase(repository),
+
+            getCachedMovies = GetCachedMoviesUseCase(repository),
+
+            refreshMovies = RefreshMoviesUseCase(repository)
         )
     }
 }

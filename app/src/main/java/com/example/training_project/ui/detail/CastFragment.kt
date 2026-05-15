@@ -41,8 +41,7 @@ class CastFragment: BaseFragment() {
     override fun observeLiveData() {
         viewModel.movie.observe(viewLifecycleOwner) { resource ->
             handleApiState(resource) { movie ->
-                val castList = movie.credits?.cast ?: emptyList()
-                castAdapter.submitList(castList)
+                castAdapter.submitList(movie.cast)
             }
         }
     }

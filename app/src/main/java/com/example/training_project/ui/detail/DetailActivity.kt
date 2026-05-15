@@ -19,7 +19,8 @@ class DetailActivity : BaseActivity() {
     }
     private lateinit var binding: ActivityDetailBinding
     override val viewModel: DetailViewModel by viewModels {
-        ViewModelFactory((application as MovieApplication).movieUseCases)
+
+        ViewModelFactory(application = application, useCases = ((application as MovieApplication).movieUseCases))
     }
     private var movieId = -1L
 

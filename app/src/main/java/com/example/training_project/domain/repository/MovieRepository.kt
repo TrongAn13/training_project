@@ -1,6 +1,7 @@
 package com.example.training_project.domain.repository
 
 import com.example.training_project.domain.model.Movie
+import com.example.training_project.domain.model.MovieCategory
 
 interface MovieRepository {
 
@@ -17,4 +18,8 @@ interface MovieRepository {
     suspend fun getMovieDetails(movieId: Long): Movie
 
     suspend fun searchMovies(query: String): List<Movie>
+
+    suspend fun getCachedMovies(category: MovieCategory): List<Movie>
+
+    suspend fun refreshMovies(category: MovieCategory, page: Int = 1): List<Movie>
 }

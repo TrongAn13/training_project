@@ -1,18 +1,18 @@
 package com.example.training_project.data.local.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "movies")
+@Entity(tableName = "movies",  primaryKeys = ["id", "category"])
 data class MovieEntity(
-    @PrimaryKey val id: Long,
-    val title: String,
-    val posterPath: String,
-    val voteAverage: Double,
-    val releaseDate: String,
-    val runtime: Int,
-    val genres: String,
-    val backdropPath: String,
-    val overview: String,
-    val category: String
+    @ColumnInfo(name = "id") val id: Long,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "poster_path") val posterPath: String,
+    @ColumnInfo(name = "vote_average") val voteAverage: Double,
+    @ColumnInfo(name = "release_date") val releaseDate: String,
+    @ColumnInfo(name = "runtime") val runtime: Int,
+    @ColumnInfo(name = "genres") val genres: String,
+    @ColumnInfo(name = "backdrop_path") val backdropPath: String,
+    @ColumnInfo(name = "overview") val overview: String,
+    @ColumnInfo(name = "category") val category: String
 )

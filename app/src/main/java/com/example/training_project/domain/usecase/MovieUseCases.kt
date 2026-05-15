@@ -8,4 +8,7 @@ data class MovieUseCases(
 
     val getMovieDetails: GetMovieDetailsUseCase,
 
+    val getCachedMovies: GetCachedMoviesUseCase,
+
+    val refreshMovies: RefreshMoviesUseCase
 )

@@ -2,7 +2,6 @@ package com.example.training_project.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.example.training_project.MovieApplication
 import com.example.training_project.ui.detail.DetailActivity
 import com.example.training_project.R
 import com.example.training_project.databinding.FragmentHomeBinding
+import com.example.training_project.domain.model.MovieTab
 import com.example.training_project.ui.base.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -24,7 +24,7 @@ class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     override val viewModel: HomeViewModel by viewModels {
-        ViewModelFactory((requireActivity().application as MovieApplication).movieUseCases)
+        ViewModelFactory(application = requireActivity().application, useCases = ((requireActivity().application as MovieApplication).movieUseCases))
     }
     private lateinit var movieAdapter: HomeMovieAdapter
     private lateinit var trendingAdapter: TrendingMovieAdapter
@@ -96,8 +96,11 @@ class HomeFragment : BaseFragment() {
 
     private fun switchTabUI(tab: MovieTab) {
         if (viewModel.currentTab == tab) return
-
         viewModel.switchTab(tab)
+        binding.tabNowPlaying.isSelected = tab == MovieTab.NOW_PLAYING
+        binding.tabUpcoming.isSelected = tab == MovieTab.UPCOMING
+        binding.tabTopRated.isSelected = tab == MovieTab.TOP_RATED
+        binding.tabPopular.isSelected = tab == MovieTab.POPULAR
         updateTabColors()
         binding.rvMovies.scrollToPosition(0)
     }
