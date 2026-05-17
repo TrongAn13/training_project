@@ -2,26 +2,21 @@ package com.example.training_project.ui.detail
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import com.example.training_project.ui.base.BaseActivity
 import com.bumptech.glide.Glide
-import com.example.training_project.MovieApplication
 import com.example.training_project.R
 import com.example.training_project.domain.model.Movie
 import com.example.training_project.databinding.ActivityDetailBinding
-import com.example.training_project.ui.base.ViewModelFactory
 import com.example.training_project.utils.observeNetwork
 import com.google.android.material.tabs.TabLayoutMediator
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : BaseActivity() {
     companion object {
         const val EXTRA_MOVIE_ID = "MOVIE_ID"
     }
     private lateinit var binding: ActivityDetailBinding
-    override val viewModel: DetailViewModel by viewModels {
-
-        ViewModelFactory(application = application, useCases = ((application as MovieApplication).movieUseCases))
-    }
+    override val viewModel: DetailViewModel by viewModel()
     private var movieId = -1L
 
 

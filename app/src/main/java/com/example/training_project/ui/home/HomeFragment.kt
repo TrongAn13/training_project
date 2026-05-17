@@ -8,24 +8,20 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.example.training_project.ui.base.BaseFragment
 import com.example.training_project.utils.Resource
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.training_project.MovieApplication
 import com.example.training_project.ui.detail.DetailActivity
 import com.example.training_project.R
 import com.example.training_project.databinding.FragmentHomeBinding
 import com.example.training_project.domain.model.MovieTab
-import com.example.training_project.ui.base.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    override val viewModel: HomeViewModel by viewModels {
-        ViewModelFactory(application = requireActivity().application, useCases = ((requireActivity().application as MovieApplication).movieUseCases))
-    }
+    override val viewModel: HomeViewModel by viewModel()
     private lateinit var movieAdapter: HomeMovieAdapter
     private lateinit var trendingAdapter: TrendingMovieAdapter
     private var isPaginating = false

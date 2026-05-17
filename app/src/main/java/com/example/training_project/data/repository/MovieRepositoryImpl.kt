@@ -1,12 +1,8 @@
 package com.example.training_project.data.repository
 
-import android.content.Context
-import android.util.Log
-import com.example.training_project.data.local.AppDatabase
 import com.example.training_project.data.local.dao.MovieDAO
 import com.example.training_project.data.mapper.MovieMapper.toDomain
 import com.example.training_project.data.mapper.MovieMapper.toEntity
-import com.example.training_project.data.network.RetrofitClients
 import com.example.training_project.data.network.TmdbApi
 import com.example.training_project.data.remote.DTO.MovieDTO
 import com.example.training_project.domain.model.Movie
@@ -16,21 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class MovieRepositoryImpl(private val apiService: TmdbApi, private val movieDao: MovieDAO) : MovieRepository {
-    
-    companion object {
-        @Volatile
-        private var INSTANCE: MovieRepositoryImpl? = null
-
-        fun getInstance(context: Context): MovieRepositoryImpl {
-            return INSTANCE ?: synchronized(this) {
-                val database = AppDatabase.getDatabase(context)
-                val instance = MovieRepositoryImpl(RetrofitClients.instance, database.movieDao())
-                INSTANCE = instance
-                instance
-            }
-        }
-    }
-
     private suspend fun getMoviesInternal(
         category: String,
         page: Int = 1,
@@ -39,9 +20,7 @@ class MovieRepositoryImpl(private val apiService: TmdbApi, private val movieDao:
         try {
             val dtos = fetchFromRemote()
             if (dtos.isNotEmpty()) {
-                Log.d("MovieRepo", "remote size = ${dtos.size}, category = $category")
                 val entities = dtos.map { it.toEntity(category) }
-                Log.d("MovieRepo", "entity size = ${entities.size}, first = ${entities.firstOrNull()}")
                 if (page == 1) {
                     movieDao.deleteMoviesByCategory(category)
                 }
@@ -49,8 +28,6 @@ class MovieRepositoryImpl(private val apiService: TmdbApi, private val movieDao:
             }
             movieDao.getMoviesByCategory(category).map { it.toDomain() }
         } catch (e: Exception) {
-            Log.e("MovieRepo", "insert/get failed category = $category", e)
-
             val cached = movieDao.getMoviesByCategory(category)
             if (cached.isNotEmpty()) cached.map { it.toDomain() } else throw e
         }

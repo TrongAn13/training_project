@@ -6,21 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.training_project.ui.base.BaseFragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.training_project.MovieApplication
 import com.example.training_project.ui.detail.DetailActivity
 import com.example.training_project.databinding.FragmentSearchBinding
-import com.example.training_project.ui.base.ViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var searchAdapter: SearchMovieAdapter
-    override val viewModel: SearchViewModel by viewModels {
-        ViewModelFactory(application = requireActivity().application, useCases = ((requireActivity().application as MovieApplication).movieUseCases))
-    }
+    override val viewModel: SearchViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,34 +1,17 @@
 package com.example.training_project
 
 import android.app.Application
-import com.example.training_project.data.repository.MovieRepositoryImpl
-import com.example.training_project.domain.usecase.GetCachedMoviesUseCase
-import com.example.training_project.domain.usecase.GetMovieDetailsUseCase
-import com.example.training_project.domain.usecase.GetMoviesUseCase
-import com.example.training_project.domain.usecase.MovieUseCases
-import com.example.training_project.domain.usecase.RefreshMoviesUseCase
-import com.example.training_project.domain.usecase.SearchMoviesUseCase
+import com.example.training_project.di.appModule
+import org.koin.android.ext.koin.androidContext
+
+import org.koin.core.context.startKoin
 
 class MovieApplication : Application() {
-    lateinit var repository: MovieRepositoryImpl
-    lateinit var movieUseCases: MovieUseCases
-
     override fun onCreate() {
         super.onCreate()
-
-        repository = MovieRepositoryImpl.getInstance(this)
-
-        movieUseCases = MovieUseCases(
-
-            getMovies = GetMoviesUseCase(repository),
-
-            searchMovies = SearchMoviesUseCase(repository),
-
-            getMovieDetails = GetMovieDetailsUseCase(repository),
-
-            getCachedMovies = GetCachedMoviesUseCase(repository),
-
-            refreshMovies = RefreshMoviesUseCase(repository)
-        )
+        startKoin {
+            androidContext(this@MovieApplication)
+            modules(appModule)
+        }
     }
 }
