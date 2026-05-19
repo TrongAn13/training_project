@@ -33,23 +33,23 @@ class MovieRepositoryImpl(private val apiService: TmdbApi, private val movieDao:
         }
     }
 
-    override suspend fun getTrendingMovies() = getMoviesInternal("trending") {
+    override suspend fun getTrendingMovies() = getMoviesInternal(MovieCategory.TRENDING.value) {
         apiService.getTrendingMovies().results ?: emptyList()
     }
 
-    override suspend fun getPopularMovies(page: Int) = getMoviesInternal("popular", page) {
+    override suspend fun getPopularMovies(page: Int) = getMoviesInternal(MovieCategory.POPULAR.value, page) {
         apiService.getPopularMovies(page = page).results ?: emptyList()
     }
 
-    override suspend fun getTopRatedMovies(page: Int) = getMoviesInternal("top_rated", page) {
+    override suspend fun getTopRatedMovies(page: Int) = getMoviesInternal(MovieCategory.TOP_RATED.value, page) {
         apiService.getTopRatedMovies(page = page).results ?: emptyList()
     }
 
-    override suspend fun getNowPlayingMovies(page: Int) = getMoviesInternal("now_playing", page) {
+    override suspend fun getNowPlayingMovies(page: Int) = getMoviesInternal(MovieCategory.NOW_PLAYING.value, page) {
         apiService.getNowPlayingMovies(page = page).results ?: emptyList()
     }
 
-    override suspend fun getUpcomingMovies(page: Int) = getMoviesInternal("upcoming", page) {
+    override suspend fun getUpcomingMovies(page: Int) = getMoviesInternal(MovieCategory.UPCOMING.value, page) {
         apiService.getUpcomingMovies(page = page).results ?: emptyList()
     }
 

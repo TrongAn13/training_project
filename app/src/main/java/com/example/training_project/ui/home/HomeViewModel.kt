@@ -1,6 +1,5 @@
 package com.example.training_project.ui.home
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.training_project.domain.model.Movie
@@ -9,9 +8,10 @@ import com.example.training_project.domain.model.MovieTab
 import com.example.training_project.domain.usecase.MovieUseCases
 import com.example.training_project.ui.base.BaseViewModel
 import com.example.training_project.utils.Resource
+import com.example.training_project.utils.ResourceProvider
 import kotlinx.coroutines.launch
 
-class HomeViewModel(application: Application,private val useCases: MovieUseCases) : BaseViewModel(application) {
+class HomeViewModel(resourceProvider: ResourceProvider,private val useCases: MovieUseCases) : BaseViewModel(resourceProvider) {
     var currentTab = MovieTab.NOW_PLAYING
         private set
     var currentPage = 1

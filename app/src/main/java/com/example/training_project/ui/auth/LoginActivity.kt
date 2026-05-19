@@ -1,38 +1,41 @@
 package com.example.training_project.ui.auth
 
 import android.content.Intent
-import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.example.training_project.MainActivity
-import com.example.training_project.ui.auth.PreferenceManager
-import com.example.training_project.R
 import com.example.training_project.databinding.ActivityLoginBinding
+import com.example.training_project.ui.base.BaseActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var pref: PreferenceManager
+    override val viewModel: LoginViewModel by viewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initView() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adminEmail = "admin"
-        val adminPassword = "123"
-
-        val pref = PreferenceManager.Companion.getInstance(this)
-
+        pref = PreferenceManager.getInstance(this)
+        if (pref.isLoggedIn()) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+    }
+    override fun initListener() {
         binding.btnLogin.setOnClickListener {
-            val inputEmail = binding.edtEmail.text.toString().trim()
-            val inputPassword = binding.edtPassword.text.toString().trim()
+            val username = binding.edtEmail.text.toString()
+            val password = binding.edtPassword.text.toString()
+            viewModel.login(username, password)
+        }
+    }
 
-            if (inputEmail == adminEmail && inputPassword == adminPassword) {
+    override fun observeLiveData() {
+        viewModel.loginResult.observe(this) { resource ->
+            handleApiState(resource){sessionId ->
+                pref.saveSessionId(sessionId)
                 pref.setLoggedIn(true)
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
-            } else {
-                Toast.makeText(this, R.string.validate, Toast.LENGTH_SHORT).show()
             }
         }
     }

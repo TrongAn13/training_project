@@ -1,13 +1,14 @@
 package com.example.training_project.ui.detail
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.training_project.domain.model.Movie
 import com.example.training_project.domain.usecase.MovieUseCases
 import com.example.training_project.ui.base.BaseViewModel
 import com.example.training_project.utils.Resource
-class DetailViewModel(application: Application,private val useCases: MovieUseCases) : BaseViewModel(application) {
+import com.example.training_project.utils.ResourceProvider
+
+class DetailViewModel(resourceProvider: ResourceProvider,private val useCases: MovieUseCases) : BaseViewModel(resourceProvider) {
     private val _movie = MutableLiveData<Resource<Movie>>()
     val movie: LiveData<Resource<Movie>> get() = _movie
     private var currentMovieId = -1L
