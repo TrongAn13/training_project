@@ -20,7 +20,13 @@ class MovieRepositoryImpl(private val apiService: TmdbApi, private val movieDao:
         try {
             val dtos = fetchFromRemote()
             if (dtos.isNotEmpty()) {
-                val entities = dtos.map { it.toEntity(category) }
+                val entities = dtos.mapIndexed { index, dto ->
+                    dto.toEntity(
+                        category = category,
+                        page = page,
+                        position = index
+                    )
+                }
                 if (page == 1) {
                     movieDao.deleteMoviesByCategory(category)
                 }
@@ -86,7 +92,13 @@ class MovieRepositoryImpl(private val apiService: TmdbApi, private val movieDao:
             MovieCategory.TRENDING ->
                 apiService.getTrendingMovies().results ?: emptyList()
         }
-        val entities = dtos.map { it.toEntity(category.value) }
+        val entities = dtos.mapIndexed { index, dto ->
+            dto.toEntity(
+                category = category.value,
+                page = page,
+                position = index
+            )
+        }
         if (page == 1) {
             movieDao.deleteMoviesByCategory(category.value)
         }

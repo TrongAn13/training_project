@@ -11,7 +11,7 @@ import com.example.training_project.domain.model.Review
 object MovieMapper {
     private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 
-    fun MovieDTO.toEntity(category: String): MovieEntity {
+    fun MovieDTO.toEntity(category: String,page: Int = 1, position: Int): MovieEntity {
         return MovieEntity(
             id = this.id ?: 0,
             title = this.title ?: "Unknown",
@@ -24,7 +24,9 @@ object MovieMapper {
                 ?: this.genreIds?.mapNotNull { getGenreTitleById(it) }?.joinToString(", ") 
                 ?: "",
             backdropPath = this.backdropPath ?: "",
-            category = category
+            category = category,
+            page = page,
+            position = position
         )
     }
 

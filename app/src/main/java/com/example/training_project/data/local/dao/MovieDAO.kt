@@ -8,7 +8,7 @@ import com.example.training_project.data.local.entity.MovieEntity
 
 @Dao
 interface MovieDAO{
-    @Query("SELECT * FROM movies WHERE category = :category")
+    @Query("SELECT * FROM movies WHERE category = :category ORDER BY page ASC, position ASC")
     suspend fun getMoviesByCategory(category: String): List<MovieEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

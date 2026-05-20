@@ -14,5 +14,7 @@ data class MovieEntity(
     @ColumnInfo(name = "genres") val genres: String,
     @ColumnInfo(name = "backdrop_path") val backdropPath: String,
     @ColumnInfo(name = "overview") val overview: String,
-    @ColumnInfo(name = "category") val category: String
+    @ColumnInfo(name = "category") val category: String,
+    @ColumnInfo(name = "page") val page : Int,
+    @ColumnInfo(name = "position") val position: Int
 )

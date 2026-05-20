@@ -48,7 +48,9 @@ data class MovieDTO(
     @SerializedName("backdrop_path") val backdropPath: String? = null,
     @SerializedName("runtime") val runtime: Int? = null,
     @SerializedName("credits") val credits: CreditsResponse? = null,
-    @SerializedName("reviews") val reviews: ReviewsResponse? = null
+    @SerializedName("reviews") val reviews: ReviewsResponse? = null,
+    @SerializedName("page") val page: Int? = null,
+    @SerializedName("position") val position: Int? = null
 )
 
 data class MovieResponse(

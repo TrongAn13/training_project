@@ -18,6 +18,7 @@ class HomeViewModel(resourceProvider: ResourceProvider,private val useCases: Mov
         private set
     var canLoadMore = true
         private set
+    var isPaginating = false
 
     val trendingMovies = MutableLiveData<Resource<List<Movie>>>()
     val tabMovies = MutableLiveData<Resource<List<Movie>>>()
@@ -36,7 +37,8 @@ class HomeViewModel(resourceProvider: ResourceProvider,private val useCases: Mov
     }
 
     fun loadNextPage() {
-        if (!canLoadMore) return
+        if (!canLoadMore || isPaginating) return
+        isPaginating= true
         currentPage++
         fetchMovies()
     }
@@ -73,33 +75,22 @@ class HomeViewModel(resourceProvider: ResourceProvider,private val useCases: Mov
     private fun fetchMovies() {
         val isFirstPage = currentPage == 1
         viewModelScope.launch {
-            if (isFirstPage) {
-                val cached = useCases.getCachedMovies(currentTab.category)
-
-                if (cached.isNotEmpty()) {
-                    tabMovies.postValue(Resource.Success(cached))
-                } else {
-                    tabMovies.postValue(Resource.Loading)
-                }
-            }
-
             try {
-                val fresh = useCases.refreshMovies(currentTab.category, currentPage)
-                val finalList = if (isFirstPage) {
-                    fresh
-                } else {
+                val movies = useCases.refreshMovies(currentTab.category, currentPage)
+
+                val finalList = if (isFirstPage) { movies } else {
                     val current = (tabMovies.value as? Resource.Success)?.data ?: emptyList()
-                    current + fresh
+                    (current + movies).distinctBy { it.id }
                 }
-
-                if (fresh.isEmpty()) canLoadMore = false
-
+                if (movies.isEmpty()) canLoadMore = false
                 tabMovies.postValue(Resource.Success(finalList))
+
             } catch (e: Exception) {
                 if (tabMovies.value !is Resource.Success) {
                     tabMovies.postValue(Resource.Error(e.message ?: "Unknown error"))
                 }
             } finally {
+                isPaginating=false
                 isRefreshing.postValue(false)
             }
         }

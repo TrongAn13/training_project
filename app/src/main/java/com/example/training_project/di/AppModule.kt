@@ -1,7 +1,7 @@
 package com.example.training_project.di
 
+import com.example.training_project.BuildConfig
 import com.example.training_project.data.local.AppDatabase
-import com.example.training_project.data.network.RetrofitClients
 import com.example.training_project.data.network.TmdbApi
 import com.example.training_project.data.repository.AuthRepositoryImpl
 import com.example.training_project.data.repository.MovieRepositoryImpl
@@ -19,17 +19,40 @@ import com.example.training_project.ui.detail.DetailViewModel
 import com.example.training_project.ui.home.HomeViewModel
 import com.example.training_project.ui.search.SearchViewModel
 import com.example.training_project.utils.ResourceProvider
+import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
+private const val BASE_URL = "https://api.themoviedb.org/"
 val appModule = module {
-    single<TmdbApi> {
-        get<Retrofit>().create(TmdbApi::class.java)
+    single {
+        OkHttpClient.Builder()
+            .addNetworkInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .header("Accept-Encoding", "identity")
+                    .build()
+                chain.proceed(request)
+            }
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer ${BuildConfig.TMDB_TOKEN}")
+                    .addHeader("accept", "application/json")
+                    .build()
+                chain.proceed(request)
+            }.build()
     }
     single {
-        RetrofitClients.instance
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(get())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+    single<TmdbApi> {
+        get<Retrofit>().create(TmdbApi::class.java)
     }
     single {
         ResourceProvider(androidApplication())
