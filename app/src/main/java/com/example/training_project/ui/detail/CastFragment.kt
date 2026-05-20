@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.training_project.ui.base.BaseFragment
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.training_project.databinding.FragmentCastBinding
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
+
 class CastFragment: BaseFragment() {
     private var _binding: FragmentCastBinding? = null
     private val binding get() = _binding!!
     private lateinit var castAdapter: CastAdapter
-    override val viewModel: DetailViewModel by activityViewModels()
+    override val viewModel: DetailViewModel by activityViewModel()
 
 
     override fun onCreateView(
