@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.example.training_project.ui.base.BaseFragment
-import com.example.training_project.utils.Resource
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.training_project.ui.detail.DetailActivity
@@ -24,7 +23,6 @@ class HomeFragment : BaseFragment() {
     override val viewModel: HomeViewModel by viewModel()
     private lateinit var movieAdapter: HomeMovieAdapter
     private lateinit var trendingAdapter: TrendingMovieAdapter
-    private var isPaginating = false
     private val threshold = 6
 
     override fun onCreateView(
@@ -68,8 +66,7 @@ class HomeFragment : BaseFragment() {
                     val totalItemCount = layoutManager.itemCount
                     val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
 
-                    if (!isPaginating && viewModel.canLoadMore && (visibleItemCount + pastVisibleItems) >= totalItemCount - threshold) {
-                        isPaginating = true
+                    if (!viewModel.isPaginating && viewModel.canLoadMore && (visibleItemCount + pastVisibleItems) >= totalItemCount - threshold) {
                         viewModel.loadNextPage()
                     }
                 }
@@ -109,9 +106,6 @@ class HomeFragment : BaseFragment() {
         }
 
         viewModel.tabMovies.observe(viewLifecycleOwner) { resource ->
-            if (resource !is Resource.Loading) {
-                isPaginating = false
-            }
             handleApiState(resource) { movies ->
                 movieAdapter.submitList(movies)
             }

@@ -7,6 +7,7 @@ import com.example.training_project.domain.model.MovieCategory
 import com.example.training_project.domain.model.MovieTab
 import com.example.training_project.domain.usecase.MovieUseCases
 import com.example.training_project.ui.base.BaseViewModel
+import com.example.training_project.ui.base.LoadingType
 import com.example.training_project.utils.Resource
 import com.example.training_project.utils.ResourceProvider
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class HomeViewModel(resourceProvider: ResourceProvider,private val useCases: Mov
     var canLoadMore = true
         private set
     var isPaginating = false
+        private set
 
     val trendingMovies = MutableLiveData<Resource<List<Movie>>>()
     val tabMovies = MutableLiveData<Resource<List<Movie>>>()
@@ -60,39 +62,31 @@ class HomeViewModel(resourceProvider: ResourceProvider,private val useCases: Mov
             } else {
                 trendingMovies.postValue(Resource.Loading)
             }
-
-            try {
-                val fresh = useCases.refreshMovies(MovieCategory.TRENDING)
-                trendingMovies.postValue(Resource.Success(fresh))
-            } catch (e: Exception) {
-                if (trendingMovies.value !is Resource.Success) {
-                    trendingMovies.postValue(Resource.Error(e.message ?: "Unknown error"))
-                }
-            }
+        }
+        executeApi(trendingMovies, LoadingType.SHIMMER) {
+            useCases.refreshMovies(MovieCategory.TRENDING)
         }
     }
 
     private fun fetchMovies() {
         val isFirstPage = currentPage == 1
-        viewModelScope.launch {
-            try {
-                val movies = useCases.refreshMovies(currentTab.category, currentPage)
-
-                val finalList = if (isFirstPage) { movies } else {
-                    val current = (tabMovies.value as? Resource.Success)?.data ?: emptyList()
-                    (current + movies).distinctBy { it.id }
-                }
-                if (movies.isEmpty()) canLoadMore = false
-                tabMovies.postValue(Resource.Success(finalList))
-
-            } catch (e: Exception) {
-                if (tabMovies.value !is Resource.Success) {
-                    tabMovies.postValue(Resource.Error(e.message ?: "Unknown error"))
-                }
-            } finally {
-                isPaginating=false
+        executeApi(
+            tabMovies,
+            if (isFirstPage) LoadingType.SHIMMER else LoadingType.NONE,
+            {
+                isPaginating = false;
                 isRefreshing.postValue(false)
             }
+        ){
+            val movies = useCases.refreshMovies(currentTab.category, currentPage)
+
+            val finalList = if (isFirstPage) { movies } else {
+                val current = (tabMovies.value as? Resource.Success)?.data ?: emptyList()
+                (current + movies).distinctBy { it.id }
+            }
+            if (movies.isEmpty()) canLoadMore = false
+
+            finalList
         }
     }
 }

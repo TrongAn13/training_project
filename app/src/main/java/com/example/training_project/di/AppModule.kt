@@ -15,6 +15,7 @@ import com.example.training_project.domain.usecase.MovieUseCases
 import com.example.training_project.domain.usecase.RefreshMoviesUseCase
 import com.example.training_project.domain.usecase.SearchMoviesUseCase
 import com.example.training_project.ui.auth.LoginViewModel
+import com.example.training_project.ui.auth.PreferenceManager
 import com.example.training_project.ui.detail.DetailViewModel
 import com.example.training_project.ui.home.HomeViewModel
 import com.example.training_project.ui.search.SearchViewModel
@@ -28,6 +29,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://api.themoviedb.org/"
 val appModule = module {
+    single {
+        PreferenceManager(androidApplication())
+    }
     single {
         OkHttpClient.Builder()
             .addNetworkInterceptor { chain ->

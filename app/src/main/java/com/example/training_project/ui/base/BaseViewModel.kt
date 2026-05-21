@@ -41,7 +41,7 @@ open class BaseViewModel(private val resourceProvider: ResourceProvider) : ViewM
             else -> e.message ?: resourceProvider.getString(R.string.error_unknown)
         }
     }
-    protected fun <T> executeApi(liveData: MutableLiveData<Resource<T>>, type : LoadingType = LoadingType.NORMAL, apiCall: suspend () -> T) {
+    protected fun <T> executeApi(liveData: MutableLiveData<Resource<T>>, type : LoadingType = LoadingType.NORMAL, onFinally: (() -> Unit)? = null, apiCall: suspend () -> T) {
         when (type) {
             LoadingType.NORMAL -> {
                 isLoading.value = true
@@ -64,12 +64,18 @@ open class BaseViewModel(private val resourceProvider: ResourceProvider) : ViewM
                 LoadingType.SHIMMER -> liveData.value = Resource.Error(message)
             }
         }
+
         viewModelScope.launch(exceptionHandler) {
-            val result = withContext(Dispatchers.IO) {
-                apiCall.invoke()
+            try {
+                val result = withContext(Dispatchers.IO) {
+                    apiCall.invoke()
+                }
+                liveData.value = Resource.Success(result)
             }
-            if (type == LoadingType.NORMAL) isLoading.value = false
-            liveData.value = Resource.Success(result)
+            finally {
+                if (type == LoadingType.NORMAL) isLoading.value = false
+                onFinally?.invoke()
+            }
         }
     }
 }
