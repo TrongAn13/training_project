@@ -10,5 +10,21 @@ data class MovieUseCases(
 
     val getCachedMovies: GetCachedMoviesUseCase,
 
-    val refreshMovies: RefreshMoviesUseCase
+    val refreshMovies: RefreshMoviesUseCase,
+
+    val getSearchHistory: GetSearchHistoryUseCase,
+
+    val saveSearchHistory: SaveSearchHistoryUseCase,
+
+    val clearSearchHistory: ClearSearchHistoryUseCase,
+
+    val getFavoriteMovies: GetFavoriteMoviesUseCase,
+
+    val deleteFavoriteMovie: DeleteFavoriteMovieUseCase,
+
+    val saveFavoriteMovie: SaveFavoriteMovieUseCase,
+
+    val isMovieSaved: IsMovieSavedUseCase,
+
+    val increaseDetailViewCount: IncreaseDetailViewCount
 )

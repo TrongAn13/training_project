@@ -28,8 +28,11 @@ class SearchFragment : BaseFragment() {
 
     override fun initView() {
         searchAdapter = SearchMovieAdapter { movie ->
+
+            viewModel.saveSearchHistory(movie)
+
             val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-                putExtra(DetailActivity.EXTRA_MOVIE_ID, movie.id ?: -1L)
+                putExtra(DetailActivity.EXTRA_MOVIE_ID, movie.id)
             }
             startActivity(intent)
         }
@@ -37,12 +40,14 @@ class SearchFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = searchAdapter
         }
+        if (viewModel.currentQuery.isEmpty()) {
+            viewModel.getSearchHistory()
+        }
     }
 
     override fun initListener() {
-        binding.searchBar.focusAndShowKeyboard()
         binding.searchBar.onTextChanged { query ->
-            viewModel.searchMovies(query)
+                viewModel.searchMovies(query)
         }
         binding.searchBar.onKeyboardSearchClick {}
         binding.root.apply {
@@ -67,6 +72,13 @@ class SearchFragment : BaseFragment() {
         viewModel.isEmpty.observe(viewLifecycleOwner) { isEmpty ->
             binding.rvSearchMovies.visibility = if (isEmpty) View.GONE else View.VISIBLE
             binding.layoutEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        }
+        viewModel.searchHistory.observe(viewLifecycleOwner) { resource ->
+            handleApiState(resource) { movies ->
+                if (viewModel.currentQuery.isEmpty()) {
+                    searchAdapter.submitList(movies)
+                }
+            }
         }
     }
 

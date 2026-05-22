@@ -7,16 +7,25 @@ import com.example.training_project.data.repository.AuthRepositoryImpl
 import com.example.training_project.data.repository.MovieRepositoryImpl
 import com.example.training_project.domain.repository.AuthRepository
 import com.example.training_project.domain.repository.MovieRepository
+import com.example.training_project.domain.usecase.ClearSearchHistoryUseCase
+import com.example.training_project.domain.usecase.DeleteFavoriteMovieUseCase
 import com.example.training_project.domain.usecase.GetCachedMoviesUseCase
+import com.example.training_project.domain.usecase.GetFavoriteMoviesUseCase
 import com.example.training_project.domain.usecase.GetMovieDetailsUseCase
 import com.example.training_project.domain.usecase.GetMoviesUseCase
+import com.example.training_project.domain.usecase.GetSearchHistoryUseCase
+import com.example.training_project.domain.usecase.IncreaseDetailViewCount
+import com.example.training_project.domain.usecase.IsMovieSavedUseCase
 import com.example.training_project.domain.usecase.LoginUseCase
 import com.example.training_project.domain.usecase.MovieUseCases
 import com.example.training_project.domain.usecase.RefreshMoviesUseCase
+import com.example.training_project.domain.usecase.SaveFavoriteMovieUseCase
+import com.example.training_project.domain.usecase.SaveSearchHistoryUseCase
 import com.example.training_project.domain.usecase.SearchMoviesUseCase
 import com.example.training_project.ui.auth.LoginViewModel
 import com.example.training_project.ui.auth.PreferenceManager
 import com.example.training_project.ui.detail.DetailViewModel
+import com.example.training_project.ui.favorite.FavoriteViewModel
 import com.example.training_project.ui.home.HomeViewModel
 import com.example.training_project.ui.search.SearchViewModel
 import com.example.training_project.utils.ResourceProvider
@@ -66,9 +75,15 @@ val appModule = module {
     }
     single {
         get<AppDatabase>().movieDao()
+        }
+    single {
+        get<AppDatabase>().searchHistoryDao()
+    }
+    single {
+        get<AppDatabase>().favoriteMovieDao()
     }
     single<MovieRepository> {
-        MovieRepositoryImpl(apiService = get(), movieDao = get())
+        MovieRepositoryImpl(apiService = get(), movieDao = get(), searchHistoryDao = get(), favoriteMovieDao = get())
     }
     single<AuthRepository> {
         AuthRepositoryImpl(get())
@@ -79,27 +94,49 @@ val appModule = module {
     single { GetMovieDetailsUseCase(get()) }
     single { GetCachedMoviesUseCase(get()) }
     single { RefreshMoviesUseCase(get()) }
+    single { ClearSearchHistoryUseCase(get()) }
+    single { GetSearchHistoryUseCase(get()) }
+    single { SaveSearchHistoryUseCase(get()) }
+
+    single { GetFavoriteMoviesUseCase(get()) }
+    single { DeleteFavoriteMovieUseCase(get()) }
+    single { SaveFavoriteMovieUseCase(get()) }
+    single { IsMovieSavedUseCase(get()) }
+    single { IncreaseDetailViewCount(get()) }
+
     single {
         MovieUseCases(
             getMovies = get(),
             searchMovies = get(),
             getMovieDetails = get(),
             getCachedMovies = get(),
-            refreshMovies = get()
+            refreshMovies = get(),
+            getSearchHistory = get(),
+            saveSearchHistory = get(),
+            clearSearchHistory = get(),
+            getFavoriteMovies = get(),
+            deleteFavoriteMovie = get(),
+            saveFavoriteMovie = get(),
+            isMovieSaved = get()
+            ,increaseDetailViewCount = get()
         )
+    }
+    viewModel {
+        LoginViewModel(resourceProvider = get(), loginUseCase = get())
     }
     viewModel {
         HomeViewModel(resourceProvider = get(), useCases = get())
     }
-
     viewModel {
         DetailViewModel(resourceProvider = get(), useCases = get())
     }
-
     viewModel {
         SearchViewModel(resourceProvider = get(), useCases = get())
     }
     viewModel {
         LoginViewModel(resourceProvider = get(), loginUseCase = get())
+    }
+    viewModel {
+        FavoriteViewModel(resourceProvider = get(), useCases = get())
     }
 }

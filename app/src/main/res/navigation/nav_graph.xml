@@ -11,9 +11,9 @@
         android:label="HomeFragment" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.training_project.WatchListFragment"
+        android:name="com.example.training_project.ui.favorite.FavoriteFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.training_project.ui.search.SearchFragment"
