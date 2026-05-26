@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
     alias(libs.plugins.kotlin.symbol.processing)
+
+    id("de.mannodermaus.android-junit5") version "1.14.0.0"
 }
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
@@ -93,4 +95,18 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
 
     implementation("io.insert-koin:koin-android:4.0.0")
+
+    testImplementation(platform("org.junit:junit-bom:5.14.0"))
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
+    testImplementation("io.mockk:mockk:1.14.6")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+
+    androidTestImplementation("androidx.room:room-testing:2.8.4")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
 }
