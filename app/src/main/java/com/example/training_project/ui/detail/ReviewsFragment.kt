@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.training_project.ui.base.BaseFragment
+import com.example.ui.base.BaseFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.training_project.databinding.FragmentReviewsBinding
 import org.koin.androidx.viewmodel.ext.android.activityViewModel

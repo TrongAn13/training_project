@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.example.training_project.ui.base.BaseFragment
+import com.example.ui.base.BaseFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.training_project.ui.detail.DetailActivity
 import com.example.training_project.R
+import com.example.ui.R as UiR
 import com.example.training_project.databinding.FragmentHomeBinding
-import com.example.training_project.domain.model.MovieTab
+import com.example.domain.model.MovieTab
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomeFragment : BaseFragment() {
 
@@ -117,8 +119,8 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun updateTabColors() {
-        val unselectedColor = ContextCompat.getColor(requireContext(), R.color.search_background)
-        val selectedColor = ContextCompat.getColor(requireContext(), R.color.white)
+        val unselectedColor = ContextCompat.getColor(requireContext(), UiR.color.search_background)
+        val selectedColor = ContextCompat.getColor(requireContext(), UiR.color.white)
 
         binding.tvNowPlaying.setTextColor(unselectedColor)
         binding.indicatorNowPlaying.visibility = View.GONE
@@ -152,8 +154,5 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-//        binding.rvMovies.adapter = null
-//        _binding = null
-//        super.onDestroyView()
     }
 }

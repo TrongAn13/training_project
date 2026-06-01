@@ -1,14 +1,13 @@
 package com.example.training_project.repository
 
-import com.example.training_project.data.local.dao.FavoriteMovieDAO
-import com.example.training_project.data.local.dao.MovieDAO
-import com.example.training_project.data.local.dao.SearchHistoryDAO
-import com.example.training_project.data.local.entity.FavoriteMovieEntity
-import com.example.training_project.data.local.entity.SearchHistoryEntity
-import com.example.training_project.data.network.TmdbApi
-import com.example.training_project.data.repository.MovieRepositoryImpl
-import com.example.training_project.domain.model.Movie
-import com.example.training_project.domain.repository.MovieRepository
+import com.example.database.dao.FavoriteMovieDAO
+import com.example.database.dao.MovieDAO
+import com.example.database.dao.SearchHistoryDAO
+import com.example.database.entity.FavoriteMovieEntity
+import com.example.data.repository.MovieRepositoryImpl
+import com.example.domain.model.Movie
+import com.example.domain.repository.MovieRepository
+import com.example.network.network.TmdbApi.TmdbApi
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

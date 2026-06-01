@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.training_project.databinding.FragmentFavoriteBinding
-import com.example.training_project.ui.base.BaseFragment
+import com.example.ui.base.BaseFragment
 import com.example.training_project.ui.detail.DetailActivity
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import kotlin.getValue

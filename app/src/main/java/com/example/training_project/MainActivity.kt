@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.training_project.databinding.ActivityHomeBinding
-import com.example.training_project.utils.observeNetwork
+import com.example.ui.observeNetwork
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding

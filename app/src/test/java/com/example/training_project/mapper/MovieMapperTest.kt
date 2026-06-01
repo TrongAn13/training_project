@@ -1,8 +1,8 @@
 package com.example.training_project.mapper
 
-import com.example.training_project.data.mapper.MovieMapper.toDomain
-import com.example.training_project.data.mapper.MovieMapper.toEntity
-import com.example.training_project.data.remote.DTO.MovieDTO
+import com.example.data.mapper.MovieMapper.toDomain
+import com.example.data.mapper.MovieMapper.toEntity
+import com.example.network.dto.MovieDTO
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

@@ -1,12 +1,12 @@
 package com.example.training_project.ui.detail
 
 import android.os.Bundle
-import com.example.training_project.ui.base.BaseActivity
+import com.example.ui.base.BaseActivity
 import com.bumptech.glide.Glide
-import com.example.training_project.R
-import com.example.training_project.domain.model.Movie
+import com.example.ui.R
+import com.example.domain.model.Movie
 import com.example.training_project.databinding.ActivityDetailBinding
-import com.example.training_project.utils.observeNetwork
+import com.example.ui.observeNetwork
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

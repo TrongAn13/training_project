@@ -3,7 +3,7 @@ package com.example.training_project.ui.auth
 import android.content.Intent
 import com.example.training_project.MainActivity
 import com.example.training_project.databinding.ActivityLoginBinding
-import com.example.training_project.ui.base.BaseActivity
+import com.example.ui.base.BaseActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

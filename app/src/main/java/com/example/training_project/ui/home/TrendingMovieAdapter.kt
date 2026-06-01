@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.training_project.R
-import com.example.training_project.domain.model.Movie
+import com.example.ui.R
+import com.example.domain.model.Movie
 import com.example.training_project.databinding.ItemTrendingMovieBinding
 
 class TrendingMovieAdapter(

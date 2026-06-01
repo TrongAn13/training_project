@@ -1,8 +1,8 @@
 package com.example.training_project.usecases
 
-import com.example.training_project.domain.model.Movie
-import com.example.training_project.domain.repository.MovieRepository
-import com.example.training_project.domain.usecase.SaveFavoriteMovieUseCase
+import com.example.domain.model.Movie
+import com.example.domain.repository.MovieRepository
+import com.example.domain.usecase.SaveFavoriteMovieUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
