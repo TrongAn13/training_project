@@ -16,11 +16,6 @@ class LoginActivity : BaseActivity() {
     override fun initView() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        if (pref.isLoggedIn()) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
     }
     override fun initListener() {
         binding.btnLogin.setOnClickListener {

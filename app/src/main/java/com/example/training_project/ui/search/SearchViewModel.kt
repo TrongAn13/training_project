@@ -57,8 +57,8 @@ class SearchViewModel(resourceProvider: ResourceProvider, private val useCases: 
     fun clearSearchHistory() {
         viewModelScope.launch {
             useCases.clearSearchHistory()
+            getSearchHistory()
         }
-        getSearchHistory()
     }
     fun saveSearchHistory(movie: Movie) {
         viewModelScope.launch {

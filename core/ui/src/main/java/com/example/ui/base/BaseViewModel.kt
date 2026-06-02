@@ -25,7 +25,7 @@ open class BaseViewModel(private val resourceProvider: ResourceProvider) : ViewM
     val globalError = MutableLiveData<String?>()
     val isLoading = MutableLiveData<Boolean>()
 
-    private fun getErrorMessage(e: Throwable): String {
+    protected fun getErrorMessage(e: Throwable): String {
         return when (e) {
             is UnknownHostException -> resourceProvider.getString(R.string.error_no_network)
             is SocketTimeoutException -> resourceProvider.getString(R.string.error_timeout)

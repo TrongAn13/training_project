@@ -6,6 +6,7 @@ import com.example.domain.model.Movie
 import com.example.domain.model.MovieCategory
 import com.example.domain.model.MovieTab
 import com.example.domain.usecase.MovieUseCases
+import com.example.ui.R
 import com.example.ui.base.BaseViewModel
 import com.example.ui.base.LoadingType
 import com.example.ui.Resource
@@ -56,11 +57,23 @@ class HomeViewModel(resourceProvider: ResourceProvider,private val useCases: Mov
     private fun fetchTrendingMovies() {
         viewModelScope.launch {
             val cached = useCases.getCachedMovies(MovieCategory.TRENDING)
+            val hasCached = cached.isNotEmpty()
 
             if (cached.isNotEmpty()) {
                 trendingMovies.postValue(Resource.Success(cached))
             } else {
                 trendingMovies.postValue(Resource.Loading)
+            }
+            try{
+                val fresh = useCases.refreshMovies(MovieCategory.TRENDING)
+                trendingMovies.postValue(Resource.Success(fresh))
+            }
+            catch (e: Exception){
+                if (hasCached) {
+                    trendingMovies.postValue(Resource.Success(cached))
+                } else {
+                    trendingMovies.postValue(Resource.Error(getErrorMessage(e)))
+                }
             }
         }
         executeApi(trendingMovies, LoadingType.SHIMMER) {

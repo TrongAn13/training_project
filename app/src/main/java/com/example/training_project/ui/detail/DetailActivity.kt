@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide
 import com.example.ui.R
 import com.example.domain.model.Movie
 import com.example.training_project.databinding.ActivityDetailBinding
+import com.example.ui.Resource
 import com.example.ui.observeNetwork
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,7 +37,9 @@ class DetailActivity : BaseActivity() {
             }
         }
         observeNetwork(binding.root) {
-            viewModel.retry()
+            if (viewModel.movie.value !is Resource.Success) {
+                viewModel.retry()
+            }
         }
     }
 
@@ -69,7 +72,9 @@ class DetailActivity : BaseActivity() {
             }
         }
         if (movieId != -1L) {
-            viewModel.fetchMovieDetails(movieId)
+            if (viewModel.movie.value !is Resource.Success) {
+                viewModel.fetchMovieDetails(movieId)
+            }
         }
     }
 
