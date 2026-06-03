@@ -76,9 +76,6 @@ class HomeViewModel(resourceProvider: ResourceProvider,private val useCases: Mov
                 }
             }
         }
-        executeApi(trendingMovies, LoadingType.SHIMMER) {
-            useCases.refreshMovies(MovieCategory.TRENDING)
-        }
     }
 
     private fun fetchMovies() {

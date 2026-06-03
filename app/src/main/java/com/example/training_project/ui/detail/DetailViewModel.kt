@@ -15,6 +15,8 @@ class DetailViewModel(resourceProvider: ResourceProvider,private val useCases: M
     val isFavorite = MutableLiveData<Resource<Boolean>>()
     private var currentMovieId = -1L
 
+    private val countedMovieIds = mutableSetOf<Long>()
+
     val increaseDetailViewCount = MutableLiveData<Resource<Unit>>()
 
     fun fetchMovieDetails(movieId: Long) {
@@ -43,6 +45,7 @@ class DetailViewModel(resourceProvider: ResourceProvider,private val useCases: M
         }
     }
     fun increaseDetailViewCount(movieId: Long) {
+        if (!countedMovieIds.add(movieId)) return
         executeApi(increaseDetailViewCount, LoadingType.NONE) {
             useCases.increaseDetailViewCount(movieId)
         }
