@@ -2,8 +2,8 @@ package com.example.training_project.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ui.R
@@ -12,17 +12,21 @@ import com.example.training_project.databinding.ItemHomeMovieBinding
 
 class HomeMovieAdapter(
     private val onItemClick: (Movie) -> Unit
-) : ListAdapter<Movie, HomeMovieAdapter.HomeMovieViewHolder>(MovieDiffCallback()) {
+) : PagingDataAdapter<Movie, HomeMovieAdapter.HomeMovieViewHolder>(MovieDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeMovieViewHolder {
         val binding = ItemHomeMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeMovieViewHolder(binding) { position ->
-            onItemClick(getItem(position))
+            getItem(position)?.let{movie ->
+                onItemClick(movie)
+            }
         }
     }
 
     override fun onBindViewHolder(holder: HomeMovieViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { movie ->
+            holder.bind(movie)
+        }
     }
     class HomeMovieViewHolder(
         private val binding: ItemHomeMovieBinding,

@@ -51,7 +51,6 @@ class SearchFragment : BaseFragment() {
                 viewModel.searchMovies(query)
         }
         binding.searchBar.onKeyboardSearchClick {
-            // Logic handled within searchBar or ViewModel
         }
         binding.root.apply {
             isClickable = true

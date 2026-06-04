@@ -1,5 +1,8 @@
 package com.example.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.database.dao.FavoriteMovieDAO
 import com.example.database.dao.MovieDAO
 import com.example.database.dao.SearchHistoryDAO
@@ -7,12 +10,14 @@ import com.example.data.mapper.MovieMapper.toDomain
 import com.example.data.mapper.MovieMapper.toEntity
 import com.example.data.mapper.MovieMapper.toFavoriteEntity
 import com.example.data.mapper.MovieMapper.toSearchHistoryEntity
+import com.example.data.paging.MoviePagingSource
 import com.example.network.dto.MovieDTO
 import com.example.domain.model.Movie
 import com.example.domain.model.MovieCategory
 import com.example.domain.repository.MovieRepository
 import com.example.network.network.TmdbApi.TmdbApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class MovieRepositoryImpl(
@@ -52,21 +57,25 @@ class MovieRepositoryImpl(
         apiService.getTrendingMovies().results ?: emptyList()
     }
 
-    override suspend fun getPopularMovies(page: Int) = getMoviesInternal(MovieCategory.POPULAR.value, page) {
-        apiService.getPopularMovies(page = page).results ?: emptyList()
-    }
+    override suspend fun getPopularMovies(page: Int) =
+        getMoviesInternal(MovieCategory.POPULAR.value, page) {
+            apiService.getPopularMovies(page = page).results ?: emptyList()
+        }
 
-    override suspend fun getTopRatedMovies(page: Int) = getMoviesInternal(MovieCategory.TOP_RATED.value, page) {
-        apiService.getTopRatedMovies(page = page).results ?: emptyList()
-    }
+    override suspend fun getTopRatedMovies(page: Int) =
+        getMoviesInternal(MovieCategory.TOP_RATED.value, page) {
+            apiService.getTopRatedMovies(page = page).results ?: emptyList()
+        }
 
-    override suspend fun getNowPlayingMovies(page: Int) = getMoviesInternal(MovieCategory.NOW_PLAYING.value, page) {
-        apiService.getNowPlayingMovies(page = page).results ?: emptyList()
-    }
+    override suspend fun getNowPlayingMovies(page: Int) =
+        getMoviesInternal(MovieCategory.NOW_PLAYING.value, page) {
+            apiService.getNowPlayingMovies(page = page).results ?: emptyList()
+        }
 
-    override suspend fun getUpcomingMovies(page: Int) = getMoviesInternal(MovieCategory.UPCOMING.value, page) {
-        apiService.getUpcomingMovies(page = page).results ?: emptyList()
-    }
+    override suspend fun getUpcomingMovies(page: Int) =
+        getMoviesInternal(MovieCategory.UPCOMING.value, page) {
+            apiService.getUpcomingMovies(page = page).results ?: emptyList()
+        }
 
     override suspend fun searchMovies(query: String) = withContext(Dispatchers.IO) {
         apiService.searchMovies(query = query).results?.map { it.toDomain() } ?: emptyList()
@@ -83,7 +92,8 @@ class MovieRepositoryImpl(
             .map { it.toDomain() }
     }
 
-    override suspend fun refreshMovies(category: MovieCategory, page: Int
+    override suspend fun refreshMovies(
+        category: MovieCategory, page: Int
     ): List<Movie> = withContext(Dispatchers.IO) {
         val dtos = when (category) {
             MovieCategory.NOW_PLAYING ->
@@ -119,26 +129,42 @@ class MovieRepositoryImpl(
     override suspend fun clearSearchHistory() {
         searchHistoryDao.deleteHistory()
     }
+
     override suspend fun getSearchHistory(): List<Movie> {
         return searchHistoryDao.getSearchHistory().map { it.toDomain() }
     }
+
     override suspend fun saveSearchHistory(movie: Movie) {
         searchHistoryDao.insertHistory(movie.toSearchHistoryEntity())
     }
 
     override suspend fun saveFavoriteMovie(movie: Movie) {
-       favoriteMovieDao.saveMovies(movie.toFavoriteEntity())
+        favoriteMovieDao.saveMovies(movie.toFavoriteEntity())
     }
+
     override suspend fun getFavoriteMovies(): List<Movie> {
         return favoriteMovieDao.getFavoriteMovies().map { it.toDomain() }
     }
+
     override suspend fun deleteFavoriteMovie(movieId: Long) {
         favoriteMovieDao.deleteMovie(movieId)
     }
+
     override suspend fun isMovieSaved(movieId: Long): Boolean {
         return favoriteMovieDao.isMovieSaved(movieId)
     }
+
     override suspend fun increaseDetailViewCount(movieId: Long) {
         favoriteMovieDao.increaseDetailViewCount(movieId)
+    }
+
+    override fun getMoviesPaging(category: MovieCategory): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { MoviePagingSource(apiService, category) }
+        ).flow
     }
 }

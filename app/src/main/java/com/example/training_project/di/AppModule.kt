@@ -11,6 +11,7 @@ import com.example.domain.usecase.DeleteFavoriteMovieUseCase
 import com.example.domain.usecase.GetCachedMoviesUseCase
 import com.example.domain.usecase.GetFavoriteMoviesUseCase
 import com.example.domain.usecase.GetMovieDetailsUseCase
+import com.example.domain.usecase.GetMoviesPagingUseCase
 import com.example.domain.usecase.GetMoviesUseCase
 import com.example.domain.usecase.GetSearchHistoryUseCase
 import com.example.domain.usecase.IncreaseDetailViewCount
@@ -22,6 +23,7 @@ import com.example.domain.usecase.SaveFavoriteMovieUseCase
 import com.example.domain.usecase.SaveSearchHistoryUseCase
 import com.example.domain.usecase.SearchMoviesUseCase
 import com.example.network.network.TmdbApi.TmdbApi
+import com.example.training_project.ui.auth.CryptoManager
 import com.example.training_project.ui.auth.LoginViewModel
 import com.example.training_project.ui.auth.PreferenceManager
 import com.example.training_project.ui.detail.DetailViewModel
@@ -31,6 +33,7 @@ import com.example.training_project.ui.search.SearchViewModel
 import com.example.ui.ResourceProvider
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -38,8 +41,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://api.themoviedb.org/"
 val appModule = module {
+    single { CryptoManager() }
     single {
-        PreferenceManager(androidApplication())
+        PreferenceManager(androidContext(), get())
     }
     single {
         OkHttpClient.Builder()
@@ -98,6 +102,8 @@ val appModule = module {
     single { GetSearchHistoryUseCase(get()) }
     single { SaveSearchHistoryUseCase(get()) }
 
+    single { GetMoviesPagingUseCase(get()) }
+
     single { GetFavoriteMoviesUseCase(get()) }
     single { DeleteFavoriteMovieUseCase(get()) }
     single { SaveFavoriteMovieUseCase(get()) }
@@ -117,8 +123,9 @@ val appModule = module {
             getFavoriteMovies = get(),
             deleteFavoriteMovie = get(),
             saveFavoriteMovie = get(),
-            isMovieSaved = get()
-            ,increaseDetailViewCount = get()
+            isMovieSaved = get(),
+            getMoviesPaging = get(),
+            increaseDetailViewCount = get()
         )
     }
     viewModel {

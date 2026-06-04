@@ -62,7 +62,6 @@ class DetailActivity : BaseActivity() {
                 currentMovie = it
                 updateUI(it)
                 viewModel.checkIsFavorite( it.id)
-                viewModel.increaseDetailViewCount(it.id)
             }
         }
         viewModel.isFavorite.observe(this){resource ->

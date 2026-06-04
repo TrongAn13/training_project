@@ -105,6 +105,9 @@ dependencies {
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
 
+    implementation("androidx.paging:paging-runtime:3.5.0")
+    implementation("androidx.datastore:datastore-preferences:1.2.1")
+
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":core:ui"))

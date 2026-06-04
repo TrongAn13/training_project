@@ -47,4 +47,6 @@ dependencies {
     implementation(project(":core:database"))
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+
+    implementation("androidx.paging:paging-runtime:3.5.0")
 }

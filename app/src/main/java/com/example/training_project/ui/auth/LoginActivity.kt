@@ -1,9 +1,11 @@
 package com.example.training_project.ui.auth
 
 import android.content.Intent
+import androidx.lifecycle.lifecycleScope
 import com.example.training_project.MainActivity
 import com.example.training_project.databinding.ActivityLoginBinding
 import com.example.ui.base.BaseActivity
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,10 +30,11 @@ class LoginActivity : BaseActivity() {
     override fun observeLiveData() {
         viewModel.loginResult.observe(this) { resource ->
             handleApiState(resource){sessionId ->
-                pref.saveSessionId(sessionId)
-                pref.setLoggedIn(true)
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+                lifecycleScope.launch {
+                    pref.saveSessionId(sessionId)
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    finish()
+                }
             }
         }
     }

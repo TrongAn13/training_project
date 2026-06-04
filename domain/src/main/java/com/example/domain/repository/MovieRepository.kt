@@ -1,7 +1,9 @@
 package com.example.domain.repository
 
+import androidx.paging.PagingData
 import com.example.domain.model.Movie
 import com.example.domain.model.MovieCategory
+import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
@@ -37,4 +39,6 @@ interface MovieRepository {
 
     suspend fun isMovieSaved(movieId: Long): Boolean
     suspend fun increaseDetailViewCount(movieId: Long)
+
+    fun getMoviesPaging(category: MovieCategory): Flow<PagingData<Movie>>
 }

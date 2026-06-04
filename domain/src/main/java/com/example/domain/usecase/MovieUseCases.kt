@@ -26,5 +26,7 @@ data class MovieUseCases(
 
     val isMovieSaved: IsMovieSavedUseCase,
 
-    val increaseDetailViewCount: IncreaseDetailViewCount
+    val increaseDetailViewCount: IncreaseDetailViewCount,
+
+    val getMoviesPaging: GetMoviesPagingUseCase
 )
