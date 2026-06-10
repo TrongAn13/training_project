@@ -1,7 +1,6 @@
 package com.example.training_project.ui.detail
 
 import android.os.Bundle
-import android.widget.Toast
 import com.example.training_project.ui.base.BaseActivity
 import com.bumptech.glide.Glide
 import com.example.training_project.R
@@ -18,6 +17,7 @@ class DetailActivity : BaseActivity() {
     private lateinit var binding: ActivityDetailBinding
     override val viewModel: DetailViewModel by viewModel()
     private var movieId = -1L
+    private var currentMovie: Movie? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,9 @@ class DetailActivity : BaseActivity() {
             finish()
         }
         binding.btnBookmark.setOnClickListener {
-            Toast.makeText(this, R.string.save_movie, Toast.LENGTH_SHORT).show()
+            currentMovie?.let {
+                viewModel.toggleFavorite(it)
+            }
         }
         observeNetwork(binding.root) {
             viewModel.retry()
@@ -54,7 +56,16 @@ class DetailActivity : BaseActivity() {
     override fun observeLiveData() {
         viewModel.movie.observe(this) { resource ->
             handleApiState(resource) {
+                currentMovie = it
                 updateUI(it)
+                viewModel.checkIsFavorite( it.id)
+                viewModel.increaseDetailViewCount(it.id)
+            }
+        }
+        viewModel.isFavorite.observe(this){resource ->
+            handleApiState(resource){
+                val icon = if (it) R.drawable.ic_save2 else R.drawable.ic_save
+                binding.btnBookmark.setImageResource(icon)
             }
         }
         if (movieId != -1L) {

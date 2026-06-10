@@ -5,29 +5,40 @@ import androidx.lifecycle.viewModelScope
 import com.example.training_project.domain.model.Movie
 import com.example.training_project.domain.usecase.MovieUseCases
 import com.example.training_project.ui.base.BaseViewModel
+import com.example.training_project.ui.base.LoadingType
 import com.example.training_project.utils.Resource
 import com.example.training_project.utils.ResourceProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 class SearchViewModel(resourceProvider: ResourceProvider, private val useCases: MovieUseCases) : BaseViewModel(resourceProvider) {
     val searchResults = MutableLiveData<Resource<List<Movie>>>()
     val isEmpty = MutableLiveData<Boolean>()
-
+    val searchHistory = MutableLiveData<Resource<List<Movie>>>()
     private var searchQuery = MutableStateFlow("")
 
+    var currentQuery: String = ""
+        private set
+
     init {
-        viewModelScope.launch {
-            searchQuery.debounce(500)
+        viewModelScope.launch { searchQuery
+                .debounce(500)
                 .distinctUntilChanged()
-                .filter { it.length >= 3 }
                 .collectLatest { query ->
-                    executeApi(searchResults) {
-                        val results = useCases.searchMovies(query)
+                    val keyword = query.trim()
+
+                    if (keyword.isEmpty()) {
+                        searchResults.value = Resource.Success(emptyList())
+                        isEmpty.value = false
+                        getSearchHistory()
+                        return@collectLatest
+                    }
+
+                    executeApiSuspend(searchResults, LoadingType.NONE){
+                        val results = useCases.searchMovies(keyword)
                         isEmpty.postValue(results.isEmpty())
                         results
                     }
@@ -35,10 +46,23 @@ class SearchViewModel(resourceProvider: ResourceProvider, private val useCases: 
         }
     }
     fun searchMovies(query: String) {
-        if (query.length < 3) {
-            searchResults.value = Resource.Success(emptyList())
-            isEmpty.value = false
-        }
+        currentQuery= query.trim()
         searchQuery.value = query.trim()
+    }
+    fun getSearchHistory() {
+        executeApi(searchHistory, LoadingType.NONE) {
+            useCases.getSearchHistory()
+        }
+    }
+    fun clearSearchHistory() {
+        viewModelScope.launch {
+            useCases.clearSearchHistory()
+        }
+        getSearchHistory()
+    }
+    fun saveSearchHistory(movie: Movie) {
+        viewModelScope.launch {
+            useCases.saveSearchHistory(movie)
+        }
     }
 }

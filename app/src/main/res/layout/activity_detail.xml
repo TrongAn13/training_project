@@ -47,7 +47,7 @@
             android:layout_height="@dimen/icon_size_small"
             android:layout_marginTop="@dimen/dp_28"
             android:layout_marginEnd="@dimen/margin_large"
-            android:src="@drawable/ic_save2"
+            android:src="@drawable/ic_save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

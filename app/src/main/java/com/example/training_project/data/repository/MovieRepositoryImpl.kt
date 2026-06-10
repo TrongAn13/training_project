@@ -1,8 +1,12 @@
 package com.example.training_project.data.repository
 
+import com.example.training_project.data.local.dao.FavoriteMovieDAO
 import com.example.training_project.data.local.dao.MovieDAO
+import com.example.training_project.data.local.dao.SearchHistoryDAO
 import com.example.training_project.data.mapper.MovieMapper.toDomain
 import com.example.training_project.data.mapper.MovieMapper.toEntity
+import com.example.training_project.data.mapper.MovieMapper.toFavoriteEntity
+import com.example.training_project.data.mapper.MovieMapper.toSearchHistoryEntity
 import com.example.training_project.data.network.TmdbApi
 import com.example.training_project.data.remote.DTO.MovieDTO
 import com.example.training_project.domain.model.Movie
@@ -11,7 +15,12 @@ import com.example.training_project.domain.repository.MovieRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MovieRepositoryImpl(private val apiService: TmdbApi, private val movieDao: MovieDAO) : MovieRepository {
+class MovieRepositoryImpl(
+    private val apiService: TmdbApi,
+    private val movieDao: MovieDAO,
+    private val searchHistoryDao: SearchHistoryDAO,
+    private val favoriteMovieDao: FavoriteMovieDAO
+) : MovieRepository {
     private suspend fun getMoviesInternal(
         category: String,
         page: Int = 1,
@@ -105,5 +114,31 @@ class MovieRepositoryImpl(private val apiService: TmdbApi, private val movieDao:
         movieDao.insertMovies(entities)
         movieDao.getMoviesByCategory(category.value)
             .map { it.toDomain() }
+    }
+
+    override suspend fun clearSearchHistory() {
+        searchHistoryDao.deleteHistory()
+    }
+    override suspend fun getSearchHistory(): List<Movie> {
+        return searchHistoryDao.getSearchHistory().map { it.toDomain() }
+    }
+    override suspend fun saveSearchHistory(movie: Movie) {
+        searchHistoryDao.insertHistory(movie.toSearchHistoryEntity())
+    }
+
+    override suspend fun saveFavoriteMovie(movie: Movie) {
+       favoriteMovieDao.saveMovies(movie.toFavoriteEntity())
+    }
+    override suspend fun getFavoriteMovies(): List<Movie> {
+        return favoriteMovieDao.getFavoriteMovies().map { it.toDomain() }
+    }
+    override suspend fun deleteFavoriteMovie(movieId: Long) {
+        favoriteMovieDao.deleteMovie(movieId)
+    }
+    override suspend fun isMovieSaved(movieId: Long): Boolean {
+        return favoriteMovieDao.isMovieSaved(movieId)
+    }
+    override suspend fun increaseDetailViewCount(movieId: Long) {
+        favoriteMovieDao.increaseDetailViewCount(movieId)
     }
 }

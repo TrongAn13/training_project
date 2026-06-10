@@ -41,7 +41,12 @@ open class BaseViewModel(private val resourceProvider: ResourceProvider) : ViewM
             else -> e.message ?: resourceProvider.getString(R.string.error_unknown)
         }
     }
-    protected fun <T> executeApi(liveData: MutableLiveData<Resource<T>>, type : LoadingType = LoadingType.NORMAL, onFinally: (() -> Unit)? = null, apiCall: suspend () -> T) {
+    protected fun <T> executeApi(
+        liveData: MutableLiveData<Resource<T>>,
+        type : LoadingType = LoadingType.NORMAL,
+        onFinally: (() -> Unit)? = null,
+        apiCall: suspend () -> T
+    ) {
         when (type) {
             LoadingType.NORMAL -> {
                 isLoading.value = true
@@ -75,6 +80,39 @@ open class BaseViewModel(private val resourceProvider: ResourceProvider) : ViewM
             finally {
                 if (type == LoadingType.NORMAL) isLoading.value = false
                 onFinally?.invoke()
+            }
+        }
+    }
+    protected suspend fun <T> executeApiSuspend(
+        liveData: MutableLiveData<Resource<T>>,
+        type: LoadingType = LoadingType.NORMAL,
+        apiCall: suspend () -> T
+    ) {
+        try {
+            when (type) {
+                LoadingType.NORMAL -> isLoading.value = true
+                LoadingType.SHIMMER -> liveData.value = Resource.Loading
+                LoadingType.NONE -> Unit
+            }
+
+            val result = withContext(Dispatchers.IO) {
+                apiCall()
+            }
+
+            liveData.value = Resource.Success(result)
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+
+            val message = getErrorMessage(e)
+
+            when (type) {
+                LoadingType.NONE -> liveData.value = Resource.Error(message)
+                LoadingType.NORMAL -> globalError.value = message
+                LoadingType.SHIMMER -> liveData.value = Resource.Error(message)
+            }
+        } finally {
+            if (type == LoadingType.NORMAL) {
+                isLoading.value = false
             }
         }
     }

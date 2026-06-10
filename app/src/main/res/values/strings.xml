@@ -18,7 +18,7 @@
     <string name="popular">Popular</string>
     <string name="home_tab">Home</string>
     <string name="search_tab">Search</string>
-    <string name="watchlist_tab">Watch list</string>
+    <string name="watchlist_tab">Watch List</string>
     <string name="detail_title">Detail</string>
     <string name="about_movie">About Movie</string>
     <string name="reviews">Reviews</string>
@@ -43,6 +43,7 @@
     <string name="validate">Email hoặc mật khẩu không đúng!</string>
     <string name="notfound_movie1">We Are Sorry! We Can\nNot Find The Movie :(</string>
     <string name="notfound_movie2">Find your movie by Type title,\ncategories, years, etc</string>
+    <string name="notfound_favorite_movie">There Is No Movie Yet!</string>
     <string name="save_movie">Đã lưu phim vào danh sách!</string>
     <string name="error_no_network">Không có kết nối mạng</string>
     <string name="error_timeout">Kết nối quá chậm</string>

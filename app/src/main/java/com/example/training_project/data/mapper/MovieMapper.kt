@@ -1,6 +1,8 @@
 package com.example.training_project.data.mapper
 
+import com.example.training_project.data.local.entity.FavoriteMovieEntity
 import com.example.training_project.data.local.entity.MovieEntity
+import com.example.training_project.data.local.entity.SearchHistoryEntity
 import com.example.training_project.data.remote.DTO.CastDTO
 import com.example.training_project.data.remote.DTO.MovieDTO
 import com.example.training_project.data.remote.DTO.ReviewDTO
@@ -78,6 +80,53 @@ object MovieMapper {
             content = this.content ?: "",
             avatarUrl = getAvatarUrl(this.authorDetails?.avatarPath),
             rating = this.authorDetails?.rating ?: 0.0
+        )
+    }
+    fun Movie.toSearchHistoryEntity(): SearchHistoryEntity {
+        return SearchHistoryEntity(
+            id = this.id,
+            title = this.title,
+            posterPath = this.posterUrl,
+            voteAverage = this.rating,
+            releaseDate = this.releaseDate,
+            genres = this.genres,
+            overview = this.overview,
+            saveAt = System.currentTimeMillis()
+        )
+    }
+    fun SearchHistoryEntity.toDomain(): Movie {
+        return Movie(
+            id = this.id,
+            title = this.title,
+            posterUrl = this.posterPath,
+            rating = this.voteAverage,
+            releaseDate = this.releaseDate,
+            overview = this.overview,
+            genres = this.genres,
+        )
+    }
+    fun Movie.toFavoriteEntity(): FavoriteMovieEntity {
+        return FavoriteMovieEntity(
+            id = this.id,
+            title = this.title,
+            posterPath = this.posterUrl,
+            voteAverage = this.rating,
+            releaseDate = this.releaseDate,
+            genres = this.genres,
+            overview = this.overview,
+            saveAt = System.currentTimeMillis(),
+            detailViewCount = 0
+        )
+    }
+    fun FavoriteMovieEntity.toDomain(): Movie {
+        return Movie(
+            id = this.id,
+            title = this.title,
+            posterUrl = this.posterPath,
+            rating = this.voteAverage,
+            releaseDate = this.releaseDate,
+            overview = this.overview,
+            genres = this.genres,
         )
     }
 
