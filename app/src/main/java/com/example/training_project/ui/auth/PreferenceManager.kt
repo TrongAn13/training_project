@@ -1,32 +1,28 @@
 package com.example.training_project.ui.auth
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.first
 
-class PreferenceManager(context: Context) {
-    private val sharedPreferences = context.applicationContext.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
+private val Context.dataStore by preferencesDataStore(name = "secure_preferences")
+class PreferenceManager(private val context: Context, private val cryptoManager: CryptoManager = CryptoManager()) {
     companion object {
-        private const val KEY_IS_LOGGED_IN = "KEY_IS_LOGGED_IN"
-        private const val KEY_SESSION_ID = "KEY_SESSION_ID"
-        @Volatile
-        private var instance: PreferenceManager? = null
+        private val KEY_IS_LOGGED_IN = booleanPreferencesKey("KEY_IS_LOGGED_IN")
+        private val KEY_SESSION_ID = stringPreferencesKey("KEY_SESSION_ID")
+    }
+    suspend fun saveSessionId(sessionId: String) {
+        val encryptedSessionId = cryptoManager.encrypt(sessionId)
 
-        fun getInstance(context: Context): PreferenceManager {
-            return instance ?: synchronized(this) {
-                instance ?: PreferenceManager(context.applicationContext).also { instance = it }
-            }
+        context.dataStore.edit { prefs ->
+            prefs[KEY_SESSION_ID] = encryptedSessionId
+            prefs[KEY_IS_LOGGED_IN] = true
         }
     }
-    fun setLoggedIn(isLoggedIn: Boolean) {
-        sharedPreferences.edit().putBoolean(KEY_IS_LOGGED_IN, isLoggedIn).apply()
-    }
-    fun isLoggedIn(): Boolean {
-        return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false)
-    }
-    fun saveSessionId(sessionId: String) {
-        sharedPreferences.edit()
-            .putString(KEY_SESSION_ID, sessionId)
-            .putBoolean(KEY_IS_LOGGED_IN, true)
-            .apply()
+    suspend fun isLoggedIn(): Boolean {
+        return context.dataStore.data.first()[KEY_IS_LOGGED_IN] ?: false
     }
 }

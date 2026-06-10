@@ -21,4 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "training_project"
 include(":app")
- 
+include(":domain")
+include(":core:network")
+include(":core:ui")
+include(":core:database")
+include(":data")

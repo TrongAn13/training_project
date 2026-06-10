@@ -1,0 +1,16 @@
+package com.example.ui.base
+
+import android.app.Dialog
+import android.content.Context
+import com.example.ui.R
+
+class LoadingDialog(context: Context) : Dialog(context) {
+    init {
+        setContentView(R.layout.layout_loading_dialog)
+        window?.setBackgroundDrawableResource(R.color.transparent)
+        setCancelable(false)
+    }
+    fun IfNotShowing() {
+        if (!isShowing) show()
+    }
+}

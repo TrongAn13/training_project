@@ -2,16 +2,13 @@ package com.example.training_project.viewmodel
 
 import com.example.training_project.InstantExecutorExtension
 import com.example.training_project.MainDispatcherExtension
-import com.example.training_project.domain.model.Movie
-import com.example.training_project.domain.usecase.ClearSearchHistoryUseCase
-import com.example.training_project.domain.usecase.GetSearchHistoryUseCase
-import com.example.training_project.domain.usecase.MovieUseCases
-import com.example.training_project.domain.usecase.SaveSearchHistoryUseCase
-import com.example.training_project.domain.usecase.SearchMoviesUseCase
-import com.example.training_project.ui.home.HomeViewModel
+import com.example.domain.model.Movie
+import com.example.domain.usecase.GetSearchHistoryUseCase
+import com.example.domain.usecase.MovieUseCases
+import com.example.domain.usecase.SaveSearchHistoryUseCase
+import com.example.domain.usecase.SearchMoviesUseCase
 import com.example.training_project.ui.search.SearchViewModel
-import com.example.training_project.utils.Resource
-import com.example.training_project.utils.ResourceProvider
+import com.example.ui.ResourceProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -20,10 +17,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import net.bytebuddy.matcher.ElementMatchers.any
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

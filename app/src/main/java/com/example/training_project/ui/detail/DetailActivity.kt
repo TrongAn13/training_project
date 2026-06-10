@@ -1,12 +1,13 @@
 package com.example.training_project.ui.detail
 
 import android.os.Bundle
-import com.example.training_project.ui.base.BaseActivity
+import com.example.ui.base.BaseActivity
 import com.bumptech.glide.Glide
-import com.example.training_project.R
-import com.example.training_project.domain.model.Movie
+import com.example.ui.R
+import com.example.domain.model.Movie
 import com.example.training_project.databinding.ActivityDetailBinding
-import com.example.training_project.utils.observeNetwork
+import com.example.ui.Resource
+import com.example.ui.observeNetwork
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,7 +37,9 @@ class DetailActivity : BaseActivity() {
             }
         }
         observeNetwork(binding.root) {
-            viewModel.retry()
+            if (viewModel.movie.value !is Resource.Success) {
+                viewModel.retry()
+            }
         }
     }
 
@@ -59,7 +62,6 @@ class DetailActivity : BaseActivity() {
                 currentMovie = it
                 updateUI(it)
                 viewModel.checkIsFavorite( it.id)
-                viewModel.increaseDetailViewCount(it.id)
             }
         }
         viewModel.isFavorite.observe(this){resource ->
@@ -69,7 +71,9 @@ class DetailActivity : BaseActivity() {
             }
         }
         if (movieId != -1L) {
-            viewModel.fetchMovieDetails(movieId)
+            if (viewModel.movie.value !is Resource.Success) {
+                viewModel.fetchMovieDetails(movieId)
+            }
         }
     }
 

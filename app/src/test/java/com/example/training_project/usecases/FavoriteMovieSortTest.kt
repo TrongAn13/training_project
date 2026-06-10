@@ -1,6 +1,6 @@
 package com.example.training_project.usecases
 
-import com.example.training_project.data.local.entity.FavoriteMovieEntity
+import com.example.database.entity.FavoriteMovieEntity
 import junit.framework.TestCase
 import org.junit.Test
 

@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.training_project.ui.base.BaseFragment
+import com.example.ui.base.BaseFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.training_project.ui.detail.DetailActivity
 import com.example.training_project.databinding.FragmentSearchBinding
+import com.example.domain.model.Movie
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment() {
@@ -49,7 +50,8 @@ class SearchFragment : BaseFragment() {
         binding.searchBar.onTextChanged { query ->
                 viewModel.searchMovies(query)
         }
-        binding.searchBar.onKeyboardSearchClick {}
+        binding.searchBar.onKeyboardSearchClick {
+        }
         binding.root.apply {
             isClickable = true
             isFocusable = true
@@ -65,7 +67,7 @@ class SearchFragment : BaseFragment() {
 
     override fun observeLiveData() {
         viewModel.searchResults.observe(viewLifecycleOwner) { resource ->
-            handleApiState(resource) { movies ->
+            handleApiState<List<Movie>>(resource) { movies ->
                 searchAdapter.submitList(movies)
             }
         }
@@ -74,7 +76,7 @@ class SearchFragment : BaseFragment() {
             binding.layoutEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
         }
         viewModel.searchHistory.observe(viewLifecycleOwner) { resource ->
-            handleApiState(resource) { movies ->
+            handleApiState<List<Movie>>(resource) { movies ->
                 if (viewModel.currentQuery.isEmpty()) {
                     searchAdapter.submitList(movies)
                 }

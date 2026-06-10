@@ -2,14 +2,14 @@ package com.example.training_project.viewmodel
 
 import com.example.training_project.InstantExecutorExtension
 import com.example.training_project.MainDispatcherExtension
-import com.example.training_project.domain.model.Movie
-import com.example.training_project.domain.model.MovieCategory
-import com.example.training_project.domain.model.MovieTab
-import com.example.training_project.domain.usecase.GetCachedMoviesUseCase
-import com.example.training_project.domain.usecase.MovieUseCases
-import com.example.training_project.domain.usecase.RefreshMoviesUseCase
+import com.example.domain.model.Movie
+import com.example.domain.model.MovieCategory
+import com.example.domain.model.MovieTab
+import com.example.domain.usecase.GetCachedMoviesUseCase
+import com.example.domain.usecase.MovieUseCases
+import com.example.domain.usecase.RefreshMoviesUseCase
 import com.example.training_project.ui.home.HomeViewModel
-import com.example.training_project.utils.ResourceProvider
+import com.example.ui.ResourceProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

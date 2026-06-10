@@ -6,24 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.example.training_project.ui.base.BaseFragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
+import com.example.ui.base.BaseFragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.training_project.ui.detail.DetailActivity
 import com.example.training_project.R
+import com.example.ui.R as UiR
 import com.example.training_project.databinding.FragmentHomeBinding
-import com.example.training_project.domain.model.MovieTab
+import com.example.domain.model.MovieTab
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : BaseFragment() {
 
+class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     override val viewModel: HomeViewModel by viewModel()
     private lateinit var movieAdapter: HomeMovieAdapter
     private lateinit var trendingAdapter: TrendingMovieAdapter
-    private val threshold = 6
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,28 +62,13 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initListener() {
-        binding.rvMovies.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    val layoutManager = recyclerView.layoutManager as GridLayoutManager
-                    val visibleItemCount = layoutManager.childCount
-                    val totalItemCount = layoutManager.itemCount
-                    val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
-
-                    if (!viewModel.isPaginating && viewModel.canLoadMore && (visibleItemCount + pastVisibleItems) >= totalItemCount - threshold) {
-                        viewModel.loadNextPage()
-                    }
-                }
-            }
-        })
         binding.tabNowPlaying.setOnClickListener { switchTabUI(MovieTab.NOW_PLAYING) }
         binding.tabUpcoming.setOnClickListener { switchTabUI(MovieTab.UPCOMING) }
         binding.tabTopRated.setOnClickListener { switchTabUI(MovieTab.TOP_RATED) }
         binding.tabPopular.setOnClickListener { switchTabUI(MovieTab.POPULAR) }
 
         binding.swipeRefreshHome.setOnRefreshListener {
-            viewModel.refreshData()
+            movieAdapter.refresh()
         }
 
         binding.layoutTopHeader.searchBar.setReadOnlyMode {
@@ -105,9 +95,16 @@ class HomeFragment : BaseFragment() {
             }
         }
 
-        viewModel.tabMovies.observe(viewLifecycleOwner) { resource ->
-            handleApiState(resource) { movies ->
-                movieAdapter.submitList(movies)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.moviesPaging.collectLatest { pagingData ->
+                    movieAdapter.submitData(pagingData)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            movieAdapter.loadStateFlow.collectLatest { loadStates ->
+                binding.swipeRefreshHome.isRefreshing = loadStates.refresh is LoadState.Loading
             }
         }
 
@@ -117,8 +114,8 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun updateTabColors() {
-        val unselectedColor = ContextCompat.getColor(requireContext(), R.color.search_background)
-        val selectedColor = ContextCompat.getColor(requireContext(), R.color.white)
+        val unselectedColor = ContextCompat.getColor(requireContext(), UiR.color.search_background)
+        val selectedColor = ContextCompat.getColor(requireContext(), UiR.color.white)
 
         binding.tvNowPlaying.setTextColor(unselectedColor)
         binding.indicatorNowPlaying.visibility = View.GONE
@@ -152,8 +149,5 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-//        binding.rvMovies.adapter = null
-//        _binding = null
-//        super.onDestroyView()
     }
 }

@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.training_project.databinding.ItemSearchMovieBinding
-import com.example.training_project.domain.model.Movie
+import com.example.domain.model.Movie
 
 class FavoriteAdapter(
     private val onItemClick: (Movie) -> Unit

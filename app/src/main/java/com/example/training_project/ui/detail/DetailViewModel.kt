@@ -2,12 +2,12 @@ package com.example.training_project.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.training_project.domain.model.Movie
-import com.example.training_project.domain.usecase.MovieUseCases
-import com.example.training_project.ui.base.BaseViewModel
-import com.example.training_project.ui.base.LoadingType
-import com.example.training_project.utils.Resource
-import com.example.training_project.utils.ResourceProvider
+import com.example.domain.model.Movie
+import com.example.domain.usecase.MovieUseCases
+import com.example.ui.base.BaseViewModel
+import com.example.ui.base.LoadingType
+import com.example.ui.Resource
+import com.example.ui.ResourceProvider
 
 class DetailViewModel(resourceProvider: ResourceProvider,private val useCases: MovieUseCases) : BaseViewModel(resourceProvider) {
     private val _movie = MutableLiveData<Resource<Movie>>()
@@ -15,14 +15,19 @@ class DetailViewModel(resourceProvider: ResourceProvider,private val useCases: M
     val isFavorite = MutableLiveData<Resource<Boolean>>()
     private var currentMovieId = -1L
 
+    private val countedMovieIds = mutableSetOf<Long>()
+
     val increaseDetailViewCount = MutableLiveData<Resource<Unit>>()
 
     fun fetchMovieDetails(movieId: Long) {
+        if(currentMovieId == movieId && _movie.value is Resource.Success) return
         currentMovieId = movieId
-        if (movieId == -1L) return
-
         executeApi(_movie) {
-            useCases.getMovieDetails(movieId)
+            val movie = useCases.getMovieDetails(movieId)
+
+            useCases.increaseDetailViewCount(movieId)
+
+            movie
         }
     }
     fun checkIsFavorite(movieId: Long) {
@@ -43,6 +48,7 @@ class DetailViewModel(resourceProvider: ResourceProvider,private val useCases: M
         }
     }
     fun increaseDetailViewCount(movieId: Long) {
+        if (!countedMovieIds.add(movieId)) return
         executeApi(increaseDetailViewCount, LoadingType.NONE) {
             useCases.increaseDetailViewCount(movieId)
         }

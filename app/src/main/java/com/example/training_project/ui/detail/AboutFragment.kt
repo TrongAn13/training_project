@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.training_project.ui.base.BaseFragment
-import com.example.training_project.R
+import com.example.ui.base.BaseFragment
+import com.example.ui.R
 import com.example.training_project.databinding.FragmentAboutBinding
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-
 class AboutFragment : BaseFragment() {
     private var _binding: FragmentAboutBinding? = null
     override val viewModel: DetailViewModel by activityViewModel()
