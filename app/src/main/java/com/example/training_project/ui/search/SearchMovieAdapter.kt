@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.training_project.ui.home.HomeMovieAdapter
-import com.example.training_project.data.model.Movie
+import com.example.training_project.domain.model.Movie
 import com.example.training_project.databinding.ItemSearchMovieBinding
 
 class SearchMovieAdapter(
@@ -40,12 +40,12 @@ class SearchMovieAdapter(
 
         fun bind(movie: Movie) {
             binding.tvTitle.text = movie.title
-            binding.tvRating.text = movie.voteAverage?.toString()
-            binding.tvGenre.text = movie.getGenresText()
-            binding.tvYear.text = movie.releaseDate?.take(4)
-//            binding.tvDuration.text = movie.
+            binding.tvRating.text = movie.rating.toString()
+            binding.tvGenre.text = movie.genres
+            binding.tvYear.text = movie.releaseDate.take(4)
+            
             Glide.with(binding.root.context)
-                .load(movie.getPosterUrl())
+                .load(movie.posterUrl)
                 .transform(CenterCrop(), RoundedCorners(40))
                 .into(binding.ivPoster)
         }

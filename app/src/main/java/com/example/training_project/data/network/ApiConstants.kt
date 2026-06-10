@@ -7,5 +7,9 @@ object ApiEndpoints {
     const val TOP_RATED_MOVIES = "3/movie/top_rated"
     const val TRENDING_MOVIES = "3/trending/movie/day"
     const val SEARCH_MOVIES = "3/search/movie"
-    const val MOVIE_DETAILS = "3/movie/{movie_id}?append_to_response=credits,reviews"
+    const val MOVIE_DETAILS = "3/movie/{movie_id}"
+
+    const val CREATE_REQUEST_TOKEN = "3/authentication/token/new"
+    const val VALIDATE_WITH_LOGIN = "3/authentication/token/validate_with_login"
+    const val CREATE_SESSION = "3/authentication/session/new"
 }

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.training_project.R
-import com.example.training_project.data.model.Movie
+import com.example.training_project.domain.model.Movie
 import com.example.training_project.databinding.ItemTrendingMovieBinding
 
 class TrendingMovieAdapter(
@@ -41,10 +41,8 @@ class TrendingMovieAdapter(
         fun bind(movie: Movie, position: Int) {
             binding.tvTrendingRank.text = (position + 1).toString()
 
-            val posterUrl = movie.getPosterUrl()
-
             Glide.with(binding.ivTrendingPoster)
-                .load(posterUrl.ifEmpty { R.drawable.ic_launcher_foreground })
+                .load(movie.posterUrl.ifEmpty { R.drawable.ic_launcher_foreground })
                 .centerCrop()
                 .into(binding.ivTrendingPoster)
         }

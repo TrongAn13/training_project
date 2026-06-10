@@ -1,11 +1,11 @@
 package com.example.training_project.ui.base
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.training_project.R
 import com.example.training_project.utils.Resource
+import com.example.training_project.utils.ResourceProvider
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,28 +21,27 @@ enum class LoadingType {
     NORMAL,
     SHIMMER
 }
-open class BaseViewModel(application: Application) : AndroidViewModel(application) {
+open class BaseViewModel(private val resourceProvider: ResourceProvider) : ViewModel(){
     val globalError = MutableLiveData<String?>()
     val isLoading = MutableLiveData<Boolean>()
 
     private fun getErrorMessage(e: Throwable): String {
-        val context = getApplication<Application>()
         return when (e) {
-            is UnknownHostException -> context.getString(R.string.error_no_network)
-            is SocketTimeoutException -> context.getString(R.string.error_timeout)
-            is IOException -> context.getString(R.string.error_network_connection)
+            is UnknownHostException -> resourceProvider.getString(R.string.error_no_network)
+            is SocketTimeoutException -> resourceProvider.getString(R.string.error_timeout)
+            is IOException -> resourceProvider.getString(R.string.error_network_connection)
             is HttpException -> {
                 when (e.code()) {
-                    401 -> context.getString(R.string.error_401)
-                    404 -> context.getString(R.string.error_404)
-                    500 -> context.getString(R.string.error_500)
-                    else -> context.getString(R.string.error_http_unknow) + e.code()
+                    401 -> resourceProvider.getString(R.string.error_401)
+                    404 -> resourceProvider.getString(R.string.error_404)
+                    500 -> resourceProvider.getString(R.string.error_500)
+                    else -> resourceProvider.getString(R.string.error_http_unknow) + e.code()
                 }
             }
-            else -> e.message ?: context.getString(R.string.error_unknown)
+            else -> e.message ?: resourceProvider.getString(R.string.error_unknown)
         }
     }
-    protected fun <T> executeApi(liveData: MutableLiveData<Resource<T>>, type : LoadingType = LoadingType.NORMAL, apiCall: suspend () -> T) {
+    protected fun <T> executeApi(liveData: MutableLiveData<Resource<T>>, type : LoadingType = LoadingType.NORMAL, onFinally: (() -> Unit)? = null, apiCall: suspend () -> T) {
         when (type) {
             LoadingType.NORMAL -> {
                 isLoading.value = true
@@ -65,12 +64,18 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
                 LoadingType.SHIMMER -> liveData.value = Resource.Error(message)
             }
         }
+
         viewModelScope.launch(exceptionHandler) {
-            val result = withContext(Dispatchers.IO) {
-                apiCall.invoke()
+            try {
+                val result = withContext(Dispatchers.IO) {
+                    apiCall.invoke()
+                }
+                liveData.value = Resource.Success(result)
             }
-            if (type == LoadingType.NORMAL) isLoading.value = false
-            liveData.value = Resource.Success(result)
+            finally {
+                if (type == LoadingType.NORMAL) isLoading.value = false
+                onFinally?.invoke()
+            }
         }
     }
 }
