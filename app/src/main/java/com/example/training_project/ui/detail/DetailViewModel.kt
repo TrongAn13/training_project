@@ -8,14 +8,13 @@ import com.example.ui.ResourceProvider
 import com.example.uicompose.base.BaseComposeViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 
 data class DetailUiState(
     val movie: Movie? = null,
     val isFavorite: Boolean = false,
     val isLoading: Boolean = false,
-    val reviews: List<Review> = emptyList(),
-    val casts: List<Cast> = emptyList(),
     val error: String? = null
 )
 
@@ -30,23 +29,29 @@ class DetailViewModel(resourceProvider: ResourceProvider,private val useCases: M
         currentMovieId = movieId
         executeApiState(
             onLoading = { loading ->
-                _detailUiState.value = _detailUiState.value.copy(
+                _detailUiState.update {
+                    it.copy(
                     isLoading = loading,
                     error = null
-                )
+                    )
+                }
             },
             onSuccess = { movie ->
-                _detailUiState.value = _detailUiState.value.copy(
-                    movie = movie,
-                    error = null
-                )
+                _detailUiState.update {
+                    it.copy(
+                        movie = movie,
+                        error = null
+                    )
+                }
                 checkIsFavorite(movieId)
                 increaseDetailViewCountOnce(movieId)
             },
             onError = { message ->
-                _detailUiState.value = _detailUiState.value.copy(
-                    error = message
-                )
+                _detailUiState.update {
+                    it.copy(
+                        error = message
+                    )
+                }
             }
         ) {
             useCases.getMovieDetails(movieId)
