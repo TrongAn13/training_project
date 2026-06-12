@@ -23,6 +23,8 @@
     <string name="about_movie">About Movie</string>
     <string name="reviews">Reviews</string>
     <string name="cast">Cast</string>
+    <string name="no_cast_info">No cast information</string>
+    <string name="no_review_info">No review information</string>">
     <string name="home_top_rank_1">1</string>
     <string name="home_top_rank_2">2</string>
     <string name="detail_rating_badge">9.5</string>

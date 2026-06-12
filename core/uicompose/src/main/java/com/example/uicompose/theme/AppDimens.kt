@@ -42,6 +42,8 @@ object AppDimens {
     val PosterWidth = 100.dp
     val PosterHeight = 140.dp
     val BannerHeight = 220.dp
+    val DetailHeaderHeight = 290.dp
+    val DetailTopBarHeight = 72.dp
     val IconSizeSmall = 20.dp
     val IconSizeMedium = 24.dp
 
