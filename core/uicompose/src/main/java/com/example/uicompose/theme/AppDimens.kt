@@ -51,7 +51,7 @@ object AppDimens {
     val LogoSize = 189.dp
     val LoginTitleMarginTop = 40.dp
     val InputWidth = 336.dp
-    val ButtonWidthLogin = 273.dp
+    val ButtonWidthLogin = 320.dp
     val SocialButtonWidth = 327.dp
 
     // Legacy UI Sizes
