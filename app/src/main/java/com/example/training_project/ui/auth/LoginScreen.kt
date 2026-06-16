@@ -22,15 +22,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import com.example.ui.R
+import com.example.training_project.ui.auth.LoginUiState
+import com.example.uicompose.R
 import com.example.uicompose.component.AppButton
 import com.example.uicompose.component.AppTextField
 import com.example.uicompose.theme.*
 
 @Composable
 fun LoginScreen(
-    email: String,
-    password: String,
+    uiState: LoginUiState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
@@ -75,7 +75,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(AppDimens.Dp40))
 
         AppTextField(
-            value = email,
+            value = uiState.email,
             onValueChange = onEmailChange,
             hint = stringResource(R.string.hint_email),
             Modifier
@@ -93,7 +93,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(AppDimens.Dp24))
 
         AppTextField(
-            value = password,
+            value = uiState.password,
             onValueChange = onPasswordChange,
             hint = stringResource(R.string.hint_password),
             Modifier

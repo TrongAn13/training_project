@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 
 private val Context.dataStore by preferencesDataStore(name = "secure_preferences")
@@ -24,5 +25,19 @@ class PreferenceManager(private val context: Context, private val cryptoManager:
     }
     suspend fun isLoggedIn(): Boolean {
         return context.dataStore.data.first()[KEY_IS_LOGGED_IN] ?: false
+    }
+
+    suspend fun getSessionId(): String? {
+        val encryptedSessionId = context.dataStore.data.map { prefs ->
+            prefs[KEY_SESSION_ID]
+        }.first()
+
+        return encryptedSessionId?.let {
+            try {
+                cryptoManager.decrypt(it)
+            } catch (e: Exception) {
+                null
+            }
+        }
     }
 }

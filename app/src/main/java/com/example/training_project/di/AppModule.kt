@@ -30,7 +30,7 @@ import com.example.training_project.ui.detail.DetailViewModel
 import com.example.training_project.ui.favorite.FavoriteViewModel
 import com.example.training_project.ui.home.HomeViewModel
 import com.example.training_project.ui.search.SearchViewModel
-import com.example.ui.ResourceProvider
+import com.example.uicompose.ResourceProvider
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -134,8 +134,12 @@ val appModule = module {
     viewModel {
         HomeViewModel(resourceProvider = get(), useCases = get())
     }
-    viewModel {
-        DetailViewModel(resourceProvider = get(), useCases = get())
+    viewModel { params ->
+        DetailViewModel(
+            movieId = params.get(),   
+            resourceProvider = get(),
+            useCases = get()
+        )
     }
     viewModel {
         SearchViewModel(resourceProvider = get(), useCases = get())

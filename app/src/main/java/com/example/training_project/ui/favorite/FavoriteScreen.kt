@@ -23,9 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import com.example.domain.model.Movie
 import com.example.training_project.ui.MovieItem
-import com.example.ui.R
+import com.example.uicompose.R
 import com.example.uicompose.theme.AppDimens
 import com.example.uicompose.theme.background_dark
 import com.example.uicompose.theme.text_secondary_gray
@@ -35,7 +36,8 @@ import com.example.uicompose.theme.white
 fun FavoriteScreen(
     uiState: FavoriteUiState,
     onBackClick: () -> Unit,
-    onMovieClick: (Movie) -> Unit
+    onMovieClick: (Movie) -> Unit,
+    modifier: Modifier
 ) {
     Column(
         modifier = Modifier
@@ -141,6 +143,7 @@ fun EmptyFavoriteContent() {
             text = stringResource(
                 R.string.notfound_movie2
             ),
+            textAlign = TextAlign.Center,
             color = text_secondary_gray,
             fontSize = AppDimens.TextSizeMedium
         )

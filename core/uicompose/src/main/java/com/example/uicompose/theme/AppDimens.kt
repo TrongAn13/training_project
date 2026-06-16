@@ -82,7 +82,7 @@ object AppDimens {
     val Dp100 = 100.dp
     val Dp140 = 140.dp
     val Dp160 = 160.dp
-    val Dp200 = 200.dp
+    val Dp240 = 240.dp
     val Dp324 = 324.dp
     val Dp328 = 328.dp
 

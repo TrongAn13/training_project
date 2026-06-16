@@ -2,7 +2,7 @@ package com.example.training_project.ui.favorite
 
 import com.example.domain.model.Movie
 import com.example.domain.usecase.MovieUseCases
-import com.example.ui.ResourceProvider
+import com.example.uicompose.ResourceProvider
 import com.example.uicompose.base.BaseComposeViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

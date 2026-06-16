@@ -12,8 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.ui.R
+import com.example.uicompose.R
 import com.example.uicompose.component.AppButton
+import com.example.uicompose.component.AppLoading
+import com.example.uicompose.component.AppSearchBar
 import com.example.uicompose.component.AppTextField
 import com.example.uicompose.theme.AppDimens
 import com.example.uicompose.theme.AppTheme
@@ -64,6 +66,35 @@ private fun AppTextFieldPreview() {
                     .width(AppDimens.InputWidth)
                     .height(AppDimens.Dp55),
                 visualTransformation = PasswordVisualTransformation()
+            )
+        }
+    }
+}
+@Preview(showBackground = true, backgroundColor = 0xFF242A32)
+@Composable
+private fun AppLoadingPreview(){
+    AppTheme {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(AppDimens.Dp12),
+            modifier = Modifier.padding(AppDimens.Dp16)
+        ) {
+            AppLoading()
+        }
+    }
+}
+@Preview(showBackground = true, backgroundColor = 0xFF242A32)
+@Composable
+private fun AppSearchBarPreview(){
+    AppTheme {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(AppDimens.Dp12),
+            modifier = Modifier.padding(AppDimens.Dp16)
+        ) {
+            AppSearchBar(
+                query = "",
+                onQueryChange = {},
+                readOnly = true,
+                onClick = {}
             )
         }
     }

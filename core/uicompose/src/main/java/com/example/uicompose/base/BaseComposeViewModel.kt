@@ -2,8 +2,8 @@ package com.example.uicompose.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ui.R
-import com.example.ui.ResourceProvider
+import com.example.uicompose.R
+import com.example.uicompose.ResourceProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

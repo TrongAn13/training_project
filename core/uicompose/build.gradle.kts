@@ -55,6 +55,4 @@ dependencies {
 
 
     debugImplementation("androidx.compose.ui:ui-tooling")
-
-    implementation(project(":core:ui"))
 }

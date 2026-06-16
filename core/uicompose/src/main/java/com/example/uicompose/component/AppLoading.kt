@@ -1,4 +1,4 @@
-package com.example.uicompose.base
+package com.example.uicompose.component
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat

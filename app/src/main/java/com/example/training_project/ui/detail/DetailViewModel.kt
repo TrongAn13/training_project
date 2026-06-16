@@ -1,10 +1,8 @@
 package com.example.training_project.ui.detail
 
-import com.example.domain.model.Cast
 import com.example.domain.model.Movie
-import com.example.domain.model.Review
 import com.example.domain.usecase.MovieUseCases
-import com.example.ui.ResourceProvider
+import com.example.uicompose.ResourceProvider
 import com.example.uicompose.base.BaseComposeViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +16,7 @@ data class DetailUiState(
     val error: String? = null
 )
 
-class DetailViewModel(resourceProvider: ResourceProvider,private val useCases: MovieUseCases) : BaseComposeViewModel(resourceProvider) {
+class DetailViewModel(private val movieId: Long,resourceProvider: ResourceProvider,private val useCases: MovieUseCases) : BaseComposeViewModel(resourceProvider) {
     private val _detailUiState = MutableStateFlow(DetailUiState())
     val detailUiState = _detailUiState.asStateFlow()
     private var hasIncreasedViewCount = false
