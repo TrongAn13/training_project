@@ -9,7 +9,7 @@ import com.example.domain.usecase.GetCachedMoviesUseCase
 import com.example.domain.usecase.MovieUseCases
 import com.example.domain.usecase.RefreshMoviesUseCase
 import com.example.training_project.ui.home.HomeViewModel
-import com.example.ui.ResourceProvider
+import com.example.uicompose.ResourceProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

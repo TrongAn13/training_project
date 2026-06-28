@@ -8,7 +8,7 @@ import com.example.domain.usecase.MovieUseCases
 import com.example.domain.usecase.SaveSearchHistoryUseCase
 import com.example.domain.usecase.SearchMoviesUseCase
 import com.example.training_project.ui.search.SearchViewModel
-import com.example.ui.ResourceProvider
+import com.example.uicompose.ResourceProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

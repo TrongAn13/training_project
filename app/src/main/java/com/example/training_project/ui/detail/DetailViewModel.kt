@@ -1,42 +1,93 @@
 package com.example.training_project.ui.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.domain.model.Movie
 import com.example.domain.usecase.MovieUseCases
-import com.example.ui.base.BaseViewModel
-import com.example.ui.base.LoadingType
-import com.example.ui.Resource
-import com.example.ui.ResourceProvider
+import com.example.uicompose.ResourceProvider
+import com.example.uicompose.base.BaseComposeViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
-class DetailViewModel(resourceProvider: ResourceProvider,private val useCases: MovieUseCases) : BaseViewModel(resourceProvider) {
-    private val _movie = MutableLiveData<Resource<Movie>>()
-    val movie: LiveData<Resource<Movie>> get() = _movie
-    val isFavorite = MutableLiveData<Resource<Boolean>>()
+
+data class DetailUiState(
+    val movie: Movie? = null,
+    val isFavorite: Boolean = false,
+    val isLoading: Boolean = false,
+    val error: String? = null
+)
+
+class DetailViewModel(private val movieId: Long,resourceProvider: ResourceProvider,private val useCases: MovieUseCases) : BaseComposeViewModel(resourceProvider) {
+    private val _detailUiState = MutableStateFlow(DetailUiState())
+    val detailUiState = _detailUiState.asStateFlow()
+    private var hasIncreasedViewCount = false
     private var currentMovieId = -1L
 
-    private val countedMovieIds = mutableSetOf<Long>()
-
-    val increaseDetailViewCount = MutableLiveData<Resource<Unit>>()
-
     fun fetchMovieDetails(movieId: Long) {
-        if(currentMovieId == movieId && _movie.value is Resource.Success) return
+        if(currentMovieId == movieId && _detailUiState.value.movie != null) return
         currentMovieId = movieId
-        executeApi(_movie) {
-            val movie = useCases.getMovieDetails(movieId)
-
-            useCases.increaseDetailViewCount(movieId)
-
-            movie
+        executeApiState(
+            onLoading = { loading ->
+                _detailUiState.update {
+                    it.copy(
+                    isLoading = loading,
+                    error = null
+                    )
+                }
+            },
+            onSuccess = { movie ->
+                _detailUiState.update {
+                    it.copy(
+                        movie = movie,
+                        error = null
+                    )
+                }
+                checkIsFavorite(movieId)
+                increaseDetailViewCountOnce(movieId)
+            },
+            onError = { message ->
+                _detailUiState.update {
+                    it.copy(
+                        error = message
+                    )
+                }
+            }
+        ) {
+            useCases.getMovieDetails(movieId)
         }
     }
+
     fun checkIsFavorite(movieId: Long) {
-        executeApi(isFavorite, LoadingType.NONE){
+        executeApiState(
+            onLoading = {},
+            onSuccess = { saved ->
+                _detailUiState.value = _detailUiState.value.copy(
+                    isFavorite = saved
+                )
+            },
+            onError = { message ->
+                _detailUiState.value = _detailUiState.value.copy(
+                    error = message
+                )
+            }
+        ) {
             useCases.isMovieSaved(movieId)
         }
     }
-    fun toggleFavorite(movie: Movie) {
-        executeApi(isFavorite, LoadingType.NONE) {
+    fun toggleFavorite() {
+        val movie = _detailUiState.value.movie ?: return
+        executeApiState(
+            onLoading = {},
+            onSuccess = { newFavoriteState ->
+                _detailUiState.value = _detailUiState.value.copy(
+                    isFavorite = newFavoriteState
+                )
+            },
+            onError = { message ->
+                _detailUiState.value = _detailUiState.value.copy(
+                    error = message
+                )
+            }
+        ) {
             val saved = useCases.isMovieSaved(movie.id)
             if (saved) {
                 useCases.deleteFavoriteMovie(movie.id)
@@ -47,12 +98,19 @@ class DetailViewModel(resourceProvider: ResourceProvider,private val useCases: M
             }
         }
     }
-    fun increaseDetailViewCount(movieId: Long) {
-        if (!countedMovieIds.add(movieId)) return
-        executeApi(increaseDetailViewCount, LoadingType.NONE) {
+    private fun increaseDetailViewCountOnce(movieId: Long) {
+        if (hasIncreasedViewCount) return
+        hasIncreasedViewCount = true
+
+        executeApi(
+            showGlobalLoading = false,
+            onSuccess = {},
+            onError = {}
+        ) {
             useCases.increaseDetailViewCount(movieId)
         }
     }
+
     fun retry() {
         if (currentMovieId != -1L) {
             fetchMovieDetails(currentMovieId)

@@ -54,4 +54,16 @@ class CryptoManager {
         val combined = iv + encrypted
         return Base64.encodeToString(combined, Base64.NO_WRAP)
     }
+
+    fun decrypt(encryptedBase64: String): String {
+        val combined = Base64.decode(encryptedBase64, Base64.NO_WRAP)
+        val iv = combined.copyOfRange(0, 12)
+        val encrypted = combined.copyOfRange(12, combined.size)
+
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        val spec = GCMParameterSpec(128, iv)
+        cipher.init(Cipher.DECRYPT_MODE, getSecretKey(), spec)
+
+        return String(cipher.doFinal(encrypted), Charsets.UTF_8)
+    }
 }
